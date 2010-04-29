@@ -1,0 +1,250 @@
+################################################################################
+The content of this file can be visualized at
+https://twiki.cern.ch/twiki/bin/view/CMS/ExoticaLeptoquarkShiftMakeRootTuplesV2
+Please keep this file and the Twiki always updated.
+################################################################################
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+
+---++ Instructions on how to create !RootTuples using the code !RootNtupleMakerV2
+
+%TOC%
+
+---+++ Contacts
+
+francesco.santanastasio@cern.ch
+
+
+---+++ Instructions
+
+---++++ 0) Connect to lxplus (SLC5) 
+
+<verbatim>
+ssh lxplus5.cern.ch 
+</verbatim>
+
+---++++ 1) Create CMSSW area, setup !RootNtupleMakerV2, checkout tools for CRAB submission
+
+Follow instructions at: %BR%
+ 
+https://twiki.cern.ch/twiki/bin/view/CMS/ExoticaLeptoquarkAnalyzerRootNtupleMakerV2 
+
+Then checkout the tools to submit jobs with CRAB: %BR%
+
+<verbatim>
+cvs co -d Leptoquarks/submitJobsWithCrabV2 UserCode/Leptoquarks/submitJobsWithCrabV2
+cd Leptoquarks/submitJobsWithCrabV2
+</verbatim>
+
+Setup CMSSW environment: %BR%
+
+<verbatim>
+cmsenv
+</verbatim>
+
+
+---++++ 2) Setup LCG environment and CRAB
+
+   * *NORMAL MODE*
+<verbatim>
+source /afs/cern.ch/cms/LCG/LCG-2/UI/cms_ui_env.csh (or .sh)
+source /afs/cern.ch/cms/ccs/wm/scripts/Crab/crab.csh (or .sh)
+</verbatim>
+
+   * %ICON{wip}% *JSON MODE* %ICON{wip}%  (preliminary beta version) (https://twiki.cern.ch/twiki/bin/view/CMS/LumiSelJson)
+<verbatim>
+source /afs/cern.ch/cms/LCG/LCG-2/UI/cms_ui_env.csh (or .sh)
+source /afs/cern.ch/cms/ccs/wm/scripts/Crab/CRAB_2_7_2_pre4/crab.csh (or .sh) 
+</verbatim>
+
+
+---++++ 3) Edit the config file template_CMSSW_cfg.py
+
+Check the main followings items: %BR%
+
+   * process.GlobalTag.globaltag 
+     (find the global tag by running 
+     "edmProvDump rfio:/castor/cern.ch/cms/store/data/.../filename.root >& dump.txt" , 
+     then search for globaltag (RECO) in dump.txt)
+   * "# HF !RecHit reflagger" (version = 2 by default)
+   * process.schedule
+   * process.p
+
+
+*NOTE 1*:
+Remember to use the string THISROOTFILE to specify the output filename 
+in the template_CMSSW_cfg.py file as described below: %BR%
+
+<verbatim>
+process.TFileService = cms.Service("TFileService",
+    fileName = cms.string( THISROOTFILE )
+)
+</verbatim>
+
+*NOTE 2*:  
+The createJobsWithCrabCastor.pl file should be changed accordingly
+with template_CMSSW_cfg.py at the line marked 
+with 
+<verbatim>
+#%%%%%%%%%%%%% IMPORTANT %%%%%%%%%%%%% 
+</verbatim>
+(The script will be fixed to avoid this.). 
+Currently is: 
+
+<verbatim>
+if($templateCMSSWFileLine=~/THISROOTFILE/)
+	{
+	  $templateCMSSWFileLine = "fileName = cms.string\(\"$outputfile\"\)\,";
+	  #print("$templateCMSSWFileLine\n");
+	}
+</verbatim>
+
+
+---++++ 4) Create dataset input list (inputList.txt)
+
+Create an input list with datasets that you want to analyze.  
+
+The format of the text file is: 
+
+   * *NORMAL MODE*
+<verbatim>
+dataset_name(from DBS)   total_number_of_events   number_of_jobs
+</verbatim>
+
+   * %ICON{wip}% *JSON MODE* %ICON{wip}%  (preliminary beta version)
+<verbatim>
+dataset_name(from DBS)  total_number_of_lumis   number_of_jobs
+</verbatim>
+
+
+Example (inputList.txt):
+<verbatim>
+/MinimumBias/Commissioning10-GOODCOLL-v8/RAW-RECO 100 2
+</verbatim>
+(you can add several datasets in the same list)
+
+You find information on datasets at: %BR%
+https://twiki.cern.ch/twiki/bin/viewauth/CMS/Collisions2010Analysis %BR%
+https://twiki.cern.ch/twiki/bin/view/CMS/PhysicsSecondaryDatasets %BR%
+https://cmsweb.cern.ch/dbs_discovery/ %BR%
+
+---++++ 5) Create the crab jobs 
+
+launch the ./createJobsWithCrabCastor.pl command:
+
+   * Example of *NORMAL MODE*:
+<verbatim>
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple -v RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy -i inputList.txt -t template_crab_grid_copyToCastor.cfg -c template_CMSSW_cfg.py -n santanas -u LQ/RootNtuple
+</verbatim>
+
+--> In NORMAL MODE you may want to edit the 
+template_crab_grid_copyToCastor.cfg to include a specific run selection %BR%
+
+   * %ICON{wip}% Example of *JSON MODE* %ICON{wip}% (preliminary beta version):
+<verbatim>
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple -v RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy -i inputList.txt -t template_crab_grid_copyToCastor_JSON.cfg -c template_CMSSW_cfg.py -n santanas -u LQ/RootNtuple -j Cert_132440-133336_StreamExpress_Commissioning10-Express_DQM_JSON.txt
+</verbatim>
+
+details:
+
+<verbatim>
+-d : specify the local directory (structure described below in *NOTE 1*)
+
+-v : format should be "RootNtuple - version of code - DATA - run range"
+
+-i : input list created at step 4) 
+
+-t : template CRAB config file
+     * JSON MODE: template_crab_grid_copyToCastor_JSON.cfg
+     * NORMAL MODE: template_crab_grid_copyToCastor.cfg
+
+-c : template CMSSW config file
+
+-n : this must be your user name in lxplus (the one that gives name to your castor dir, for example see /castor/cern.ch/user/s/santanas/)
+
+-u : this, combined with "d" option and "n" option, creates the following output directory on your CASTOR area 
+       with the right writing permission required by CRAB:
+     /castor/cern.ch/user/s/santanas/LQ/RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS 
+     (YYYYMMDD_HHMMSS is YearMonthDay_HourMinSec) --> output files will be stored here
+
+-j : JSON file. Official files can be found at https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/ 
+</verbatim>
+
+*NOTE 1*:
+In the directory !RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS 
+(YYYYMMDD_HHMMSS is !YearMonthDay_HourMinSec of the directory creation) you find: %BR%
+
+<verbatim>
+  file --> inputList.txt ( created at step 4) )
+  dir  --> cfgfiles (it will contain the crab and cmssw for each crab job created on the fly) 
+  dir  --> output   (In this example it will be empty since .root output files are copied automatically 
+                     on CASTOR dir at the end of the crab job.)
+  dir  --> workdir 
+       dir --> dataset_1 (i.e. MinimumBias__Commissioning10-GOODCOLL-v8__RAW-RECO )
+       dir --> dataset_2 
+       ....
+       dir --> dataset_N
+
+     (each of these directories is the ui working directory 
+      that crab usually needs to perform his job. 
+      After retrieving the output, the log files STDERR and STDOUT 
+      of the cmssw jobs will be copied for each dataset in the correspondent directory "res")
+</verbatim>
+
+
+---++++ 6) Launch submit/getouput/etc..
+
+After creating the jobs you can use the script: %BR% 
+
+<verbatim>
+./postCreationCommandsWithCrab.pl 
+</verbatim>
+
+to make the following actions (standard crab commands): %BR%
+
+   * status
+   * submit
+   * getouput
+   * kill
+   * resubmit
+
+Run ./postCreationCommandsWithCrab.pl with no option to get the "help". Examples below. %BR%
+To get the status:
+<verbatim>
+./postCreationCommandsWithCrab.pl -d RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS 
+</verbatim>
+To submit jobs:
+<verbatim>
+./postCreationCommandsWithCrab.pl -d RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS -s yes
+</verbatim>
+To kill jobs:
+<verbatim>
+./postCreationCommandsWithCrab.pl -d RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS -k yes
+</verbatim>
+
+The status of the jobs (crab -status) will be summarized 
+after any of the actions above in the file *statusCrab.log*. %BR%
+
+*NOTE 1*: 
+For the moment you can apply these actions on all the jobs created, you cannot 
+specify a sub-set of the jobs. Anyway for particular cases, you can always look 
+at the status report and apply by hand a specific action that you need
+on a single dataset or a single job.
+
+
+---++++ 7) Update the Twiki with location/info on the output .root files
+
+Once all the jobs are finished you can find them on CASTOR at (in this example)
+<verbatim>
+/castor/cern.ch/user/s/santanas/LQ/RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS 
+</verbatim>
+
+Update the table in the Twiki
+https://twiki.cern.ch/twiki/bin/view/CMS/ExoticaLeptoquarkRootTuplesV2Location2010
+
+
+
+-- Main.FrancescoSantanastasio - 29-Apr-2010
