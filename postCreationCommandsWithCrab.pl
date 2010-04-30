@@ -21,19 +21,21 @@ my $IsGetOutput=0;
 my $IsKillJobs=0;
 my $IsResubmitJobs=0;
 my $IsPublishJobs=0;
+my $IsReportJobs=0;
 
-getopts('h:d:g:k:r:s:p:');
+getopts('h:d:g:k:r:s:p:t:');
 
 if(!$opt_d) {help();}
 #if(!$opt_i) {help();}
 
 if($opt_h) {help();}
 if($opt_d) {$prodDir = $opt_d;}
-if($opt_s && !$opt_g && !$opt_k && !$opt_r && !$opt_p) {$IsSubmitJobs = 1;}
-if($opt_g && !$opt_k && !$opt_r && !$opt_s && !$opt_p) {$IsGetOutput = 1;}
-if($opt_k && !$opt_g && !$opt_r && !$opt_s && !$opt_p) {$IsKillJobs = 1;}
-if($opt_r && !$opt_g && !$opt_k && !$opt_s && !$opt_p) {$IsResubmitJobs = 1;}
-if($opt_p && !$opt_g && !$opt_k && !$opt_s && !$opt_r) {$IsPublishJobs = 1;}
+if($opt_s && !$opt_g && !$opt_k && !$opt_r && !$opt_p && !$opt_t) {$IsSubmitJobs = 1;}
+if($opt_g && !$opt_k && !$opt_r && !$opt_s && !$opt_p && !$opt_t) {$IsGetOutput = 1;}
+if($opt_k && !$opt_g && !$opt_r && !$opt_s && !$opt_p && !$opt_t) {$IsKillJobs = 1;}
+if($opt_r && !$opt_g && !$opt_k && !$opt_s && !$opt_p && !$opt_t) {$IsResubmitJobs = 1;}
+if($opt_p && !$opt_g && !$opt_k && !$opt_s && !$opt_r && !$opt_t) {$IsPublishJobs = 1;}
+if($opt_t && !$opt_g && !$opt_k && !$opt_s && !$opt_r && !$opt_p) {$IsReportJobs = 1;}
 
 $inputList = $opt_d."\/inputList.txt";
 
@@ -41,8 +43,7 @@ $inputList = $opt_d."\/inputList.txt";
 
 my $productionDir = $prodDir;
 my $workDir = $productionDir."\/"."workdir"; 
-
-#my $outputDir = $productionDir."\/"."output"; 
+my $outputDir = $productionDir."\/"."output"; 
 
 
 ## read input list
@@ -146,6 +147,18 @@ foreach $inputListLine(@inputListFile)
 	system "crab -publish all -c $thisWorkDir";
     }
 
+    if($IsReportJobs==1)
+    {       	
+	print "crab -report all -c $thisWorkDir\n";
+
+	### TEMPORARY see https://hypernews.cern.ch/HyperNews/CMS/get/crabFeedback/3173/1/2/2.html
+	system "cp $outputDir/crab_*.xml $thisWorkDir/res";
+	###
+
+	system "crab -status all -c $thisWorkDir";
+	system "crab -report all -c $thisWorkDir";
+    }
+
 
     ## check status of crab jobs for this dataset and fill the status report
 
@@ -227,8 +240,9 @@ sub help(){
     print "-k <yes>:              kill all jobs\n";
     print "-r <yes>:              resubmit all jobs\n";
     print "-p <yes>:              publish all jobs\n";
+    print "-t <yes>:              report all jobs\n";
 
-    print "NOTE: s,g,k,r,p cannot be used togheter (they are mutually exclusive) \n";
+    print "NOTE: s,g,k,r,p,t cannot be used togheter (they are mutually exclusive) \n";
 
     die "please, try again...\n";
 }
