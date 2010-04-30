@@ -9,6 +9,7 @@ Please keep this file and the Twiki always updated.
 
 
 
+
 ---++ Instructions on how to create !RootTuples using the code !RootNtupleMakerV2
 
 %TOC%
@@ -48,18 +49,19 @@ cmsenv
 
 ---++++ 2) Setup LCG environment and CRAB
 
-   * *NORMAL MODE*
+   * *NORMAL MODE* 
+%RED% Use this to run on MC (or DATA if JSON file not available) %ENDCOLOR%
 <verbatim>
 source /afs/cern.ch/cms/LCG/LCG-2/UI/cms_ui_env.csh (or .sh)
 source /afs/cern.ch/cms/ccs/wm/scripts/Crab/crab.csh (or .sh)
 </verbatim>
 
    * %ICON{wip}% *JSON MODE* %ICON{wip}%  (preliminary beta version) (https://twiki.cern.ch/twiki/bin/view/CMS/LumiSelJson)
+%RED% Use this to run on the DATA %ENDCOLOR%
 <verbatim>
 source /afs/cern.ch/cms/LCG/LCG-2/UI/cms_ui_env.csh (or .sh)
 source /afs/cern.ch/cms/ccs/wm/scripts/Crab/CRAB_2_7_2_pre4/crab.csh (or .sh) 
 </verbatim>
-
 
 ---++++ 3) Edit the config file template_CMSSW_cfg.py
 
@@ -72,6 +74,8 @@ Check the main followings items: %BR%
    * "# HF !RecHit reflagger" (version = 2 by default)
    * process.schedule
    * process.p
+
+You can use a different config file as well, but please consider the commens in *NOTE 1* and *NOTE 2* %BR%
 
 
 *NOTE 1*:
@@ -131,6 +135,19 @@ https://twiki.cern.ch/twiki/bin/viewauth/CMS/Collisions2010Analysis %BR%
 https://twiki.cern.ch/twiki/bin/view/CMS/PhysicsSecondaryDatasets %BR%
 https://cmsweb.cern.ch/dbs_discovery/ %BR%
 
+%RED% Suggestion for job splitting:  %BR% 
+Usually a RECO .root file in DBS contains ~15-25k events as very rough estimate
+(In MinBias GOODCOLL skim each good file contains about 10-15 LS, i.e. ~1-2k per LS ).
+A CRAB job cannot access less than a whole file. %BR%
+Therefore a reasonable approach in the job submission could be to set "number_of_jobs" equal to the 
+number of files in the dataset that you want to analyze (that you can check from DBS). 
+Anyway you have to take into account that not all the files in the dataset will also be marked 
+as GOOD by run certification (only the runs and lumi-sections present in the JSON file). 
+So "number_of_jobs" could be set in general "<=" number of files seen from DBS.
+How much "<=" depends on the results of the certification for the period of data taking considered.
+*All the suggestions above must be considered very naive..* %ENDCOLOR%
+
+
 ---++++ 5) Create the crab jobs 
 
 launch the ./createJobsWithCrabCastor.pl command:
@@ -147,8 +164,9 @@ template_crab_grid_copyToCastor.cfg to include a specific run selection %BR%
 <verbatim>
 ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple -v RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy -i inputList.txt -t template_crab_grid_copyToCastor_JSON.cfg -c template_CMSSW_cfg.py -n santanas -u LQ/RootNtuple -j Cert_132440-133336_StreamExpress_Commissioning10-Express_DQM_JSON.txt
 </verbatim>
+%RED% Official JSON files can be found at https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/  %ENDCOLOR%
 
-details:
+details of the options:
 
 <verbatim>
 -d : specify the local directory (structure described below in *NOTE 1*)
@@ -173,6 +191,7 @@ details:
 -j : JSON file. Official files can be found at https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/ 
 </verbatim>
 
+
 *NOTE 1*:
 In the directory !RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS 
 (YYYYMMDD_HHMMSS is !YearMonthDay_HourMinSec of the directory creation) you find: %BR%
@@ -195,7 +214,7 @@ In the directory !RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HH
 </verbatim>
 
 
----++++ 6) Launch submit/getouput/etc..
+---++++ 6) Submit jobs and get the output
 
 After creating the jobs you can use the script: %BR% 
 
@@ -208,43 +227,107 @@ to make the following actions (standard crab commands): %BR%
    * status
    * submit
    * getouput
+   * report
    * kill
    * resubmit
 
 Run ./postCreationCommandsWithCrab.pl with no option to get the "help". Examples below. %BR%
-To get the status:
+
+*To get the status*:
 <verbatim>
 ./postCreationCommandsWithCrab.pl -d RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS 
 </verbatim>
-To submit jobs:
+*To submit jobs*:
 <verbatim>
 ./postCreationCommandsWithCrab.pl -d RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS -s yes
 </verbatim>
-To kill jobs:
+*To kill jobs*:
 <verbatim>
 ./postCreationCommandsWithCrab.pl -d RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS -k yes
 </verbatim>
+etc...
 
 The status of the jobs (crab -status) will be summarized 
 after any of the actions above in the file *statusCrab.log*. %BR%
+
+%RED% OUTPUT %ENDCOLOR%
+Once all the jobs are finished you can find them on CASTOR at (in this example)
+<verbatim>
+/castor/cern.ch/user/s/santanas/LQ/RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS 
+</verbatim>
+Resubmit those jobs that failed. Then when your production is finished go to the next step.
 
 *NOTE 1*: 
 For the moment you can apply these actions on all the jobs created, you cannot 
 specify a sub-set of the jobs. Anyway for particular cases, you can always look 
 at the status report and apply by hand a specific action that you need
-on a single dataset or a single job.
-
-
----++++ 7) Update the Twiki with location/info on the output .root files
-
-Once all the jobs are finished you can find them on CASTOR at (in this example)
+on a single dataset or a single job. %BR%
+Example of resubmission of only job N.2 on the crab work dir relative to the dataset MinimumBias__Commissioning10-GOODCOLL-v8__RAW-RECO:
 <verbatim>
-/castor/cern.ch/user/s/santanas/LQ/RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS 
+crab -resubmit 2 -c RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS/workdir/MinimumBias__Commissioning10-GOODCOLL-v8__RAW-RECO/
 </verbatim>
+
+---++++ 7) Get the integrated luminosity of the sample processed
+
+Once jobs are finished succesfully (or you are happy with what you have), 
+in order to get the integrated luminosity of the samples you just processed you have to follow two steps:
+   * %BLUE% !STEP 1 %ENDCOLOR%: get the crab report file (lumiSummary.json)
+   * %RED% !STEP 2 %ENDCOLOR%: run the lumi script (getLumi.py) described in the Twiki https://twiki.cern.ch/twiki/bin/viewauth/CMS/LumiWiki2010Data#Lumi_By_Lumi_Section
+
+%BLUE% !STEP 1 - Get the crab report file %ENDCOLOR% %BR%
+
+Execute the following crab commands:
+
+   * 1) Getoutput 
+<verbatim>
+./postCreationCommandsWithCrab.pl -d RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS -g yes
+</verbatim>
+
+   * 2) (Status +) Report
+<verbatim>
+./postCreationCommandsWithCrab.pl -d RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS -t yes
+</verbatim>
+
+
+The report files (lumiSummary.json) will be created for each of the datasets analyzed.
+You can find them in each crab working dir, precisely at (examples below):
+!RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS/workdir/dataset_1/res %BR%
+!RootNtuple/RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy_YYYYMMDD_HHMMSS/workdir/dataset_2/res %BR%
+etc... %BR%
+P.S. The structure of the subdirectories is specified at 
+point 5, *NOTE 1*.
+
+%RED% !STEP 2 - Run the lumi script %ENDCOLOR% %BR%
+
+Instructions on how to get the integrated luminosity are at 
+For each sample you processed (dataset_1, dataset_2, etc..) you need the following ingredients:
+
+   * lumi_by_LS.csv (get the most updated lumi file from https://twiki.cern.ch/twiki/bin/viewauth/CMS/LumiWiki2010Data#Lumi_By_Lumi_Section)
+   * lumiSummary.json (from *STEP 1* above)
+   * getLumi.py (get the most updated script from https://twiki.cern.ch/twiki/bin/viewauth/CMS/LumiWiki2010Data#Lumi_By_Lumi_Section)
+
+Copy the 3 files above in same directory, and from that directory run this command:
+<verbatim>
+python getLumi.py lumiSummary.json
+</verbatim>
+
+You'll get the prinout of the integrated luminosity of the sample you analyzed 
+(i.e. contained in the crab report lumiSummary.json) in this format:
+<verbatim>
+Total luminosity: 0.08 /ub, 0.00 /nb, 7.73e-08 /pb, 7.73e-11 /fb
+</verbatim>
+
+---++++ 8) Update the LQ Twiki with all the information on the output .root files
 
 Update the table in the Twiki
 https://twiki.cern.ch/twiki/bin/view/CMS/ExoticaLeptoquarkRootTuplesV2Location2010
+with all the information requested.
 
+Finally, communicate in the LQ hyper-news
+https://hypernews.cern.ch/HyperNews/CMS/get/exotica-lq.html  %BR%
+that the new !RootTuples are available for analysis.
 
 
 -- Main.FrancescoSantanastasio - 29-Apr-2010
+
+
