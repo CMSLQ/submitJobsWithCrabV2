@@ -334,8 +334,11 @@ foreach $inputListLine(@inputListFile)
 #---------------------------------------------------------#
 
 sub help(){
-    print "Usage: ./createJobsWithCrabCastor.pl -d <storageDir> -v <tagname> -i <inputList> -t <templateCrab> -c <myCMSSWconfig> [-r <runNumber> optional] [-j <jsonFile> optional] [-h <help?>] \n";
-    print "Example: ./createJobsWithCrabCastor.pl -d /home/santanas/test -v Ntuples -i inputList.txt -t template_crab_caf_copyToCastor.cfg -c treeData_cfg.py -n santanas -u myMETdir/MyMETrooTuples -j jsonFile.txt -r 122314\n";
+    print "Usage: ./createJobsWithCrabCastor.pl -d <storageDir> -v <tagname> -i <inputList> -t <templateCrab> -c <myCMSSWconfig> [-r <runNumber> optional] [-j <jsonFile> mandatory in JSON MODE] [-h <help?>] \n";
+    print "See https://twiki.cern.ch/twiki/bin/view/CMS/ExoticaLeptoquarkShiftMakeRootTuplesV2 for more details \n";
+    print "Example1 (NORMAL MODE): ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple -v RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy -i inputList.txt -t template_crab_grid_copyToCastor.cfg -c template_CMSSW_cfg.py -n santanas -u LQ/RootNtuple \n";
+    print "Example2 (JSON MODE): ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple -v RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy -i inputList.txt -t template_crab_grid_copyToCastor_JSON.cfg -c template_CMSSW_cfg.py -n santanas -u LQ/RootNtuple -j Cert_132440-133336_StreamExpress_Commissioning10-Express_DQM_JSON.txt \n";
+    print "Example3 (NORMAL MODE + RUN SELECTION): ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple -v RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy -i inputList.txt -t template_crab_grid_copyToCastor.cfg -c template_CMSSW_cfg.py -n santanas -u LQ/RootNtuple -r 132440 \n";
     print "Options:\n";
     print "-d <storageDir>:           choose the local storage directory\n";
     print "-v <tagname>:              choose the tagname of RootNtupleMaker\n";
@@ -344,8 +347,8 @@ sub help(){
     print "-c <myCMSSWconfig>:        choose the CMSSW config file\n";
     print "-n <castorUserName>:       choose the castor user name\n";
     print "-u <castorUserStorageDir>: choose the storage dir in Castor (i.e. myMETdir/MyMETrooTuples; the prefix will be /castor/cern.ch/user/s/santanas/)\n ";
-    print "-r <runNumber>:            choose the run number to process (optional) \n ";
-    print "-j <jsonFile>:             choose the json file (optional) \n ";
+    print "-r <runNumber>:            choose the run number to process (optional, use only in NORMAL MODE) \n ";
+    print "-j <jsonFile>:             choose the json file (*mandatory* in JSON MODE, don't use in NORMAL MODE) \n ";
     print "-h <yes>:                  to print the help \n";
     die "please, try again...\n";
 }
