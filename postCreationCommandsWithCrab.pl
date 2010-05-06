@@ -152,7 +152,7 @@ foreach $inputListLine(@inputListFile)
 	print "crab -report all -c $thisWorkDir\n";
 
 	### TEMPORARY see https://hypernews.cern.ch/HyperNews/CMS/get/crabFeedback/3173/1/2/2.html
-	system "cp $outputDir/crab_*.xml $thisWorkDir/res";
+	#system "cp $outputDir/crab_*.xml $thisWorkDir/res";
 	###
 
 	system "crab -status all -c $thisWorkDir";
