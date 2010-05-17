@@ -1,0 +1,4 @@
+scram setup lhapdffull
+scram b
+ls -la
+cmsRun pset.py  -j crab_fjr.xml
