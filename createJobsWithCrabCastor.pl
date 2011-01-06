@@ -20,7 +20,7 @@ my $myCMSSWconfig;
 my $castorUserName;
 my $castorUserStorageDir;
 my $runNumber = -999; #optional
-my $jsonFile;         #optional 
+my $jsonFile;         #optional
 
 getopts('h:d:v:i:t:c:n:u:r:j:');
 
@@ -49,34 +49,34 @@ if($opt_j) {$jsonFile = $opt_j;}
 $year = $year + 1900;
 $mon = $mon + 1;
 
-if($year<10){ $year = "0$year"; 
-	  #   print "change year --> $year\n"; 
+if($year<10){ $year = "0$year";
+	  #   print "change year --> $year\n";
 	  }
-if($mon<10){ $mon = "0$mon"; 
-	  #   print "change mon --> $mon\n"; 
+if($mon<10){ $mon = "0$mon";
+	  #   print "change mon --> $mon\n";
 	  }
-if($mday<10){ $mday = "0$mday"; 
-	  #   print "change mday --> $mday\n"; 
+if($mday<10){ $mday = "0$mday";
+	  #   print "change mday --> $mday\n";
 	  }
-if($hour<10){ $hour = "0$hour"; 
-	  #   print "change hour --> $hour\n"; 
+if($hour<10){ $hour = "0$hour";
+	  #   print "change hour --> $hour\n";
 	  }
-if($min<10){ $min = "0$min"; 
-	  #   print "change min --> $min\n"; 
+if($min<10){ $min = "0$min";
+	  #   print "change min --> $min\n";
 	  }
-if($sec<10){ $sec = "0$sec"; 
-	  #   print "change sec --> $sec\n"; 
+if($sec<10){ $sec = "0$sec";
+	  #   print "change sec --> $sec\n";
 	  }
 
-my $date = "$year$mon$mday\_$hour$min$sec"; 
+my $date = "$year$mon$mday\_$hour$min$sec";
 
 ## create directories
 
 #prepare CASTOR directories
 #-- first letter of username
 $FirstChar = $castorUserName;
-$FirstChar = substr($FirstChar, 0, 1); 
-$FirstChar =~ tr/[A-Z]/[a-z]/; 
+$FirstChar = substr($FirstChar, 0, 1);
+$FirstChar =~ tr/[A-Z]/[a-z]/;
 #print $FirstChar;
 
 $castorPath = "/castor/cern.ch";
@@ -106,9 +106,9 @@ system("rfchmod 775 $fullCastorPath");
 
 #other directories
 my $productionDir = $storageDir."\/".$tagname."\_".$date;
-my $cfgfilesDir = $productionDir."\/"."cfgfiles"; 
-my $outputDir = $productionDir."\/"."output"; 
-my $workDir = $productionDir."\/"."workdir"; 
+my $cfgfilesDir = $productionDir."\/"."cfgfiles";
+my $outputDir = $productionDir."\/"."output";
+my $workDir = $productionDir."\/"."workdir";
 
 print("mkdir -p $productionDir \n");
 print("mkdir -p $cfgfilesDir \n");
@@ -134,7 +134,7 @@ close(INPUTLIST);
 
 foreach $inputListLine(@inputListFile)
 {
-    chomp($inputListLine); 
+    chomp($inputListLine);
     #print $inputListLine;
 
     ## split each line
@@ -163,20 +163,20 @@ foreach $inputListLine(@inputListFile)
 	$counter++;
 	if( $counter < scalar(@datasetParts) ) {$datasetName=$datasetName.$name."__";}
 	else {$datasetName=$datasetName.$name;}
-	    
+
     }
     $counter=0;
-	
+
     ## create workdir for this dataset
     my $thisWorkDir=$workDir."/".$datasetName;
     print "mkdir -p $thisWorkDir\n";
     system "mkdir -p $thisWorkDir";
 
     ## outputfile .root
-    my $outputfile = $datasetName.""."\.root"; 
+    my $outputfile = $datasetName.""."\.root";
 #     if($runNumber != -999 )
 #     {
-# 	$outputfile = $datasetName."\_\_\_\_run".$runNumber.""."\.root"; 
+# 	$outputfile = $datasetName."\_\_\_\_run".$runNumber.""."\.root";
 #     }
     #print "outputfilename : $outputfile ... \n";
 
@@ -192,20 +192,20 @@ foreach $inputListLine(@inputListFile)
     print "creating $newCMSSWconfig ... \n";
 
     open(NEWCMSSWCONFIG,">$newCMSSWconfig");
-    
+
     foreach $templateCMSSWFileLine(@templateCMSSWFile)
     {
 
 	chomp ($templateCMSSWFileLine);
 	#print("$templateCMSSWFileLine\n");
 
-        #%%%%%%%%%%%%% IMPORTANT %%%%%%%%%%%%% 
+        #%%%%%%%%%%%%% IMPORTANT %%%%%%%%%%%%%
 
         ## THIS PART SHOULD CHANGE ACCORDINGLY WITH THE CMSSW CONFIG FILE ##
-	
+
 	if($templateCMSSWFileLine=~/THISROOTFILE/)
 	{
-	    $templateCMSSWFileLine = "fileName = cms.string\(\"$outputfile\"\)\,";
+	    $templateCMSSWFileLine = "    fileName = cms.string\(\"$outputfile\"\)\,";
 	    #print("$templateCMSSWFileLine\n");
 	}
 
@@ -230,13 +230,13 @@ foreach $inputListLine(@inputListFile)
     print "creating $newcrabconfig ... \n";
 
     open(NEWCRABCONFIG,">$newcrabconfig");
-    
+
     foreach $templateCrabFileLine(@templateCrabFile)
     {
 
 	chomp ($templateCrabFileLine);
 	#print("$templateCrabFileLine\n");
-	
+
 	if($templateCrabFileLine=~/THISDATASET/)
 	{
 	    $templateCrabFileLine = "datasetpath = $dataset";
@@ -318,13 +318,13 @@ foreach $inputListLine(@inputListFile)
 
 
     ## create crab jobs for this dataset
-    print "creating jobs for dataset $dataset ... \n"; 
+    print "creating jobs for dataset $dataset ... \n";
 
     print "crab -create -cfg $newcrabconfig\n";
     system "crab -create -cfg $newcrabconfig";
 
     ## submit crab jobs for this dataset
-    #print "submitting jobs for dataset $dataset ... \n"; 
+    #print "submitting jobs for dataset $dataset ... \n";
     #print "crab -submit -c $thisWorkDir\n";
     #system "crab -submit -c $thisWorkDir";
 
