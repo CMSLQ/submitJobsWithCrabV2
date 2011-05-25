@@ -1,3 +1,4 @@
+/Z0Jets_TuneZ2_7TeV-alpgen-tauola/Spring11-PU_S1_START311_V1G1-v1/AODSIM                -1      30   
 /Z1Jets_ptZ-0to100_TuneZ2_7TeV-alpgen-tauola/Spring11-PU_S1_START311_V1G1-v1/AODSIM	-1	250
 /Z1Jets_ptZ-100to300_TuneZ2_7TeV-alpgen-tauola/Spring11-PU_S1_START311_V1G1-v1/AODSIM	-1	250
 /Z1Jets_ptZ-300to800_TuneZ2_7TeV-alpgen-tauola/Spring11-PU_S1_START311_V1G1-v1/AODSIM	-1	100
