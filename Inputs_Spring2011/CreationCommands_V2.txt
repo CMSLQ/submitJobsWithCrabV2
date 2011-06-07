@@ -12,7 +12,7 @@
 
 ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple_Spring2011MC_V2 -v RootNtuple-V00-02-04-Spring11MC_WJets_MADGRAPH -i Inputs_Spring2011/InputList_WJets_MADGRAPH.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Spring2011/rootTupleMaker_MC_Spring11ReProcessing_cfg.py -n `whoami` -u LQ/RootNtuple_Spring2011MC_V2
 
-./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple_Spring2011MC_V2 -v RootNtuple-V00-02-04-Spring11MC_ZJets_MADGRAPH -i Inputs_Spring2011/InputList_WJets_MADGRAPH.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Spring2011/rootTupleMaker_MC_Spring11ReProcessing_cfg.py -n `whoami` -u LQ/RootNtuple_Spring2011MC_V2
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple_Spring2011MC_V2 -v RootNtuple-V00-02-04-Spring11MC_ZJets_MADGRAPH -i Inputs_Spring2011/InputList_ZJets_MADGRAPH.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Spring2011/rootTupleMaker_MC_Spring11ReProcessing_cfg.py -n `whoami` -u LQ/RootNtuple_Spring2011MC_V2
 
 ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple_Spring2011MC_V2 -v RootNtuple-V00-02-04-Spring11MC_ZJets_ALPGEN -i Inputs_Spring2011/InputList_ZJets_ALPGEN.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Spring2011/rootTupleMaker_MC_Spring11ReProcessing_cfg.py -n `whoami` -u LQ/RootNtuple_Spring2011MC_V2
 
