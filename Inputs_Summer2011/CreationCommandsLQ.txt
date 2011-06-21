@@ -1,14 +1,18 @@
 # From the /CMSSW_4_1_5_LQ/src/Leptoquarks/submitJobsWithCrabV2/ directory, issue the following creation commands:
 
-
+### First Generation LQ's
 ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple_Summer2011MC -v RootNtuple-V00-02-04-Spring11MC_LQToUE_BetaOne -i Inputs_Summer2011/InputList_LQToUE_BetaOne.txt -t template_crab_grid_copyToCastor_MC.cfg -c Inputs_Summer2011/rootTupleMaker_MC_Summer2011_cfg.py -n `whoami` -u LQ/RootNtuple_Summer2011MC
 
 ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple_Summer2011MC -v RootNtuple-V00-02-04-Spring11MC_LQToUE_BetaHalf -i Inputs_Summer2011/InputList_LQToUE_BetaHalf.txt -t template_crab_grid_copyToCastor_MC.cfg -c Inputs_Summer2011/rootTupleMaker_MC_Summer2011_cfg.py -n `whoami` -u LQ/RootNtuple_Summer2011MC
 
 
+### Second Generation LQ's
 ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple_Summer2011MC -v RootNtuple-V00-02-04-Spring11MC_LQToCMu_BetaOne -i Inputs_Summer2011/InputList_LQToCMu_BetaOne.txt -t template_crab_grid_copyToCastor_MC.cfg -c Inputs_Summer2011/rootTupleMaker_MC_Summer2011_cfg.py -n `whoami` -u LQ/RootNtuple_Summer2011MC
 
 ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple_Summer2011MC -v RootNtuple-V00-02-04-Spring11MC_LQToCMu_BetaHalf -i Inputs_Summer2011/InputList_LQToCMu_BetaHalf.txt -t template_crab_grid_copyToCastor_MC.cfg -c Inputs_Summer2011/rootTupleMaker_MC_Summer2011_cfg.py -n `whoami` -u LQ/RootNtuple_Summer2011MC
 
+### Standard Model MadGraph
 
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple_Summer2011MC -v RootNtuple-V00-02-04-Spring11MC_TTBarJets_MG -i Inputs_Summer2011/InputList_TTBar_MG.txt -t template_crab_grid_copyToCastor_MC.cfg -c Inputs_Summer2011/rootTupleMaker_MC_Summer2011_cfg.py -n `whoami` -u LQ/RootNtuple_Summer2011MC
 
