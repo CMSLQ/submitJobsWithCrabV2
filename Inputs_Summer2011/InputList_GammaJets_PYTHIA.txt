@@ -1,0 +1,2 @@
+/GJet_PT_15toInf_TuneZ2_cJet_7TeV-pythia6/Summer11-PU_S4_START42_V11-v1/AODSIM -1 10
+/GJet_PT_15toInf_TuneZ2_bJet_7TeV-pythia6/Summer11-PU_S4_START42_V11-v1/AODSIM -1 10
