@@ -1,0 +1,4 @@
+/WW_TuneZ2_7TeV_pythia6_tauola/Summer11-PU_S4_START42_V11-v1/AODSIM -1 20
+/WZ_TuneZ2_7TeV_pythia6_tauola/Summer11-PU_S4_START42_V11-v1/AODSIM -1 20
+#### NOT DONE YET        /ZZ_TuneZ2_7TeV_pythia6_tauola/Summer11-START311_V2-v1/AODSIM -1 20
+#### FOR THE MEANWHILE?  /ZZTo2L2Nu_TuneZ2_7TeV_pythia6_tauola/Summer11-PU_S4_START42_V11-v1/AODSIM -1 20
