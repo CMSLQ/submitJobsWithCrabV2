@@ -8,7 +8,7 @@ import os
 ############## IMPORTANT ########################################
 # If you run over many samples and you save the log, remember to reduce
 # the size of the output by prescaling the report of the event number
-process.MessageLogger.cerr.FwkReport.reportEvery = 100
+process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 process.MessageLogger.cerr.default.limit = 10
 #################################################################
 
@@ -21,7 +21,8 @@ process.TFileService = cms.Service("TFileService",
 )
 
 # Make sure a correct global tag is used (please refer to https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideFrontierConditions#Valid_Global_Tags_by_Release)
-process.GlobalTag.globaltag = 'START42_V12::All' # ===> for Summer11 MC analyzed in 42X (contains Jec11_V1, does not contain "residual" JEC and uncertainties yet...)
+process.GlobalTag.globaltag = 'START42_V13::All' # ===> First complete JEC set for 42x 2011 data (https://indico.cern.ch/getFile.py/access?contribId=8&resId=0&materialId=slides&confId=143981)
+#process.GlobalTag.globaltag = 'START42_V12::All' # ===> for Summer11 MC analyzed in 42X (contains Jec11_V1, does not contain "residual" JEC and uncertainties yet...)
 #process.GlobalTag.globaltag = 'START41_V0::All' # ===> for 41X MC analyzed in 41X (contains Jec10V3)
                                
 # Events to process
@@ -33,9 +34,10 @@ process.options.wantSummary = True
 # Input files
 process.source.fileNames = [
     #'/store/relval/CMSSW_4_2_3/RelValZEE/GEN-SIM-RECO/START42_V12-v2/0062/3CE75CB9-317B-E011-86BE-002618943864.root' #RECO (42X)
-    '/store/relval/CMSSW_4_2_3/RelValTTbar_Tauola/GEN-SIM-RECO/START42_V12_PU_E7TeV_FlatDist10_2011EarlyData_inTimeOnly-v1/0072/16CE5EEA-B47C-E011-85A9-00248C0BE005.root' #RECO (42X, pile-up)
+    #'/store/relval/CMSSW_4_2_3/RelValTTbar_Tauola/GEN-SIM-RECO/START42_V12_PU_E7TeV_FlatDist10_2011EarlyData_inTimeOnly-v1/0072/16CE5EEA-B47C-E011-85A9-00248C0BE005.root' #RECO (42X, pile-up)
     #'/store/relval/CMSSW_4_1_5/RelValZMM/GEN-SIM-RECO/START311_V2-v1/0042/36C91851-606D-E011-A0F6-002618943924.root' #RECO (41X)
     #'/store/relval/CMSSW_4_1_5/RelValTTbar_Tauola/GEN-SIM-RECO/START311_V2_PU_E7TeV_AVE_2_BX156-v1/0049/EC2A2471-0472-E011-9235-0018F3D09682.root' #RECO (41x, pile-up)
+    '/store/mc/Summer11/WW_TuneZ2_7TeV_pythia6_tauola/AODSIM/PU_S4_START42_V11-v1/0000/008E825F-9C9D-E011-BE4C-0018F3D096EC.root'
 ]
 
 # Add tcMET and pfMET
@@ -112,8 +114,8 @@ process.metJESCorAK5CaloJet.corrector = cms.string('ak5CaloL1L2L3')
 process.metJESCorAK5CaloJet.jetPTthreshold = cms.double(20.0) #default value
 
 ## Read JEC uncertainties (might not be available in some global tag)
-process.rootTupleCaloJets.ReadJECuncertainty = False # IMPORTANT: put them back when available in global tag
-process.rootTuplePFJets.ReadJECuncertainty = False # IMPORTANT: put them back when available in global tag
+process.rootTupleCaloJets.ReadJECuncertainty = True # IMPORTANT: put them back when available in global tag
+process.rootTuplePFJets.ReadJECuncertainty = True # IMPORTANT: put them back when available in global tag
 
 # HEEPify PAT electrons
 from SHarper.HEEPAnalyzer.HEEPSelectionCuts_cfi import *
@@ -132,23 +134,35 @@ process.cleanPatElectrons.checkOverlaps.muons.deltaR = 0.3
 process.cleanPatJets.checkOverlaps.muons.deltaR = 0.5
 process.cleanPatJets.checkOverlaps.electrons.deltaR = 0.5
 
+# Add tau id sources:
+process.patTaus.tauIDSources.leadingTrackPtCut              = cms.InputTag("shrinkingConePFTauDiscriminationByLeadingTrackPtCut")
+process.patTaus.tauIDSources.trackIsolation                 = cms.InputTag("shrinkingConePFTauDiscriminationByTrackIsolation")
+process.patTaus.tauIDSources.trackIsolationUsingLeadingPion = cms.InputTag("shrinkingConePFTauDiscriminationByTrackIsolationUsingLeadingPion")
+process.patTaus.tauIDSources.ecalIsolation                  = cms.InputTag("shrinkingConePFTauDiscriminationByECALIsolation")
+process.patTaus.tauIDSources.ecalIsolationUsingLeadingPion  = cms.InputTag("shrinkingConePFTauDiscriminationByECALIsolationUsingLeadingPion")
+process.patTaus.tauIDSources.byIsolation                    = cms.InputTag("shrinkingConePFTauDiscriminationByIsolation")
+
 # Skim definition
 process.load("Leptoquarks.LeptonJetFilter.leptonjetfilter_cfi")
 ##################################################################
-#### Shared Muon/Electron Skim
+#### Shared Muon/Electron/Tau Skim
 process.LJFilter.muLabel = 'muons'
 process.LJFilter.elecLabel = 'gsfElectrons'
 process.LJFilter.jetLabel = 'ak5CaloJets'
+process.LJFilter.tauLabel = 'shrinkingConePFTauProducer'
 process.LJFilter.muonsMin = 1
 process.LJFilter.muPT = 20.
 process.LJFilter.electronsMin = 1
 process.LJFilter.elecPT = 20.
+process.LJFilter.tausMin = 1
+process.LJFilter.tauPT = 15
 process.LJFilter.counteitherleptontype = True
 ##################################################################
 #### Electron based skim
 #process.LJFilter.muLabel = 'muons'
 #process.LJFilter.elecLabel = 'gsfElectrons'
 #process.LJFilter.jetLabel = 'ak5CaloJets'
+#process.LJFilter.tauLabel = 'shrinkingConePFTauProducer'
 #process.LJFilter.muonsMin = -1
 #process.LJFilter.electronsMin = 1
 #process.LJFilter.elecPT = 20.
@@ -159,6 +173,7 @@ process.LJFilter.counteitherleptontype = True
 # process.LJFilter.elecLabel = 'gsfElectrons'
 # process.LJFilter.photLabel = 'photons'
 # process.LJFilter.jetLabel = 'ak5CaloJets'
+# process.LJFilter.tauLabel = 'shrinkingConePFTauProducer'
 # process.LJFilter.muonsMin = -1
 # process.LJFilter.electronsMin = -1
 # process.LJFilter.photMin = 1
@@ -169,12 +184,19 @@ process.LJFilter.counteitherleptontype = True
 # Load HBHENoiseFilterResultProducer
 process.load('CommonTools/RecoAlgos/HBHENoiseFilterResultProducer_cfi')
 # Check the latest recommendation from https://twiki.cern.ch/twiki/bin/view/CMS/HBHEAnomalousSignals2011
+process.HBHENoiseFilterResultProducer.minRatio = cms.double(-999)
+process.HBHENoiseFilterResultProducer.maxRatio = cms.double(999)
+process.HBHENoiseFilterResultProducer.minHPDHits = cms.int32(17)
+process.HBHENoiseFilterResultProducer.minRBXHits = cms.int32(999)
+process.HBHENoiseFilterResultProducer.minHPDNoOtherHits = cms.int32(10)
+process.HBHENoiseFilterResultProducer.minZeros = cms.int32(10)
+process.HBHENoiseFilterResultProducer.minHighEHitTime = cms.double(-9999.0)
+process.HBHENoiseFilterResultProducer.maxHighEHitTime = cms.double(9999.0)
+process.HBHENoiseFilterResultProducer.maxRBXEMF = cms.double(-999.0)
+process.HBHENoiseFilterResultProducer.minNumIsolatedNoiseChannels = cms.int32(9999)
 process.HBHENoiseFilterResultProducer.minIsolatedNoiseSumE = cms.double(9999)
 process.HBHENoiseFilterResultProducer.minIsolatedNoiseSumEt = cms.double(9999)
-process.HBHENoiseFilterResultProducer.maxRatio = cms.double(999)
-process.HBHENoiseFilterResultProducer.minRatio = cms.double(-999)
-process.HBHENoiseFilterResultProducer.minNumIsolatedNoiseChannels = cms.int32(9999)
-#process.HBHENoiseFilterResultProducer.useTS4TS5 = cms.bool(True) #available only from 420
+process.HBHENoiseFilterResultProducer.useTS4TS5 = cms.bool(True)
 
 #Load CosmicID producer
 process.load('Leptoquarks.CosmicID.cosmicid_cfi')
@@ -202,6 +224,7 @@ process.rootTupleTree = cms.EDAnalyzer("RootTupleMakerV2_Tree",
         'keep *_rootTupleCaloJets_*_*',
         'keep *_rootTuplePFJets_*_*',
         'keep *_rootTupleElectrons_*_*',
+        'keep *_rootTupleTaus_*_*',
         'keep *_rootTupleCaloMET_*_*',
         'keep *_rootTupleTCMET_*_*',
         'keep *_rootTuplePFMET_*_*',
@@ -233,7 +256,7 @@ process.pdfWeights = cms.EDProducer("PdfWeightProducer",
 
 # In order to disable the PDF weights calculation, uncomment the line below and
 # comment out the pdfWeights module in the Path 'p' below
-#process.rootTupleGenEventInfo.StorePDFWeights = False
+# process.rootTupleGenEventInfo.StorePDFWeights = False
 
 # Path definition
 process.p = cms.Path(
@@ -255,6 +278,7 @@ process.p = cms.Path(
     process.rootTupleCaloJets+
     process.rootTuplePFJets+
     process.rootTupleElectrons+
+    process.rootTupleTaus+
     process.rootTupleCaloMET+
     process.rootTupleTCMET+
     process.rootTuplePFMET+
