@@ -1,0 +1,12 @@
+/AxigluonZ_M-150_TuneZ2_7TeV-calchep-pythia/Summer11-PU_S4_START42_V11-v1/AODSIM -1 5
+/AxigluonZ_M-500_TuneZ2_7TeV-calchep-pythia/Summer11-PU_S4_START42_V11-v1/AODSIM -1 5
+/AxigluonZ_M-1000_TuneZ2_7TeV-calchep-pythia/Summer11-PU_S4_START42_V11-v1/AODSIM -1 5
+/AxigluonZ_M-1500_TuneZ2_7TeV-calchep-pythia/Summer11-PU_S4_START42_V11-v1/AODSIM -1 5
+/AxigluonW_M-150_TuneZ2_7TeV-calchep-pythia/Summer11-PU_S4_START42_V11-v1/AODSIM -1 5
+/AxigluonW_M-500_TuneZ2_7TeV-calchep-pythia/Summer11-PU_S4_START42_V11-v1/AODSIM -1 5
+/AxigluonW_M-1000_TuneZ2_7TeV-calchep-pythia/Summer11-PU_S4_START42_V11-v1/AODSIM -1 5
+/AxigluonW_M-1500_TuneZ2_7TeV-calchep-pythia/Summer11-PU_S4_START42_V11-v1/AODSIM -1 5
+/AxigluonG_M-150_TuneZ2_7TeV-calchep-pythia/Summer11-PU_S4_START42_V11-v1/AODSIM -1 5
+/AxigluonG_M-500_TuneZ2_7TeV-calchep-pythia/Summer11-PU_S4_START42_V11-v1/AODSIM -1 5
+/AxigluonG_M-1000_TuneZ2_7TeV-calchep-pythia/Summer11-PU_S4_START42_V11-v1/AODSIM -1 5
+/AxigluonG_M-1500_TuneZ2_7TeV-calchep-pythia/Summer11-PU_S4_START42_V11-v1/AODSIM -1 5
