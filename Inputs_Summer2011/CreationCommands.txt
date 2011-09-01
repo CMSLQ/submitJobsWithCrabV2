@@ -29,6 +29,8 @@
 
 ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple_Summer2011MC -v RootNtuple-V00-02-05-Summer11MC_SingleTop_MG -i Inputs_Summer2011/InputList_SingleTop_MG.txt -t template_crab_grid_copyToCastor_MC.cfg -c Inputs_Summer2011/rootTupleMaker_MC_Summer2011_cfg.py -n `whoami` -u LQ/RootNtuple_Summer2011MC
 
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple_Summer2011MC -v RootNtuple-V00-02-05-Summer11MC_WJets_HT300_MG -i Inputs_Summer2011/InputList_WJets_HT300_MG.txt -t template_crab_grid_copyToCastor_MC.cfg -c Inputs_Summer2011/rootTupleMaker_MC_Summer2011_cfg.py -n `whoami` -u LQ/RootNtuple_Summer2011MC
+
 
 ### Standard Model Pythia - DiBoson, QCD MuEnriched, GammaJets
 
