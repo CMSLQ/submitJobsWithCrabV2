@@ -39,3 +39,10 @@
 ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple_Summer2011MC -v RootNtuple-V00-02-05-Summer11MC_GammaJets_PYTHIA -i Inputs_Summer2011/InputList_GammaJets_PYTHIA.txt -t template_crab_grid_copyToCastor_MC.cfg -c Inputs_Summer2011/rootTupleMaker_MC_Summer2011_cfg.py -n `whoami` -u LQ/RootNtuple_Summer2011MC
 
 ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple_Summer2011MC -v RootNtuple-V00-02-05-Summer11MC_QCDMuEnriched_PYTHIA -i Inputs_Summer2011/InputList_QCDMuEnriched_PYTHIA.txt -t template_crab_grid_copyToCastor_MC.cfg -c Inputs_Summer2011/rootTupleMaker_MC_Summer2011_cfg.py -n `whoami` -u LQ/RootNtuple_Summer2011MC
+
+
+### Shape Variation Samples
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple_Summer2011MC -v RootNtuple-V00-02-05-Summer11MC_ShapeVariationSamples -i Inputs_Summer2011/InputList_ShapeVariationSamples.txt -t template_crab_grid_copyToCastor_MC.cfg -c Inputs_Summer2011
+
+
