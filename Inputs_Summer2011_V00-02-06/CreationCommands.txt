@@ -38,13 +38,15 @@
 ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple2011 -v RootNtuple-V00-02-06-Summer11MC_GammaJets_MG -i Inputs_Summer2011_V00-02-06/InputList_GammaJets_MG.txt -t template_crab_grid_copyToCastor_MC.cfg -c Inputs_Summer2011_V00-02-06/rootTupleMaker_MC_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011
 
 
-### Standard Model Pythia - DiBoson, QCD MuEnriched, GammaJets
+### Standard Model Pythia - DiBoson, QCD MuEnriched, GammaJets, QCD EM enriched + BCToE
 
 ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple2011 -v RootNtuple-V00-02-06-Summer11MC_DiBoson_PYTHIA -i Inputs_Summer2011_V00-02-06/InputList_DiBoson_PYTHIA.txt -t template_crab_grid_copyToCastor_MC.cfg -c Inputs_Summer2011_V00-02-06/rootTupleMaker_MC_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011
 
 ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple2011 -v RootNtuple-V00-02-06-Summer11MC_GammaJets_PYTHIA -i Inputs_Summer2011_V00-02-06/InputList_GammaJets_PYTHIA.txt -t template_crab_grid_copyToCastor_MC.cfg -c Inputs_Summer2011_V00-02-06/rootTupleMaker_MC_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011
 
 ./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple2011 -v RootNtuple-V00-02-06-Summer11MC_QCDMuEnriched_PYTHIA -i Inputs_Summer2011_V00-02-06/InputList_QCDMuEnriched_PYTHIA.txt -t template_crab_grid_copyToCastor_MC.cfg -c Inputs_Summer2011_V00-02-06/rootTupleMaker_MC_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtuple2011 -v RootNtuple-V00-02-06-Summer11MC_QCDEmEnriched_BCToE_PYTHIA -i Inputs_Summer2011_V00-02-06/InputList_QCDEmEnriched_BCToE_PYTHIA.txt -t template_crab_grid_copyToCastor_MC.cfg -c Inputs_Summer2011_V00-02-06/rootTupleMaker_MC_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011
 
 
 ### Standard Model Sherpa - Z, W
