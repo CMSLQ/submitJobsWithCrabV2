@@ -65,3 +65,29 @@
 
 ./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011A -v RootNtuple-V00-02-06-2011AData-PromptReco_v6-Photon -i Inputs_Data2011A/Inputs_PromptReco_v6/InputList_Photon.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011A/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 172620-175770
 
+#-------------------------------------------------------
+# TauPlusX
+#-------------------------------------------------------
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011A -v RootNtuple-V00-02-06-2011AData-ReReco_May10-TauPlusX  -i Inputs_Data2011A/Inputs_ReReco_May10/InputList_TauPlusX.txt  -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011A/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 160329-163869
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011A -v RootNtuple-V00-02-06-2011AData-PromptReco_v4-TauPlusX -i Inputs_Data2011A/Inputs_PromptReco_v4/InputList_TauPlusX.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011A/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 165071-168437
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011A -v RootNtuple-V00-02-06-2011AData-ReReco_Aug05-TauPlusX  -i Inputs_Data2011A/Inputs_ReReco_Aug05/InputList_TauPlusX.txt  -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011A/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 170053-172619
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011A -v RootNtuple-V00-02-06-2011AData-PromptReco_v6-TauPlusX -i Inputs_Data2011A/Inputs_PromptReco_v6/InputList_TauPlusX.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011A/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 172620-175770
+
+
+#-------------------------------------------------------
+# Tau
+#-------------------------------------------------------
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011A -v RootNtuple-V00-02-06-2011AData-ReReco_May10-Tau  -i Inputs_Data2011A/Inputs_ReReco_May10/InputList_Tau.txt  -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011A/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 160329-163869
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011A -v RootNtuple-V00-02-06-2011AData-PromptReco_v4-Tau -i Inputs_Data2011A/Inputs_PromptReco_v4/InputList_Tau.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011A/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 165071-168437
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011A -v RootNtuple-V00-02-06-2011AData-ReReco_Aug05-Tau  -i Inputs_Data2011A/Inputs_ReReco_Aug05/InputList_Tau.txt  -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011A/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 170053-172619
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011A -v RootNtuple-V00-02-06-2011AData-PromptReco_v6-Tau -i Inputs_Data2011A/Inputs_PromptReco_v6/InputList_Tau.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011A/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 172620-175770
+
+
