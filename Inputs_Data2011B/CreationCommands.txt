@@ -1,0 +1,54 @@
+#-------------------------------------------------------
+# SingleElectron
+#-------------------------------------------------------
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011B -v RootNtuple-V00-02-06-2011BData-PromptReco_v1-SingleElectron -i Inputs_Data2011B/Inputs_PromptReco_v1/InputList_SingleElectron.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011B/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 175832-180296
+
+#-------------------------------------------------------
+# ElectronHad
+#-------------------------------------------------------
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011B -v RootNtuple-V00-02-06-2011BData-PromptReco_v1-ElectronHad -i Inputs_Data2011B/Inputs_PromptReco_v1/InputList_ElectronHad.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011B/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 175832-180296
+
+#-------------------------------------------------------
+# DoubleElectron
+#-------------------------------------------------------
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011B -v RootNtuple-V00-02-06-2011BData-PromptReco_v1-DoubleElectron -i Inputs_Data2011B/Inputs_PromptReco_v1/InputList_DoubleElectron.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011B/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 175832-180296
+
+#-------------------------------------------------------
+# SingleMu
+#-------------------------------------------------------
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011B -v RootNtuple-V00-02-06-2011BData-PromptReco_v1-SingleMu -i Inputs_Data2011B/Inputs_PromptReco_v1/InputList_SingleMu.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011B/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 175832-180296
+
+#-------------------------------------------------------
+# DoubleMu
+#-------------------------------------------------------
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011B -v RootNtuple-V00-02-06-2011BData-PromptReco_v1-DoubleMu -i Inputs_Data2011B/Inputs_PromptReco_v1/InputList_DoubleMu.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011B/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 175832-180296
+
+#-------------------------------------------------------
+# Photon
+#-------------------------------------------------------
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011B -v RootNtuple-V00-02-06-2011BData-PromptReco_v1-Photon -i Inputs_Data2011B/Inputs_PromptReco_v1/InputList_Photon.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011B/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 175832-180296
+
+#-------------------------------------------------------
+# TauPlusX
+#-------------------------------------------------------
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011B -v RootNtuple-V00-02-06-2011BData-PromptReco_v1-TauPlusX -i Inputs_Data2011B/Inputs_PromptReco_v1/InputList_TauPlusX.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011B/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 175832-180296
+
+#-------------------------------------------------------
+# Tau
+#-------------------------------------------------------
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011B -v RootNtuple-V00-02-06-2011BData-PromptReco_v1-Tau -i Inputs_Data2011B/Inputs_PromptReco_v1/InputList_Tau.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011B/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 175832-180296
+
+#-------------------------------------------------------
+# MuEG
+#-------------------------------------------------------
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011B -v RootNtuple-V00-02-06-2011BData-PromptReco_v1-MuEG -i Inputs_Data2011B/Inputs_PromptReco_v1/InputList_MuEG.txt -t template_crab_grid_copyToCastor.cfg -c Inputs_Data2011B/rootTupleMaker_DATA_cfg.py -n `whoami` -u LeptonsPlusJets/RootNtuple2011 -r 175832-180296
+
