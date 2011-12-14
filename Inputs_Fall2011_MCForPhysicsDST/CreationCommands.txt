@@ -1,0 +1,16 @@
+# From the /CMSSW_4_2_5_LQ/src/Leptoquarks/submitJobsWithCrabV2/ directory, issue the following creation commands:
+# put instructions to create CMSSW area for hlt reprocessing
+
+### DiJet resonances
+
+
+TO CASTOR:
+
+./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleFall2011MCForPhysicsDST -v RAW-PhysicsDST-GenInfo -i Inputs_Fall2011_MCForPhysicsDST/InputList_QstarToJJ.txt -t template_crab_grid_copyToCastor_MC.cfg -c Inputs_Fall2011_MCForPhysicsDST/hlt_mc_cfg.py -n `whoami` -u DiJets/GEN-RAW_PhysicsDST
+
+
+TO CMS CERN T3:
+
+./createJobsWithCrabCMSCERNT3.pl -d `pwd`/RootNtupleFall2011MCForPhysicsDST -v RAW-PhysicsDST-GenInfo -i Inputs_Fall2011_MCForPhysicsDST/InputList_QstarToJJ.txt -t template_crab_grid_copyToCMSCERNT3_MC.cfg -c Inputs_Fall2011_MCForPhysicsDST/hlt_mc_cfg.py -n `whoami` -u DiJets/GEN-RAW_PhysicsDST
+
+
