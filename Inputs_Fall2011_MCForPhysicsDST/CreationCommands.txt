@@ -3,6 +3,10 @@
 
 ### DiJet resonances ###
 
+Remember to modify the files createJobsWithCrabCastor.pl and createJobsWithCrabCMSCERNT3.pl
+
+$templateCMSSWFileLine = "    fileName = cms.untracked.string\(\"$outputfile\"\)\,";
+
 
 TO CASTOR:
 
