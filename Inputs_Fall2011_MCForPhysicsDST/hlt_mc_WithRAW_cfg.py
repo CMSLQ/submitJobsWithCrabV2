@@ -35913,7 +35913,17 @@ process.hltOutputPhysicsDST = cms.OutputModule( "PoolOutputModule",
                                             'keep *_addPileupInfo_*_*',
                                             'keep *_genMetCaloAndNonPrompt_*_*',
                                             'keep *_genMetCalo_*_*',
-                                            'keep *_genMetTrue_*_*'         
+                                            'keep *_genMetTrue_*_*',
+                                            'keep *_ak7GenJets_*_*',
+                                            'keep *_kt6GenJets_*_*',
+                                            'keep *_ak5GenJets_*_*',
+                                            'keep *_iterativeCone5GenJets_*_*',
+                                            'keep *_kt4GenJets_*_*',
+                                            'keep *_simMuonCSCDigis_*_*',
+                                            'keep *_simMuonRPCDigis_*_*',
+                                            'keep *_simMuonDTDigis_*_*',                                            
+                                            'keep *_g4SimHits_*_*',
+                                            'keep *_randomEngineStateProducer_*_*'
                                             )
 )
 process.hltOutputRPCMON = cms.OutputModule( "PoolOutputModule",
