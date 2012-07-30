@@ -351,8 +351,8 @@ sub help(){
     print "-c <myCMSSWconfig>:        choose the CMSSW config file\n";
     print "-n <EOSUserName>:          choose the EOS user name\n";
     print "-u <EOSUserStorageDir>:    choose the storage dir in EOS (i.e. myMETdir/MyMETrooTuples; the prefix will be /eos/cms/store/user/<EOSUserName>)\n";
-    print "-r <runNumber>:            choose the run number to process (optional, use only in NORMAL MODE) \n ";
-    print "-j <jsonFile>:             choose the json file (*mandatory* in JSON MODE, don't use in NORMAL MODE) \n ";
-    print "-h <yes>:                  to print the help \n";
+    print "-r <runNumber>:            choose the run number to process (optional, use only in NORMAL MODE)\n";
+    print "-j <jsonFile>:             choose the json file (*mandatory* in JSON MODE, don't use in NORMAL MODE)\n";
+    print "-h <yes>:                  to print the help\n";
     die "please, try again...\n";
 }
