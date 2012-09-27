@@ -1,0 +1,1 @@
+/DoublePhotonHighPt/Run2012C-PromptReco-v2/AOD -1 100
