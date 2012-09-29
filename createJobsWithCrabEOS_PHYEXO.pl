@@ -2,8 +2,6 @@
 
 #--------------------------------------------------------------
 # Francesco Santanastasio  <francesco.santanastasio@cern.ch>
-#
-# -- edited for EOS output Halil Saka
 #--------------------------------------------------------------
 
 print "Starting...\n";
@@ -341,11 +339,12 @@ foreach $inputListLine(@inputListFile)
 #---------------------------------------------------------#
 
 sub help(){
-    print "Usage: ./createJobsWithCrabEOS.pl -d <storageDir> -v <tagname> -i <inputList> -t <templateCrab> -c <myCMSSWconfig> [-r <runNumber> optional] [-j <jsonFile> mandatory in JSON MODE] [-h <help?>] \n";
-    print "See https://twiki.cern.ch/twiki/bin/view/CMS/ExoticaLeptoquarkShiftMakeRootTuplesV2 for more details \n";
-    print "Example1 (NORMAL MODE): ./createJobsWithCrabEOS.pl -d `pwd`/RootNtuple -v RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy -i inputList.txt -t template_crab_grid_copyToEOS.cfg -c template_CMSSW_cfg.py -n santanas -u LQ/RootNtuple \n";
-    print "Example2 (JSON MODE): ./createJobsWithCrabEOS.pl -d `pwd`/RootNtuple -v RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy -i inputList.txt -t template_crab_grid_copyToEOS_JSON.cfg -c template_CMSSW_cfg.py -n santanas -u LQ/RootNtuple -j Cert_132440-133336_StreamExpress_Commissioning10-Express_DQM_JSON.txt \n";
-    print "Example3 (NORMAL MODE + RUN SELECTION): ./createJobsWithCrabEOS.pl -d `pwd`/RootNtuple -v RootNtuple-V00-00-02-DATA-xxxxxx-yyyyyy -i inputList.txt -t template_crab_grid_copyToEOS.cfg -c template_CMSSW_cfg.py -n santanas -u LQ/RootNtuple -r 132440 \n";
+    print "Usage: ./createJobsWithCrabEOS_PHYEXO.pl -d <storageDir> -v <tagname> -i <inputList> -t <templateCrab> -c <myCMSSWconfig> -n <EOSUserName> [-r <runNumber> optional] [-j <jsonFile> mandatory in JSON MODE] [-h <help?>] \n";
+    print "See https://twiki.cern.ch/twiki/bin/view/CMS/ExoticaLeptoquarkShiftMakeRootTuplesV22012 for more details \n";
+    print "Example1 (NORMAL MODE): ./createJobsWithCrabEOS_PHYEXO.pl -d `pwd`/RootNtuple -v V00-03-07-DATA-xxxxxx-yyyyyy -i inputList.txt -t template_crab_grid_copyToEOS.cfg -c rootTupleMaker_CRAB_DATA_2012_53X_cfg.py -n <EOSUserName> \n";
+    print "Example2 (NORMAL MODE + RUN SELECTION): ./createJobsWithCrabEOS_PHYEXO.pl -d `pwd`/RootNtuple -v V00-03-07-DATA-xxxxxx-yyyyyy -i inputList.txt -t template_crab_grid_copyToEOS.cfg -c rootTupleMaker_CRAB_DATA_2012_53X_cfg.py -n <EOSUserName> -r 132440 \n";
+    print "Example3 (JSON MODE): ./createJobsWithCrabEOS_PHYEXO.pl -d `pwd`/RootNtuple -v V00-03-07-DATA-xxxxxx-yyyyyy -i inputList.txt -t template_crab_grid_copyToEOS_JSON.cfg -c rootTupleMaker_CRAB_DATA_2012_53X_cfg.py -n <EOSUserName> -j JSON.txt \n";
+
     print "Options:\n";
     print "-d <storageDir>:           choose the local storage directory\n";
     print "-v <tagname>:              choose the tagname of RootNtupleMaker\n";
@@ -353,7 +352,6 @@ sub help(){
     print "-t <templateCrab>:         choose the crab template\n";
     print "-c <myCMSSWconfig>:        choose the CMSSW config file\n";
     print "-n <EOSUserName>:          choose the EOS user name\n";
-    #print "-u <EOSUserStorageDir>:    choose the storage dir in EOS (the prefix will be /eos/cms/store/group/phys_exotica/leptonsPlusJets/<EOSUserName>/)\n";
     print "-r <runNumber>:            choose the run number to process (optional, use only in NORMAL MODE)\n";
     print "-j <jsonFile>:             choose the json file (*mandatory* in JSON MODE, don't use in NORMAL MODE)\n";
     print "-h <yes>:                  to print the help\n";

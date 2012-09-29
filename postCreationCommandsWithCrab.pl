@@ -229,9 +229,9 @@ print ">>>>>> full output from the commands \"crab -status\" at $fullCrabStatusO
 
 sub help(){
     print "Usage: ./postCreationCommandsWithCrab.pl -d <prodDir> [-s <submitJobs?> -g <getOutput?> -k <killJobs?> -r <resubmitJobs?> -p <publishJobs> -h <help?>] \n";
-    print "Example to only get the status: ./postCreationCommandsWithCrab.pl -d /home/santanas/Data/test/RootNtuples/V00-00-05_xxx_xxx \n";
-    print "Example to submit: ./postCreationCommandsWithCrab.pl -d /home/santanas/Data/test/RootNtuples/V00-00-05_xxx_xxx -s yes \n";
-    print "Example to kill jobs: ./postCreationCommandsWithCrab.pl -d /home/santanas/Data/test/RootNtuples/V00-00-05_xxx_xxx -k yes \n";
+    print "Example to only get the status: ./postCreationCommandsWithCrab.pl -d /<dir-path>/RootNtuples/V00-03-07-DATA-xxxxxx-yyyyyy \n";
+    print "Example to submit: ./postCreationCommandsWithCrab.pl -d /<dir-path>/RootNtuples/V00-03-07-DATA-xxxxxx-yyyyyy -s yes \n";
+    print "Example to kill jobs: ./postCreationCommandsWithCrab.pl -d /<dir-path>/RootNtuples/V00-03-07-DATA-xxxxxx-yyyyyy -k yes \n";
     print "Options:\n";
     print "-d <prodDir>:          choose the production directory\n";
     print "-h <yes> :             to print the help \n";
