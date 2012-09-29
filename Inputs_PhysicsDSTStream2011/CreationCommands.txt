@@ -1,7 +1,0 @@
-# From the /CMSSW_4_2_5_LQ/src/Leptoquarks/submitJobsWithCrabV2/ directory, issue the following creation commands:
-
-#-------------------------------------------------------
-# PhysicsDST (2011B)
-#-------------------------------------------------------
-
-./createJobsWithCrabCastor.pl -d `pwd`/RootNtupleData2011B -v RootNtuple-HEAD_Nov3-2011BData-PhysicsDST-179959-180282  -i Inputs_PhysicsDSTStream2011/InputList_PhysicsDSTStream2011.txt  -t template_crab_grid_copyToCastor_UseCAF.cfg -c Inputs_PhysicsDSTStream2011/rootTupleMaker_DATA_PhysicsDSTStream2011_cfg.py -n `whoami` -u DiJets/RootNtuple2011 -r 179959-180282
