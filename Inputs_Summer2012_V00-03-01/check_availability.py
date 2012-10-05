@@ -20,6 +20,7 @@ t1_site_ses = [ "srm-cms.cern.ch",
                   
 
 d_fileName_missingDatasets = {} 
+d_fileName_tier01Datasets = {}
 d_fileName_isReady = {} 
 
 datasets_that_need_to_be_moved_to_T2 = []
@@ -29,6 +30,7 @@ for txt_file_name in txt_file_names :
     
     if verbose: print txt_file_name
 
+    d_fileName_tier01Datasets  [ txt_file_name ] = []
     d_fileName_missingDatasets [ txt_file_name ] = []
     d_fileName_isReady         [ txt_file_name ] = True
     
@@ -64,9 +66,10 @@ for txt_file_name in txt_file_names :
             for site in t23_sites: 
                 if verbose: print "\t\t", site
         elif len ( t01_sites ) != 0:
-            for site in t01_sites:
-                if verbose: print "Request move to T2:", dataset
-                datasets_that_need_to_be_moved_to_T2.append ( dataset ) 
+            if verbose: print "Request move to T2:", dataset
+            d_fileName_tier01Datasets  [ txt_file_name ].append ( dataset ) 
+            d_fileName_isReady         [ txt_file_name ] = False
+            datasets_that_need_to_be_moved_to_T2.append ( dataset )                 
         else : 
             if verbose: print "\t\tNO SITES"
             d_fileName_missingDatasets [ txt_file_name ].append ( dataset ) 
@@ -93,13 +96,24 @@ out_file.write ( my_string + "\n" )
 
 for txt_file_name in txt_file_names : 
     if not d_fileName_isReady[txt_file_name]: 
-        my_string = "\t" + txt_file_name +"\n" "\t\t" + "waiting for:"
-        print my_string
-        out_file.write ( my_string + "\n" )
-        for missing_dataset in d_fileName_missingDatasets [ txt_file_name ]:
-            my_string = "\t\t"  + missing_dataset
+        
+        if len ( d_fileName_missingDatasets [ txt_file_name ] ) != 0 :
+            my_string = "\t" + txt_file_name +"\n" "\t\t" + "waiting for these datasets to complete:"
             print my_string
             out_file.write ( my_string + "\n" )
+            for missing_dataset in d_fileName_missingDatasets [ txt_file_name ]:
+                my_string = "\t\t"  + missing_dataset
+                print my_string
+                out_file.write ( my_string + "\n" )
+
+        if len ( d_fileName_tier01Datasets  [ txt_file_name ] ) != 0 :
+            my_string = "\t" + txt_file_name +"\n" "\t\t" + "waiting for these datasets to be moved to a T2 or T3:" 
+            print my_string
+            out_file.write ( my_string + "\n" )
+            for tier01_dataset in d_fileName_tier01Datasets [ txt_file_name ]:
+                my_string = "\t\t"  + tier01_dataset
+                print my_string
+                out_file.write ( my_string + "\n" )
     
 if len ( datasets_that_need_to_be_moved_to_T2 ) != 0: 
     
