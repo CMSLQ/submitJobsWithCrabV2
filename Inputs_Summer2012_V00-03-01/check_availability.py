@@ -1,9 +1,9 @@
 import os, sys, datetime
 import subprocess as sp
 
-txt_file_names = sp.Popen ( "ls *.txt", shell=True, stdout=sp.PIPE ).communicate()[0].split()
+txt_file_names = sp.Popen ( "ls InputList*.txt", shell=True, stdout=sp.PIPE ).communicate()[0].split()
 
-verbose = False
+verbose = True
 
 t0_site_ses = [ "srm-cms.cern.ch" ]
 t1_site_ses = [ "srm-cms.cern.ch",
@@ -26,9 +26,17 @@ d_fileName_isReady = {}
 datasets_that_need_to_be_moved_to_T2 = []
 missingDatasets = [] 
 
-for txt_file_name in txt_file_names : 
-    
-    if verbose: print txt_file_name
+if verbose:
+    print "I will examine these txt files:"
+    for txt_file_name in txt_file_names : 
+        print "\t", txt_file_name
+    print "\n\n"
+
+n_txt_file_names = len ( txt_file_names ) 
+
+for i_txt_file_name, txt_file_name in enumerate(txt_file_names):
+
+    if verbose: print i_txt_file_name + 1, "/", n_txt_file_names, "\t:\t", txt_file_name
 
     d_fileName_tier01Datasets  [ txt_file_name ] = []
     d_fileName_missingDatasets [ txt_file_name ] = []
@@ -37,6 +45,9 @@ for txt_file_name in txt_file_names :
     txt_file = open ( txt_file_name, "r" ) 
     
     for line in txt_file:
+        
+        line = line.strip()
+        if line == "" : continue
         
         dataset = line.split()[0] 
         
