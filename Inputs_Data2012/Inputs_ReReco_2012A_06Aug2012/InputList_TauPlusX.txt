@@ -1,1 +1,1 @@
-/TauPlusX/Run2012A-recover-06Aug2012-v1/AOD -1 100
+/TauPlusX/Run2012A-recover-06Aug2012-v1/AOD	-1	56

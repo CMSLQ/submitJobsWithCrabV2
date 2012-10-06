@@ -1,1 +1,1 @@
-/SinglePhoton/Run2012C-24Aug2012-v1/AOD -1 100
+/SinglePhoton/Run2012C-24Aug2012-v1/AOD	-1	105

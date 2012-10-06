@@ -1,1 +1,1 @@
-/TauPlusX/Run2012C-PromptReco-v2/AOD -1 100
+/TauPlusX/Run2012C-PromptReco-v2/AOD	-1	450
