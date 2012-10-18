@@ -1,3 +1,0 @@
-/GJets_TuneZ2_40_HT_100_7TeV-madgraph/Summer11-PU_S4_START42_V11-v1/AODSIM      -1 60
-/GJets_TuneZ2_100_HT_200_7TeV-madgraph/Summer11-PU_S4_START42_V11-v1/AODSIM     -1 20
-/GJets_TuneZ2_200_HT_inf_7TeV-madgraph/Summer11-PU_S4_START42_V11-v1/AODSIM     -1 50
