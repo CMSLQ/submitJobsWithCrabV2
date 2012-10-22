@@ -1,4 +1,0 @@
-/DYJetsToLL_M-50_matchingup_8TeV-madgraph/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM		-1 10
-/DYJetsToLL_M-50_matchingdown_8TeV-madgraph/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM		-1 10
-/DYJetsToLL_M-50_scaleup_8TeV-madgraph-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM	-1 10
-/DYJetsToLL_M-50_scaledown_8TeV-madgraph-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM	-1 10
