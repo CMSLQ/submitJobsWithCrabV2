@@ -80,7 +80,7 @@ process.TFileService = cms.Service("TFileService",
 # Make sure a correct global tag is used:
 # https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideFrontierConditions#Valid_Global_Tags_by_Release
 
-process.GlobalTag.globaltag = 'GR_P_V42_AN3::All'
+process.GlobalTag.globaltag = 'globalTagGoesHere::All'
 
 # Events to process
 process.maxEvents.input = -1

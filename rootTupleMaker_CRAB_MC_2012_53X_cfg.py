@@ -79,7 +79,7 @@ process.TFileService = cms.Service("TFileService",
 process.GlobalTag.globaltag = 'START53_V7G::All'
 
 # Events to process
-process.maxEvents.input = 5
+process.maxEvents.input = -1
 
 # Input files
 process.source.fileNames = [
