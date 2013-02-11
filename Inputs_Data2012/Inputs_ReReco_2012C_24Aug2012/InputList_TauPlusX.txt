@@ -1,1 +1,1 @@
-/TauPlusX/Run2012C-EcalRecover_11Dec2012-v1/AOD	-1	100
+/TauPlusX/Run2012C-24Aug2012-v1/AOD	-1	313
