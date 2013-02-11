@@ -164,6 +164,12 @@ addTcMET(process, 'TC')
 process.load("Leptoquarks.RootTupleMakerV2.metFilters_cfi")
 
 #----------------------------------------------------------------------------------------------------
+# Rerun full HPS sequence to fully profit from the fix of high pT taus
+#----------------------------------------------------------------------------------------------------
+
+process.load("RecoTauTag.Configuration.RecoPFTauTag_cff")
+
+#----------------------------------------------------------------------------------------------------
 # Modify cleanPatTaus (HPS Taus) - loosen up a bit
 # http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/CMSSW/PhysicsTools/PatAlgos/python/cleaningLayer1/tauCleaner_cfi.py?revision=1.11&view=markup
 #----------------------------------------------------------------------------------------------------
@@ -298,17 +304,19 @@ process.LJFilter.tauLabel  = cms.InputTag("cleanPatTaus")
 process.LJFilter.muLabel   = cms.InputTag("cleanPatMuons")
 process.LJFilter.elecLabel = cms.InputTag("cleanPatElectrons")
 process.LJFilter.jetLabel  = cms.InputTag("cleanPatJetsAK5PF")
-process.LJFilter.muonsMin = 1
-process.LJFilter.muPT     = 25.0
-process.LJFilter.electronsMin = 1
-process.LJFilter.elecPT       = 25.0
-process.LJFilter.tausMin = 1
-process.LJFilter.tauPT   = 25.0
+process.LJFilter.muonsMin = 0
+process.LJFilter.muPT     = 10.0
+process.LJFilter.electronsMin = 0
+process.LJFilter.elecPT       = 15.0
+process.LJFilter.tausMin = 0
+process.LJFilter.tauPT   = 15.0
+process.LJFilter.jetsMin = 0
+process.LJFilter.jetPT   = 15.0
 process.LJFilter.counteitherleptontype = True
 process.LJFilter.customfilterEMuTauJet2012 = True
 # -- WARNING :
-# "customfilterEMuTauJet2012" configuration is hard-coded. If enabled, other configuration parameters will NOT have any effect.
-# (see: http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/Leptoquarks/LeptonJetFilter/src/LeptonJetFilter.cc?revision=1.12&view=markup )
+# "customfilterEMuTauJet2012" configuration is hard-coded.
+# (see: http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/Leptoquarks/LeptonJetFilter/src/LeptonJetFilter.cc )
 # "customfilterEMuTauJet2012" is the desired mode of operation for the Lepton+Jets Filter in 2012.
 
 #----------------------------------------------------------------------------------------------------
@@ -402,6 +410,8 @@ process.p = cms.Path(
     process.patMETsRawPF*         # PFMET  : Raw
     process.patMETsAK5PF*         # PFMET  : Type 0+1 corrections
     process.patMETsAK5PFXYShift*  # PFMET  : Type 0+1 corrections, X/Y shift
+    # Re-run full HPS sequence to fully profit from the fix of high pT taus
+    process.recoTauClassicHPSSequence*
     # RootTupleMakerV2
     (
     process.rootTupleEvent+
