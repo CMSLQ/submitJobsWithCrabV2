@@ -1,0 +1,1 @@
+/DoubleElectron/Run2012C-EcalRecover_11Dec2012-v1/AOD	-1	100
