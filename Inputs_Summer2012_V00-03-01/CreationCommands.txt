@@ -78,6 +78,24 @@
 ./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-11-Summer12MC_SingleTop_MG -i Inputs_Summer2012_V00-03-01/InputList_SingleTop_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
+# TTBar - Fully Leptonic Decays (MadGraph) 
+#------------------------------------------------------------
+
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-11-Summer12MC_TTJets_FullLeptMGDecays -i Inputs_Summer2012_V00-03-01/InputList_TTBar_FullLep_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+
+#------------------------------------------------------------
+# TTBar - Semi Leptonic Decays (MadGraph) 
+#------------------------------------------------------------
+
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-11-Summer12MC_TTJets_SemiLeptMGDecays -i Inputs_Summer2012_V00-03-01/InputList_TTBar_SemiLep_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+
+#------------------------------------------------------------
+# TTBar - Hadronic Decays (MadGraph) 
+#------------------------------------------------------------
+
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-11-Summer12MC_TTJets_HadronicMGDecays -i Inputs_Summer2012_V00-03-01/InputList_TTBar_Had_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+
+#------------------------------------------------------------
 # TTBar (MadGraph) 
 #------------------------------------------------------------
 
