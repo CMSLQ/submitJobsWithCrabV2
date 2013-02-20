@@ -1,9 +1,0 @@
-/ZJetsToLL_TuneZ2_scaleup_7TeV-madgraph-tauola/Summer11-PU_S4_START42_V11-v1/AODSIM  -1 10
-/ZJetsToLL_TuneZ2_scaledown_7TeV-madgraph-tauola/Summer11-PU_S4_START42_V11-v1/AODSIM -1 10
-/WJetsToLNu_TuneZ2_scaleup_7TeV-madgraph-tauola/Summer11-PU_S4_START42_V11-v1/AODSIM -1 10
-/WJetsToLNu_TuneZ2_scaledown_7TeV-madgraph-tauola/Summer11-PU_S4_START42_V11-v1/AODSIM -1 10
-/ZJetsToLL_TuneZ2_matchingup_7TeV-madgraph-tauola/Summer11-PU_S4_START42_V11-v1/AODSIM -1 10
-/ZJetsToLL_TuneZ2_matchingdown_7TeV-madgraph-tauola/Summer11-PU_S4_START42_V11-v1/AODSIM -1 10
-/WJetsToLNu_TuneZ2_matchingup_7TeV-madgraph-tauola/Summer11-PU_S4_START42_V11-v1/AODSIM -1 10
-/WJetsToLNu_TuneZ2_matchingdown_7TeV-madgraph-tauola/Summer11-PU_S4_START42_V11-v1/AODSIM -1 10
-
