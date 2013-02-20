@@ -67,15 +67,15 @@ process.TFileService = cms.Service("TFileService",
 # Correct global tags for 2012 ReReco data are here:
 # https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideFrontierConditions#Summary_of_Global_Tags_used_in_o
 #
-# Recommendations as of Feb 8, 2013:
+# Recommendations as of Feb 20, 2013:
 # Summer12_DR53X  MC               (*/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM) : START53_V7G
 # 2012 A          Data ReReco      (*/Run2012A-recover-06Aug2012-v1/AOD)           : FT_53_V6C_AN3
-# 2012 A          Data ReReco      (*/Run2012A-13Jul2012-v1/AOD)                   : FT_53_V6_AN3
-# 2012 B          Data ReReco      (*/Run2012B-13Jul2012-v1/AOD)                   : FT_53_V6_AN3
-# 2012 C          Data ReReco      (*/Run2012C-24Aug2012-v1/AOD)                   : FT_53_V10_AN3
+# 2012 A          Data ReReco      (*/Run2012A-13Jul2012-v1/AOD)                   : FT_53_V6C_AN3
+# 2012 B          Data ReReco      (*/Run2012B-13Jul2012-v1/AOD)                   : FT_53_V6C_AN3
+# 2012 C          Data ReReco      (*/Run2012C-24Aug2012-v1/AOD)                   : FT53_V10A_AN3
 # 2012 C          Data ReReco      (*/Run2012C-EcalRecover_11Dec2012-v1/AOD)       : FT_P_V42C_AN3
-# 2012 C          Prompt Reco      (*/Run2012C-PromptReco-v2/AOD)                  : GR_P_V41_AN3
-# 2012 D          Prompt Reco      (*/Run2012D-PromptReco-v1/AOD)                  : GR_P_V42_AN3
+# 2012 C          Prompt Reco      (*/Run2012C-PromptReco-v2/AOD)                  : GR_P_V42_AN3
+# 2012 D          Prompt Reco      (*/Run2012D-PromptReco-v1/AOD)                  : GR_P_V42_AN3 
 # 
 # Make sure a correct global tag is used:
 # https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideFrontierConditions#Valid_Global_Tags_by_Release
@@ -87,11 +87,7 @@ process.maxEvents.input = -1
 
 # Input files
 process.source.fileNames = [
-    #'file:///afs/cern.ch/user/e/eberry/work/ZprimePSIToEE_M-2000_TuneZ2star_8TeV-pythia6_TEST.root'
-    # 'file:///afs/cern.ch/user/e/eberry/work/Run2012B_ElectronHad_AOD_PromptReco-v1_TEST.root'
-    #'file:///afs/cern.ch/user/e/eberry/9EE168D0-71FB-E111-B552-BCAEC5329717.root'
-    'root://eoscms//eos/cms/store/user/hsaka/2012prep/Run2012C_SingleElectron_AOD_PromptReco-v2_TEST.root'
-    #'rfio:///castor/cern.ch/user/h/hsaka/2012prep/Run2012B_ElectronHad_AOD_PromptReco-v1_TEST.root'
+        #Specified by InputList.txt
 ]
 
 #----------------------------------------------------------------------------------------------------
