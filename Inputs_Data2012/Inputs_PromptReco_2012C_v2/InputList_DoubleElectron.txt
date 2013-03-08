@@ -1,1 +1,1 @@
-/DoubleElectron/Run2012D-PromptReco-v1/AOD	-1	450
+/DoubleElectron/Run2012C-PromptReco-v2/AOD	-1	450
