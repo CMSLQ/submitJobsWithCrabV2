@@ -540,19 +540,26 @@ process.p = cms.Path(
     process.rootTupleTree
 )
 
+
 #----------------------------------------------------------------------------------------------------
-# Dump the root file
+# Dump if necessary
 #----------------------------------------------------------------------------------------------------
 
-process.dump_module = cms.OutputModule("PoolOutputModule",
-    outputCommands = cms.untracked.vstring('keep *'),
-    fileName       = cms.untracked.string ('dump.root')
-)
-process.dump = cms.EndPath (process.dump_module )
+#process.dump = cms.OutputModule("PoolOutputModule",
+#                                outputCommands = cms.untracked.vstring(
+#                                'keep *',
+#                                ),
+#                                fileName = cms.untracked.string('dump.root')
+#                                )
+#process.DUMP    = cms.EndPath (process.dump)
+
+# Delete predefined Endpath (needed for running with CRAB)
+del process.out
+del process.outpath
 
 
 #----------------------------------------------------------------------------------------------------
 # Run the path
 #----------------------------------------------------------------------------------------------------
 
-process.schedule = cms.Schedule(process.p,process.dump)
+process.schedule = cms.Schedule(process.p)
