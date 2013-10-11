@@ -38,7 +38,12 @@
 ./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Data2012_22JanReReco_V00-03-12 -v RootNtuple-V00-03-12-DATA-2012C_22JanReReco_SingleElectron -i Inputs_Data2012_22JanReReco/Inputs_2012C_22JanReReco/InputList_SingleElectron.txt  -t template_crab_grid_copyToEOS_JSON.cfg -c rootTupleMaker_CRAB_DATA_2012ABCD_ReReco_22Jan2013_53X_cfg.py -n $USER -j /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions12/8TeV/DCSOnly/json_DCSONLY.txt
 ./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Data2012_22JanReReco_V00-03-12 -v RootNtuple-V00-03-12-DATA-2012D_22JanReReco_SingleElectron -i Inputs_Data2012_22JanReReco/Inputs_2012D_22JanReReco/InputList_SingleElectron.txt  -t template_crab_grid_copyToEOS_JSON.cfg -c rootTupleMaker_CRAB_DATA_2012ABCD_ReReco_22Jan2013_53X_cfg.py -n $USER -j /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions12/8TeV/DCSOnly/json_DCSONLY.txt
  
- 
+# ----------------------------------------------
+#  Photon
+# ----------------------------------------------
+
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Data2012_22JanReReco_V00-03-12 -v RootNtuple-V00-03-12-DATA-2012A_22JanReReco_Photon -i Inputs_Data2012_22JanReReco/Inputs_2012A_22JanReReco/InputList_Photon.txt -t template_crab_grid_copyToEOS_JSON.cfg -c rootTupleMaker_CRAB_DATA_2012ABCD_ReReco_22Jan2013_53X_cfg.py -n $USER -j /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions12/8TeV/DCSOnly/json_DCSONLY.txt
+
 # ----------------------------------------------
 #  SinglePhoton
 # ----------------------------------------------
