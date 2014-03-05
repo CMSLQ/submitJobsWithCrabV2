@@ -1,0 +1,2 @@
+/GJet_Pt-20to40_doubleEMEnriched_TuneZ2star_8TeV-pythia6/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM	-1	50
+/GJet_Pt40_doubleEMEnriched_TuneZ2star_8TeV-pythia6/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM		-1	50
