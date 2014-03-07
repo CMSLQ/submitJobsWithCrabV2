@@ -3,168 +3,168 @@
 # Diboson (Pythia) 
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_DiBoson_PYTHIA -i Inputs_Summer2012_V00-03-17/InputList_DiBoson_PYTHIA.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_DiBoson_PYTHIA -i Inputs_Summer2012_V00-03-18/InputList_DiBoson_PYTHIA.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # Gamma + Jets, Double EM Enriched (Pythia) 
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_GammaJets_DoubleEMEnriched_PYTHIA -i Inputs_Summer2012_V00-03-17/InputList_GammaJets_DoubleEMEnriched_PYTHIA.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_GammaJets_DoubleEMEnriched_PYTHIA -i Inputs_Summer2012_V00-03-18/InputList_GammaJets_DoubleEMEnriched_PYTHIA.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # Gamma + Jets (MadGraph) 
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_GammaJets_MG -i Inputs_Summer2012_V00-03-17/InputList_GammaJets_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_GammaJets_MG -i Inputs_Summer2012_V00-03-18/InputList_GammaJets_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # Gamma + Jets (Pythia) 
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_GammaJets_PYTHIA -i Inputs_Summer2012_V00-03-17/InputList_GammaJets_PYTHIA.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_GammaJets_PYTHIA -i Inputs_Summer2012_V00-03-18/InputList_GammaJets_PYTHIA.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # LQ1: Beta = 1/2
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_LQToUE_BetaHalf -i Inputs_Summer2012_V00-03-17/InputList_LQToUE_BetaHalf.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_LQToUE_BetaHalf -i Inputs_Summer2012_V00-03-18/InputList_LQToUE_BetaHalf.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # LQ1: Beta = 1
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_LQToUE_BetaOne -i Inputs_Summer2012_V00-03-17/InputList_LQToUE_BetaOne.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_LQToUE_BetaOne -i Inputs_Summer2012_V00-03-18/InputList_LQToUE_BetaOne.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # LQ2: Beta = 1/2
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_LQToCMu_BetaHalf -i Inputs_Summer2012_V00-03-17/InputList_LQToCMu_BetaHalf.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_LQToCMu_BetaHalf -i Inputs_Summer2012_V00-03-18/InputList_LQToCMu_BetaHalf.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # LQ2: Beta = 1
 #------------------------------------------------------------
 												     									      
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_LQToCMu_BetaOne -i Inputs_Summer2012_V00-03-17/InputList_LQToCMu_BetaOne.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_LQToCMu_BetaOne -i Inputs_Summer2012_V00-03-18/InputList_LQToCMu_BetaOne.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # LQ3: Beta = 1
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_LQToTTau_BetaOne -i Inputs_Summer2012_V00-03-17/InputList_LQToTTau_BetaOne.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_LQToTTau_BetaOne -i Inputs_Summer2012_V00-03-18/InputList_LQToTTau_BetaOne.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # QCD Pt 15 to 3000 flat (PYTHIA) 
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_QCDPt15to3000Flat_PYTHIA -i Inputs_Summer2012_V00-03-17/InputList_QCDPt15to3000Flat_PYTHIA.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_QCDPt15to3000Flat_PYTHIA -i Inputs_Summer2012_V00-03-18/InputList_QCDPt15to3000Flat_PYTHIA.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # QCD EM enriched (PYTHIA)
 #------------------------------------------------------------
 												     									      
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_QCD_EMEnriched_PYTHIA -i Inputs_Summer2012_V00-03-17/InputList_QCD_EMEnriched_PYTHIA.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_QCD_EMEnriched_PYTHIA -i Inputs_Summer2012_V00-03-18/InputList_QCD_EMEnriched_PYTHIA.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # QCD Mu enriched (PYTHIA)
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_QCD_MuEnriched_PYTHIA -i Inputs_Summer2012_V00-03-17/InputList_QCD_MuEnriched_PYTHIA.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_QCD_MuEnriched_PYTHIA -i Inputs_Summer2012_V00-03-18/InputList_QCD_MuEnriched_PYTHIA.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # Single top (MadGraph)
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_SingleTop_MG -i Inputs_Summer2012_V00-03-17/InputList_SingleTop_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_SingleTop_MG -i Inputs_Summer2012_V00-03-18/InputList_SingleTop_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # TTBar - Fully Leptonic Decays (MadGraph) 
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_TTJets_FullLeptMGDecays -i Inputs_Summer2012_V00-03-17/InputList_TTBar_FullLep_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_TTJets_FullLeptMGDecays -i Inputs_Summer2012_V00-03-18/InputList_TTBar_FullLep_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # TTBar - Semi Leptonic Decays (MadGraph) 
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_TTJets_SemiLeptMGDecays -i Inputs_Summer2012_V00-03-17/InputList_TTBar_SemiLep_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_TTJets_SemiLeptMGDecays -i Inputs_Summer2012_V00-03-18/InputList_TTBar_SemiLep_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # TTBar - Hadronic Decays (MadGraph) 
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_TTJets_HadronicMGDecays -i Inputs_Summer2012_V00-03-17/InputList_TTBar_Had_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_TTJets_HadronicMGDecays -i Inputs_Summer2012_V00-03-18/InputList_TTBar_Had_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # TTBar (MadGraph) 
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_TTBar_MG -i Inputs_Summer2012_V00-03-17/InputList_TTBar_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_TTBar_MG -i Inputs_Summer2012_V00-03-18/InputList_TTBar_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # TTBar (Powheg) 
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_TTBar_POWHEG -i Inputs_Summer2012_V00-03-17/InputList_TTBar_POWHEG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_TTBar_POWHEG -i Inputs_Summer2012_V00-03-18/InputList_TTBar_POWHEG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # TTBar Systematics (MadGraph) 
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_TTBar_Systematics_MG -i Inputs_Summer2012_V00-03-17/InputList_TTBar_Systematics_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_TTBar_Systematics_MG -i Inputs_Summer2012_V00-03-18/InputList_TTBar_Systematics_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # WJets (MadGraph) 
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_WJetsToLNu_MG -i Inputs_Summer2012_V00-03-17/InputList_WJets_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_WJetsToLNu_MG -i Inputs_Summer2012_V00-03-18/InputList_WJets_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # W + NJets (MadGraph) 
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_WNJetsToLNu_MG -i Inputs_Summer2012_V00-03-17/InputList_WJets_MG_JetBinned.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_WNJetsToLNu_MG -i Inputs_Summer2012_V00-03-18/InputList_WJets_MG_JetBinned.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # WJets Systematics (MadGraph) 
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_WJetsToLNu_Systematics_MG -i Inputs_Summer2012_V00-03-17/InputList_WJets_Systematics_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_WJetsToLNu_Systematics_MG -i Inputs_Summer2012_V00-03-18/InputList_WJets_Systematics_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # ZJets (MadGraph) 
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_DYJetsToLL_MG -i Inputs_Summer2012_V00-03-17/InputList_ZJets_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_DYJetsToLL_MG -i Inputs_Summer2012_V00-03-18/InputList_ZJets_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # Z + NJets (MadGraph) 
 #------------------------------------------------------------
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_DYNJetsToLL_MG -i Inputs_Summer2012_V00-03-17/InputList_ZJets_MG_JetBinned.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_DYNJetsToLL_MG -i Inputs_Summer2012_V00-03-18/InputList_ZJets_MG_JetBinned.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 #------------------------------------------------------------
 # ZJets Systematics (MadGraph) 
 #------------------------------------------------------------
 												     									      
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_DYJetsToLL_Systematics_MG -i Inputs_Summer2012_V00-03-17/InputList_ZJets_Systematics_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_DYJetsToLL_Systematics_MG -i Inputs_Summer2012_V00-03-18/InputList_ZJets_Systematics_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
 
 #------------------------------------------------------------
 # Rare SM for LQ3ToTTau
 #------------------------------------------------------------
 												     									      
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_sameSignWW -i Inputs_Summer2012_V00-03-17/InputList_sameSignWW.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_sameSignWW -i Inputs_Summer2012_V00-03-18/InputList_sameSignWW.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_WH_ZH_TTH_PYTHIA -i Inputs_Summer2012_V00-03-17/InputList_WH_ZH_TTH_PYTHIA.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_WH_ZH_TTH_PYTHIA -i Inputs_Summer2012_V00-03-18/InputList_WH_ZH_TTH_PYTHIA.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_WGstar_WWG_MG -i Inputs_Summer2012_V00-03-17/InputList_WGstar_WWG_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_WGstar_WWG_MG -i Inputs_Summer2012_V00-03-18/InputList_WGstar_WWG_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_VVtoLeptons -i Inputs_Summer2012_V00-03-17/InputList_VVtoLeptons.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_VVtoLeptons -i Inputs_Summer2012_V00-03-18/InputList_VVtoLeptons.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_VVV_MG -i Inputs_Summer2012_V00-03-17/InputList_VVV_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_VVV_MG -i Inputs_Summer2012_V00-03-18/InputList_VVV_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_TTV_MG -i Inputs_Summer2012_V00-03-17/InputList_TTV_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_TTV_MG -i Inputs_Summer2012_V00-03-18/InputList_TTV_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
-./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-17-Summer12MC_TTG_TBZ_TTTT_MG -i Inputs_Summer2012_V00-03-17/InputList_TTG_TBZ_TTTT_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
+./createJobsWithCrabEOS_PHYEXO.pl -d Outputs_Summer2012MC -v RootNtuple-V00-03-18-Summer12MC_TTG_TBZ_TTTT_MG -i Inputs_Summer2012_V00-03-18/InputList_TTG_TBZ_TTTT_MG.txt -t template_crab_grid_copyToEOS_MC.cfg -c rootTupleMaker_CRAB_MC_2012_53X_cfg.py -n $USER
 
