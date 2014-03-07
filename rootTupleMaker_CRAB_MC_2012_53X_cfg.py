@@ -115,7 +115,8 @@ process.cleanPatTaus.finalCut     = cms.string(' pt > 15.0 & abs(eta) < 2.5     
 # Add Tau ID sources (HPS Taus)
 #----------------------------------------------------------------------------------------------------
 
-process.load("Leptoquarks.RootTupleMakerV2.tauIDsources_cfi")
+from PhysicsTools.PatAlgos.tools.tauTools import *
+switchToPFTauHPS(process)
 
 #----------------------------------------------------------------------------------------------------
 # Add the HEEP ID bit to the electrons
@@ -211,6 +212,12 @@ addJetCollection(process,cms.InputTag('ak5PFJets'),
     jetCorrLabel = ('AK5PF', ['L1FastJet', 'L2Relative', 'L3Absolute']), # Which jet corrections should be used?
     genJetCollection = cms.InputTag("ak5GenJets") # Which GEN jets should be used?
 )
+
+#----------------------------------------------------------------------------------------------------
+# Add the pileup MVA to the PFJets
+#----------------------------------------------------------------------------------------------------
+
+process.load("Leptoquarks.RootTupleMakerV2.pujetidsequence_cff")
 
 #----------------------------------------------------------------------------------------------------
 # Switch to CaloJets
@@ -529,6 +536,8 @@ process.p = cms.Path(
     process.ecalLaserCorrFilter*
     # Now the regular PAT default sequence
     process.patDefaultSequence*
+    # Add the pileup MVA to the jets
+    process.puJetIdSequence*
     # MET producers
     process.patMETsRawCalo*
     process.patMETsRawPF*
