@@ -265,14 +265,7 @@ switchJetCollection(process,cms.InputTag('ak5CaloJets'),
 process.load("JetMETCorrections.Type1MET.pfMETCorrections_cff")
 process.load("JetMETCorrections.Type1MET.pfMETsysShiftCorrections_cfi")
 
-process.pfMEtSysShiftCorrParameters_2012runABCDvsNvtx_mc = cms.VPSet(cms.PSet( # CV: Summer'12 MC + Summer'13 JEC
-    numJetsMin = cms.int32(-1),
-    numJetsMax = cms.int32(-1),
-    px = cms.string("+1.62861e-01 - 2.38517e-02*Nvtx"),
-    py = cms.string("+3.60860e-01 - 1.30335e-01*Nvtx")
-))
-
-process.pfMEtSysShiftCorr.parameter = process.pfMEtSysShiftCorrParameters_2012runABCDvsNvtx_mc[0]
+process.pfMEtSysShiftCorr.parameter = process.pfMEtSysShiftCorrParameters_2012runABCDvsNvtx_mc
 
 #----------------------------------------------------------------------------------------------------
 # Use the runMetUncertainties tool here
@@ -294,7 +287,7 @@ runMEtUncertainties(
     electronCollection      = cms.InputTag('analysisPatElectrons'),
     tauCollection           = cms.InputTag('analysisPatTaus'),
     muonCollection          = cms.InputTag('analysisPatMuons'),
-    sysShiftCorrParameter   = process.pfMEtSysShiftCorrParameters_2012runABCDvsNvtx_mc[0]
+    sysShiftCorrParameter   = process.pfMEtSysShiftCorrParameters_2012runABCDvsNvtx_mc
 )
 
 #----------------------------------------------------------------------------------------------------
