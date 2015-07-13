@@ -8,6 +8,7 @@ from optparse import OptionParser
 import re
 from datetime import datetime
 import shutil
+from multiprocessing import Process
 #from ROOT import *
 
 # first setup the crab stuff by "sourcing" the crab3 setup script if needed
@@ -49,9 +50,9 @@ def validateOptions(options):
     error = True
   elif options.cmsswCfg is None:
     error = True
-  elif options.userName is None:
-    if options.eosDir is None:
-      error = True
+  #elif options.userName is None:
+  #  if options.eosDir is None:
+  #    error = True
 
   if error:
     print 'You are missing one or more required options: d, v, i, c, n'
@@ -161,7 +162,7 @@ shutil.copy2(options.inputList,localInputListFile)
 #  <lfn-prefix>/<primary-dataset>/<publication-name>/<time-stamp>/<counter>[/log]/<file-name> 
 #   LFNDirBase /                 / requestName      / stuff automatically done   / from outputFile defined below
 config = config()
-config.General.requestName   = topDirName # overridden per dataset or not?
+config.General.requestName   = topDirName # overridden per dataset
 config.General.transferOutputs = True
 config.General.transferLogs = True
 # We want to put all the CRAB project directories from the tasks we submit here into one common directory.
@@ -181,6 +182,7 @@ config.Data.publication = False
 # FIXME: Change to leptonsPlusJets group area at some point
 #config.Data.outLFNDirBase = '/store/group/phys_exotica/leptonsPlusJets/'
 config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
+#TODO add eosDir option
 config.Site.storageSite = 'T2_CH_CERN'
 
 print 'Using outLFNDirBase:',config.Data.outLFNDirBase
@@ -219,7 +221,7 @@ with open(localInputListFile, 'r') as f:
       cfgNew_file.write(config_txt)
    
     # now make the crab3 config
-    #config.General.requestName = 
+    config.General.requestName = datasetName
     config.JobType.psetName = newCmsswConfig
     config.Data.inputDataset = dataset 
     config.Data.unitsPerJob = nUnitsPerJob
@@ -230,7 +232,12 @@ with open(localInputListFile, 'r') as f:
       config.Data.runRange = runRange
     # and submit
     print 'submit!'
-    crabSubmit(config)
+    #crabSubmit(config)
+    # workaround for cmssw multiple-loading problem
+    # submit in subprocess
+    p = Process(target=crabSubmit, args=(config,))
+    p.start()
+    p.join()
     
 
 print 'Done!' 
