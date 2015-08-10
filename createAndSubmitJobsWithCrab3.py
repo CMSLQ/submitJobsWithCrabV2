@@ -164,7 +164,7 @@ shutil.copy2(options.inputList,localInputListFile)
 config = config()
 config.General.requestName   = topDirName # overridden per dataset
 config.General.transferOutputs = True
-config.General.transferLogs = True
+config.General.transferLogs = False
 # We want to put all the CRAB project directories from the tasks we submit here into one common directory.
 # That's why we need to set this parameter (here or above in the configuration file, it does not matter, we will not overwrite it).
 config.General.workArea = productionDir
