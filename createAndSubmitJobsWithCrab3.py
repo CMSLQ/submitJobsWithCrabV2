@@ -100,7 +100,7 @@ parser.add_option("-c", "--cfg", dest="cmsswCfg",
                   metavar="CMSSWCFG")
 
 parser.add_option("-e", "--eosDir", dest="eosDir",
-                  help="EOS directory (full path) to store files; otherwise EXO LJ group dir used with userName",
+                  help="EOS directory (full path) to store files (used for Data.outLFNDirBase); otherwise EXO LJ group dir used with userName",
                   metavar="EOSDIR")
 
 parser.add_option("-j", "--json", dest="jsonFile",
@@ -153,16 +153,13 @@ localInputListFile = productionDir+'/inputList.txt'
 shutil.copy2(options.inputList,localInputListFile)
 
 # setup general crab settings
-# FIXME need this fix for some reason. luckily this option exists, because the crab script is borked!
-#os.environ['CRAB3_CACHE_FILE'] = str(os.path.expanduser('~')).rstrip('\n')+'/.crab3'
-#print os.environ['CRAB3_CACHE_FILE']
 # from https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRABClientLibraryAPI
 #TODO: this will work for MC. Need to update to run over data.
 # notes on how the output will be stored: see https://twiki.cern.ch/twiki/bin/view/CMSPublic/Crab3DataHandling
 #  <lfn-prefix>/<primary-dataset>/<publication-name>/<time-stamp>/<counter>[/log]/<file-name> 
 #   LFNDirBase /                 / requestName      / stuff automatically done   / from outputFile defined below
 config = config()
-config.General.requestName   = topDirName # overridden per dataset
+config.General.requestName   = topDirName # overridden per dataset (= tagName_dateString)
 config.General.transferOutputs = True
 config.General.transferLogs = False
 # We want to put all the CRAB project directories from the tasks we submit here into one common directory.
@@ -177,12 +174,13 @@ config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased' #LumiBased for data
 config.Data.unitsPerJob = 1 # overridden per dataset
 config.Data.totalUnits = -1 # overridden per dataset
+# no publishing
 config.Data.publication = False
 #config.Data.publishDataName = 'GenSim-noPU-721p4-START72_V1'
-# FIXME: Change to leptonsPlusJets group area at some point
-#config.Data.outLFNDirBase = '/store/group/phys_exotica/leptonsPlusJets/'
-config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
-#TODO add eosDir option
+config.Data.outLFNDirBase = '/store/group/phys_exotica/leptonsPlusJets/RootNtuple/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
+#config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
+if options.eosDir is not None:
+  config.Data.outLFNDirBase = eosDir
 config.Site.storageSite = 'T2_CH_CERN'
 
 print 'Using outLFNDirBase:',config.Data.outLFNDirBase
