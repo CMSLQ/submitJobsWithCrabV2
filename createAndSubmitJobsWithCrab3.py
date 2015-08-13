@@ -191,6 +191,8 @@ print 'Using outLFNDirBase:',config.Data.outLFNDirBase
 with open(localInputListFile, 'r') as f:
   for line in f:
     split = line.split()
+    if len(split) <= 0:
+      continue
     if '#' in split[0]: # skip comments
       #print 'found comment:',line
       continue
