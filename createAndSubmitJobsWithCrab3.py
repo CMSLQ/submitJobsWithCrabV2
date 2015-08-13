@@ -100,7 +100,7 @@ parser.add_option("-c", "--cfg", dest="cmsswCfg",
                   metavar="CMSSWCFG")
 
 parser.add_option("-e", "--eosDir", dest="eosDir",
-                  help="EOS directory (full path) to store files (used for Data.outLFNDirBase); otherwise EXO LJ group dir used with userName",
+                  help="EOS directory (start with /store...) to store files (used for Data.outLFNDirBase); otherwise EXO LJ group dir used with userName",
                   metavar="EOSDIR")
 
 parser.add_option("-j", "--json", dest="jsonFile",
@@ -177,7 +177,7 @@ config.Data.totalUnits = -1 # overridden per dataset
 # no publishing
 config.Data.publication = False
 #config.Data.publishDataName = 'GenSim-noPU-721p4-START72_V1'
-config.Data.outLFNDirBase = '/store/group/phys_exotica/leptonsPlusJets/RootNtuple/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
+config.Data.outLFNDirBase = '/store/group/phys_exotica/leptonsPlusJets/RootNtuple/RunII/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
 #config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
 if options.eosDir is not None:
   config.Data.outLFNDirBase = eosDir
