@@ -8,7 +8,7 @@ from optparse import OptionParser
 import re
 from datetime import datetime
 import shutil
-from multiprocessing import Process
+from multiprocessing import Process,Queue
 #from ROOT import *
 
 # first setup the crab stuff by "sourcing" the crab3 setup script if needed
@@ -38,7 +38,10 @@ def crabSubmit(config):
     try:
         crabCommand('submit', config = config)
     except HTTPException, hte:
-        print hte.headers
+      print '-----> there was a problem. see below.'
+      print hte.headers
+      print 'quit here'
+      q.put(-1)
     
 def validateOptions(options):
   error = False
@@ -118,12 +121,12 @@ validateOptions(options)
 
 # check if we have a proxy
 proc = subprocess.Popen(['voms-proxy-info','--all'],stderr=subprocess.PIPE,stdout=subprocess.PIPE)
-output,err = proc.communicate()
+out,err = proc.communicate()
 #print 'output----->',output
 #print 'err------>',err
-if 'Proxy not found' in err:
+if 'Proxy not found' in err or 'timeleft  : 00:00:00' in out:
   # get a proxy
-  print 'you have no proxy; let\'s get one via voms-proxy-init:'
+  print 'you have no valid proxy; let\'s get one via voms-proxy-init:'
   # this will suppress the stderr; maybe that's not so good, but I get some error messages at the moment
   #with open(os.devnull, "w") as f:
   #  proc2 = subprocess.call(['voms-proxy-init','--voms','cms','--valid','168:00'],stderr=f)
@@ -134,15 +137,12 @@ date = datetime.now()
 #dateString = date.strftime("%Y%m%d_%H%M%S")
 # I like this better, but does it break anything?
 dateString = date.strftime("%Y%b%d_%H%M%S")
-
 topDirName = options.tagName+'_'+dateString
-
 productionDir = options.localStorageDir+'/'+topDirName
 cfgFilesDir = productionDir+'/cfgfiles'
 outputDir = productionDir+'/output'
 workDir = productionDir+'/workdir'
 localDirs = [productionDir,cfgFilesDir,outputDir,workDir]
-
 print 'Making local directories:'
 for dir in localDirs:
   print '\t',dir
@@ -180,10 +180,15 @@ config.Data.publication = False
 config.Data.outLFNDirBase = '/store/group/phys_exotica/leptonsPlusJets/RootNtuple/RunII/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
 #config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
 if options.eosDir is not None:
-  config.Data.outLFNDirBase = eosDir
+  if not options.eosDir.startswith('/store'):
+    print 'eosDir must start with /store and you specified:',options.eosDir
+    print 'quit'
+    exit(-1)
+  config.Data.outLFNDirBase = options.eosDir
+else:
+  print 'Using outLFNDirBase:',config.Data.outLFNDirBase
 config.Site.storageSite = 'T2_CH_CERN'
 
-print 'Using outLFNDirBase:',config.Data.outLFNDirBase
 # look at the input list
 # use DAS to find the dataset names.
 # Example:
@@ -210,6 +215,16 @@ with open(localInputListFile, 'r') as f:
     makeDirAndCheck(thisWorkDir)
     outputFile = datasetName+'.root'
 
+    if not os.path.isfile(options.cmsswCfg):
+      # try relative path
+      relPath = os.getenv('CMSSW_BASE')+'/src/'+options.cmsswCfg
+      if os.path.isfile(relPath):
+        options.cmsswCfg = relPath
+      else:
+        print 'cannot find CMSSW cfg:',options.cmsswCfg,'; also looked for:',relPath
+        print 'quit'
+        exit(-1)
+
     with open(options.cmsswCfg,'r') as config_file:
       config_txt = config_file.read()
     newCmsswConfig = cfgFilesDir+'/'+datasetName+'_cmssw_cfg.py'
@@ -235,9 +250,12 @@ with open(localInputListFile, 'r') as f:
     #crabSubmit(config)
     # workaround for cmssw multiple-loading problem
     # submit in subprocess
+    q = Queue()
     p = Process(target=crabSubmit, args=(config,))
     p.start()
     p.join()
+    if q.get()==-1:
+      exit(-1)
     
 
 print 'Done!' 
