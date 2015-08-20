@@ -42,6 +42,7 @@ def crabSubmit(config):
       print hte.headers
       print 'quit here'
       q.put(-1)
+    q.put(0)
     
 def validateOptions(options):
   error = False
