@@ -47,6 +47,7 @@ def main():
     """
     options = getOptions()
 
+    tasksStatusDict = {}
     # Execute the command with its arguments for each task.
     for task in os.listdir(options.projDir):
         task = os.path.join(options.projDir, task)
@@ -58,7 +59,32 @@ def main():
         print
         print ("Executing (the equivalent of): crab %s %s %s" %
               (options.crabCmd, task, options.crabCmdOptions))
-        crabCommand(options.crabCmd, task, *options.crabCmdOptions.split())
+        res = crabCommand(options.crabCmd, task, *options.crabCmdOptions.split())
+        tasksStatusDict[task] = res['status']
+
+    totalTasks = len(tasksStatusDict)
+    tasksCompleted = [task for task in tasksStatusDict if tasksStatusDict[task]=='COMPLETED']
+    tasksSubmitted = [task for task in tasksStatusDict if tasksStatusDict[task]=='SUBMITTED']
+    tasksFailed = [task for task in tasksStatusDict if tasksStatusDict[task]=='FAILED']
+    tasksOther = [task for task in tasksStatusDict if task not in tasksCompleted and task not in tasksSubmitted and task not in tasksFailed]
+    print
+    print
+    print 'SUMMARY'
+    if len(tasksCompleted) > 0:
+      print 'Tasks completed:',len(tasksCompleted),'/',totalTasks
+    if len(tasksSubmitted) > 0:
+      print 'Tasks submitted:',len(tasksSubmitted),'/',totalTasks
+    if len(tasksFailed) > 0:
+      print 'Tasks failed:',len(tasksFailed),'/',totalTasks
+    if len(tasksOther) > 0:
+      print 'Tasks with other status:',len(tasksOther),'/',totalTasks
+      for tasks in tasksOther:
+        print '\tTask:',task,'\tStatus:',tasksStatusDict[task]
+    if len(tasksFailed) > 0:
+      print 'commands to resubmit failed tasks:'
+      for task in tasksFailed:
+        print '\tcrab resubmit',task
+
 
 
 if __name__ == '__main__':
