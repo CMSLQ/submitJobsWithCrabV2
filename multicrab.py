@@ -60,7 +60,10 @@ def main():
         print ("Executing (the equivalent of): crab %s %s %s" %
               (options.crabCmd, task, options.crabCmdOptions))
         res = crabCommand(options.crabCmd, task, *options.crabCmdOptions.split())
-        tasksStatusDict[task] = res['status']
+        if 'failed' in res['jobsPerStatus'].keys():
+          tasksStatusDict[task] = 'FAILED' # if there's at least one failed job, count task as FAILED so we resubmit
+        else:
+          tasksStatusDict[task] = res['status']
 
     totalTasks = len(tasksStatusDict)
     tasksCompleted = [task for task in tasksStatusDict if tasksStatusDict[task]=='COMPLETED']
@@ -81,7 +84,7 @@ def main():
       for tasks in tasksOther:
         print '\tTask:',task,'\tStatus:',tasksStatusDict[task]
     if len(tasksFailed) > 0:
-      print 'commands to resubmit failed tasks:'
+      print 'commands to resubmit failed tasks (or tasks with failed jobs):'
       for task in tasksFailed:
         print '\tcrab resubmit',task
 
