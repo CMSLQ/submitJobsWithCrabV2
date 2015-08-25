@@ -1,12 +1,19 @@
 import os, sys, datetime
 import subprocess as sp
 
-# pass folder with InputLists on command line
-folder=sys.argv[1]
+# pass folder with InputLists or single inputlist on command line
+if len(sys.argv) < 2:
+  print 'ERROR: please specify directory with input lists or a single input list as argument'
+  exit(-1)
 
-txt_file_names = [folder+'/'+filename for filename in os.listdir(folder) if filename.startswith("InputList") and filename.endswith(".txt")]
+cmdInput=sys.argv[1]
 
-verbose = False
+if(os.path.isdir(cmdInput)):
+  txt_file_names = [folder+'/'+filename for filename in os.listdir(folder) if filename.startswith("InputList") and filename.endswith(".txt")]
+else:
+  txt_file_names = [cmdInput]
+
+verbose = True
 
 t0_site_ses = [ "srm-cms.cern.ch" ]
 t1_site_ses = [ "srm-cms.cern.ch",
