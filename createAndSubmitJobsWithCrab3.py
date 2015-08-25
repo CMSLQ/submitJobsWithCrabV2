@@ -48,8 +48,8 @@ def validateOptions(options):
   error = False
   if options.localStorageDir is None:
     error = True
-  elif options.tagName is None:
-    error = True
+  #elif options.tagName is None:
+  #  error = True
   elif options.inputList is None:
     error = True
   elif options.cmsswCfg is None:
@@ -120,24 +120,26 @@ parser.add_option("-r", "--run range", dest="runRange",
 # validate options
 validateOptions(options)
 
-# check if we have a proxy
-proc = subprocess.Popen(['voms-proxy-info','--all'],stderr=subprocess.PIPE,stdout=subprocess.PIPE)
-out,err = proc.communicate()
-#print 'output----->',output
-#print 'err------>',err
-if 'Proxy not found' in err or 'timeleft  : 00:00:00' in out:
-  # get a proxy
-  print 'you have no valid proxy; let\'s get one via voms-proxy-init:'
-  # this will suppress the stderr; maybe that's not so good, but I get some error messages at the moment
-  #with open(os.devnull, "w") as f:
-  #  proc2 = subprocess.call(['voms-proxy-init','--voms','cms','--valid','168:00'],stderr=f)
-  proc2 = subprocess.call(['voms-proxy-init','--voms','cms','--valid','168:00'])
-
 # time: YYYYMMDD_HHMMSS
 date = datetime.now()
 #dateString = date.strftime("%Y%m%d_%H%M%S")
 # I like this better, but does it break anything?
 dateString = date.strftime("%Y%b%d_%H%M%S")
+
+# find tag name if not given
+if options.tagName==None:
+  print 'no tagname given; will ask git for the Leptoquarks/RootTupleMakerV2 tag'
+  rootTupleMakerDir = os.getenv('CMSSW_BASE')+'/src/Leptoquarks/RootTupleMakerV2'
+  proc = subprocess.Popen('revparse=`git rev-parse HEAD` && git name-rev --tags --name-only $revparse',stderr=subprocess.PIPE,stdout=subprocess.PIPE,shell=True,cwd=rootTupleMakerDir,env=dict())
+  out,err = proc.communicate()
+  if len(err) > 0:
+    print 'something went wrong trying to get the git tag:',err
+    print 'please specify tagname manually with -v'
+    exit(-1)
+  else:
+    options.tagName=out.strip()
+    print 'using tagname "'+options.tagName+'"'
+
 topDirName = options.tagName+'_'+dateString
 productionDir = options.localStorageDir+'/'+topDirName
 cfgFilesDir = productionDir+'/cfgfiles'
@@ -152,6 +154,19 @@ print
 
 localInputListFile = productionDir+'/inputList.txt'
 shutil.copy2(options.inputList,localInputListFile)
+
+# check if we have a proxy
+proc = subprocess.Popen(['voms-proxy-info','--all'],stderr=subprocess.PIPE,stdout=subprocess.PIPE)
+out,err = proc.communicate()
+#print 'output----->',output
+#print 'err------>',err
+if 'Proxy not found' in err or 'timeleft  : 00:00:00' in out:
+  # get a proxy
+  print 'you have no valid proxy; let\'s get one via voms-proxy-init:'
+  # this will suppress the stderr; maybe that's not so good, but I get some error messages at the moment
+  #with open(os.devnull, "w") as f:
+  #  proc2 = subprocess.call(['voms-proxy-init','--voms','cms','--valid','168:00'],stderr=f)
+  proc2 = subprocess.call(['voms-proxy-init','--voms','cms','--valid','168:00'])
 
 # setup general crab settings
 # from https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRABClientLibraryAPI
@@ -185,7 +200,10 @@ if options.eosDir is not None:
     print 'eosDir must start with /store and you specified:',options.eosDir
     print 'quit'
     exit(-1)
-  config.Data.outLFNDirBase = options.eosDir
+  if options.eosDir[-1]=='/':
+    config.Data.outLFNDirBase = options.eosDir+'%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
+  else:
+    config.Data.outLFNDirBase = options.eosDir+'/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
 else:
   print 'Using outLFNDirBase:',config.Data.outLFNDirBase
 config.Site.storageSite = 'T2_CH_CERN'
