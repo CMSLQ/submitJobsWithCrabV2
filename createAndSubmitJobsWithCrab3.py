@@ -9,29 +9,36 @@ import re
 from datetime import datetime
 import shutil
 from multiprocessing import Process,Queue
-#from ROOT import *
+try:
+  from CRABClient.UserUtilities import config, getUsernameFromSiteDB
+except ImportError:
+  print
+  print 'ERROR: Could not load CRABClient.UserUtilities.  Please source the crab3 setup:'
+  print 'source /cvmfs/cms.cern.ch/crab3/crab.sh'
+  exit(-1)
+# now we should be able to import all the crab stuff
+from CRABAPI.RawCommand import crabCommand
+from httplib import HTTPException
 
+
+# this prints a bunch of ugly stuff. just check to make sure user has sourced the crab setup first, as above
 # first setup the crab stuff by "sourcing" the crab3 setup script if needed
 # NB: env only prints exported variables.
 # use 'set -a && source [script] && env' to export all vars
-if not 'crab3' in sys.path:
-  command = ['bash', '-c', 'set -a && source /cvmfs/cms.cern.ch/crab3/crab.sh && env']
-  proc = subprocess.Popen(command, stdout = subprocess.PIPE)
-  for line in proc.stdout:
-    (key, _, value) = line.partition("=")
-    os.environ[key] = value.strip('\n') # without this, things get messed up
-    # if it's the python path, update the sys.path
-    if key=='PYTHONPATH':
-      valueSplit = value.split(':')
-      for v in valueSplit:
-        sys.path.append(v)
-  proc.communicate()
-  newSysPath = sys.path
+#if not 'crab3' in sys.path:
+#  command = ['bash', '-c', 'set -a && source /cvmfs/cms.cern.ch/crab3/crab.sh && env']
+#  proc = subprocess.Popen(command, stdout = subprocess.PIPE)
+#  for line in proc.stdout:
+#    (key, _, value) = line.partition("=")
+#    os.environ[key] = value.strip('\n') # without this, things get messed up
+#    # if it's the python path, update the sys.path
+#    if key=='PYTHONPATH':
+#      valueSplit = value.split(':')
+#      for v in valueSplit:
+#        sys.path.append(v)
+#  proc.communicate()
+#  newSysPath = sys.path
 
-# now we should be able to import the crab stuff
-from CRABClient.UserUtilities import config, getUsernameFromSiteDB
-from CRABAPI.RawCommand import crabCommand
-from httplib import HTTPException
 
 
 def crabSubmit(config):
@@ -48,18 +55,13 @@ def validateOptions(options):
   error = False
   if options.localStorageDir is None:
     error = True
-  #elif options.tagName is None:
-  #  error = True
   elif options.inputList is None:
     error = True
   elif options.cmsswCfg is None:
     error = True
-  #elif options.userName is None:
-  #  if options.eosDir is None:
-  #    error = True
 
   if error:
-    print 'You are missing one or more required options: d, v, i, c, n'
+    print 'You are missing one or more required options: d, i, c'
     parser.print_help()
     exit(-1)
 
@@ -192,7 +194,7 @@ config.Data.unitsPerJob = 1 # overridden per dataset
 config.Data.totalUnits = -1 # overridden per dataset
 # no publishing
 config.Data.publication = False
-#config.Data.publishDataName = 'GenSim-noPU-721p4-START72_V1'
+config.Data.publishDataName = 'LQRootTuple'
 config.Data.outLFNDirBase = '/store/group/phys_exotica/leptonsPlusJets/RootNtuple/RunII/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
 #config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
 if options.eosDir is not None:
@@ -232,7 +234,9 @@ with open(localInputListFile, 'r') as f:
     thisWorkDir = workDir+'/'+datasetName
     #print 'make dir:',thisWorkDir
     makeDirAndCheck(thisWorkDir)
-    outputFile = datasetName+'.root'
+    outputFile = dataset[1:dataset.find('_Tune')]
+    #print 'outputFile:',outputFile
+    exit(-1)
 
     if not os.path.isfile(options.cmsswCfg):
       # try relative path
