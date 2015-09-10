@@ -1,0 +1,1 @@
+/SingleElectron/Run2015C-PromptReco-v1/MINIAOD   -1   1
