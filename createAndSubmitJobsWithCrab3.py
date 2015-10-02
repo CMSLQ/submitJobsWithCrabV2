@@ -198,10 +198,14 @@ config.Data.publishDataName = 'LQRootTuple'
 config.Data.outLFNDirBase = '/store/group/phys_exotica/leptonsPlusJets/RootNtuple/RunII/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
 #config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
 if options.eosDir is not None:
+  # split of /eos/cms if it is there
+  if options.eosDir.startswith('/eos/cms'):
+    options.eosDir = options.eosDir.split('/eos/cms')[-1]
   if not options.eosDir.startswith('/store'):
-    print 'eosDir must start with /store and you specified:',options.eosDir
+    print 'eosDir must start with /eos/cms/store or /store and you specified:',options.eosDir
     print 'quit'
     exit(-1)
+  outputLFN=options.eosDir
   if not getUsernameFromSiteDB() in outputLFN:
     outputLFN.rstrip('/')
     config.Data.outLFNDirBase = outputLFN+'/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
@@ -237,7 +241,7 @@ with open(localInputListFile, 'r') as f:
     outputFile = dataset[1:dataset.find('_Tune')]
     #print 'outputFile:',outputFile
     #TODO FIXME: handle the DiLept ext1 vs non ext case specially?
-    storagePath=config.Data.outLFNDirBase+config.Data.primaryDataset+'/'+config.Data.publishDataName+'/'+'YYMMDD_hhmmss/0000/'+outputFile+'_999.root'
+    storagePath=config.Data.outLFNDirBase+dataset+'/'+config.Data.publishDataName+'/'+'YYMMDD_hhmmss/0000/'+outputFile+'_999.root'
     #print 'will store (example):',storagePath
     #print '\twhich has length:',len(storagePath)
     if len(storagePath) > 255:
@@ -265,7 +269,7 @@ with open(localInputListFile, 'r') as f:
     print 'creating',newCmsswConfig,'...'
     
     # substitute the output filename at the end
-    config_txt += '\nprocess.TFileService.fileName = "'+outputFile+'"\n'
+    config_txt += '\nprocess.TFileService.fileName = "'+outputFile+'.root"\n'
     with open(newCmsswConfig,'w') as cfgNew_file:
       cfgNew_file.write(config_txt)
    
