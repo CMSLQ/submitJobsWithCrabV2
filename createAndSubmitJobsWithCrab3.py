@@ -241,7 +241,7 @@ with open(localInputListFile, 'r') as f:
     outputFile = dataset[1:dataset.find('_Tune')]
     #print 'outputFile:',outputFile
     #TODO FIXME: handle the DiLept ext1 vs non ext case specially?
-    storagePath=config.Data.outLFNDirBase+dataset+'/'+config.Data.publishDataName+'/'+'YYMMDD_hhmmss/0000/'+outputFile+'_999.root'
+    storagePath=config.Data.outLFNDirBase+datasetName+'/'+config.Data.publishDataName+'/'+'YYMMDD_hhmmss/0000/'+outputFile+'_999.root'
     #print 'will store (example):',storagePath
     #print '\twhich has length:',len(storagePath)
     if len(storagePath) > 255:
