@@ -175,7 +175,7 @@ if 'Proxy not found' in err or 'timeleft  : 00:00:00' in out:
 #TODO: this will work for MC. Need to update to run over data.
 # notes on how the output will be stored: see https://twiki.cern.ch/twiki/bin/view/CMSPublic/Crab3DataHandling
 #  <lfn-prefix>/<primary-dataset>/<publication-name>/<time-stamp>/<counter>[/log]/<file-name> 
-#   LFNDirBase /                 / requestName      / stuff automatically done   / from outputFile defined below
+#   LFNDirBase /                 / publishDataName  / stuff automatically done   / from outputFile defined below
 config = config()
 config.General.requestName   = topDirName # overridden per dataset (= tagName_dateString)
 config.General.transferOutputs = True
@@ -202,12 +202,12 @@ if options.eosDir is not None:
     print 'eosDir must start with /store and you specified:',options.eosDir
     print 'quit'
     exit(-1)
-  if options.eosDir[-1]=='/':
-    config.Data.outLFNDirBase = options.eosDir+'%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
+  if not getUsernameFromSiteDB() in outputLFN:
+    outputLFN.rstrip('/')
+    config.Data.outLFNDirBase = outputLFN+'/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
   else:
-    config.Data.outLFNDirBase = options.eosDir+'/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
-else:
-  print 'Using outLFNDirBase:',config.Data.outLFNDirBase
+    config.Data.outLFNDirBase = outputLFN
+print 'Using outLFNDirBase:',config.Data.outLFNDirBase
 config.Site.storageSite = 'T2_CH_CERN'
 
 # look at the input list
@@ -236,7 +236,18 @@ with open(localInputListFile, 'r') as f:
     makeDirAndCheck(thisWorkDir)
     outputFile = dataset[1:dataset.find('_Tune')]
     #print 'outputFile:',outputFile
-    exit(-1)
+    #TODO FIXME: handle the DiLept ext1 vs non ext case specially?
+    storagePath=config.Data.outLFNDirBase+config.Data.primaryDataset+'/'+config.Data.publishDataName+'/'+'YYMMDD_hhmmss/0000/'+outputFile+'_999.root'
+    #print 'will store (example):',storagePath
+    #print '\twhich has length:',len(storagePath)
+    if len(storagePath) > 255:
+      print
+      print 'we might have a problem with output path lengths too long (if we want to run crab over these).'
+      print 'example output will look like:'
+      print storagePath
+      print 'which has length:',len(storagePath)
+      print 'cowardly refusing to submit the jobs; exiting'
+      exit(-2)
 
     if not os.path.isfile(options.cmsswCfg):
       # try relative path
