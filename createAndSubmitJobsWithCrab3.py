@@ -194,8 +194,8 @@ config.Data.unitsPerJob = 1 # overridden per dataset
 config.Data.totalUnits = -1 # overridden per dataset
 # no publishing
 config.Data.publication = False
-config.Data.publishDataName = 'LQRootTuple'
-config.Data.outLFNDirBase = '/store/group/phys_exotica/leptonsPlusJets/RootNtuple/RunII/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
+config.Data.publishDataName = 'LQ'
+config.Data.outLFNDirBase = '/store/group/phys_exotica/leptonsPlusJets/RootNtuple/RunII/%s/' % (getUsernameFromSiteDB()) + options.tagName + '/'
 #config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
 if options.eosDir is not None:
   # split of /eos/cms if it is there
@@ -206,9 +206,14 @@ if options.eosDir is not None:
     print 'quit'
     exit(-1)
   outputLFN=options.eosDir
+  if not outputLFN[-1]=='/':
+    outputLFN+='/'
+  outputLFN+=options.tagName+'/'
   if not getUsernameFromSiteDB() in outputLFN:
     outputLFN.rstrip('/')
-    config.Data.outLFNDirBase = outputLFN+'/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
+    #config.Data.outLFNDirBase = outputLFN+'/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
+    # make the LFN shorter, and in any case, the timestamp is put in by crab
+    config.Data.outLFNDirBase = outputLFN+'/%s/' % (getUsernameFromSiteDB()) + options.tagName + '/'
   else:
     config.Data.outLFNDirBase = outputLFN
 print 'Using outLFNDirBase:',config.Data.outLFNDirBase
@@ -234,11 +239,17 @@ with open(localInputListFile, 'r') as f:
     nUnitsPerJob = int(split[2])
     #print 'dataset=',dataset
     datasetName = dataset[1:len(dataset)].replace('/','__')
+    datasetName = datasetName[1:datasetName.find('__MINI')] # get rid of miniaodsim
     #print 'datasetName:',datasetName
     thisWorkDir = workDir+'/'+datasetName
     #print 'make dir:',thisWorkDir
     makeDirAndCheck(thisWorkDir)
-    outputFile = dataset[1:dataset.find('_Tune')]
+    outputFileTune = dataset[1:dataset.find('_Tune')]
+    outputFile13 = dataset[1:dataset.find('_13TeV')]
+    if len(outputFileTune) < len(outputFile13):
+      outputFile = outputFileTune
+    else:
+      outputFile = outputFile13
     #print 'outputFile:',outputFile
     #TODO FIXME: handle the DiLept ext1 vs non ext case specially?
     storagePath=config.Data.outLFNDirBase+datasetName+'/'+config.Data.publishDataName+'/'+'YYMMDD_hhmmss/0000/'+outputFile+'_999.root'
@@ -252,6 +263,9 @@ with open(localInputListFile, 'r') as f:
       print 'which has length:',len(storagePath)
       print 'cowardly refusing to submit the jobs; exiting'
       exit(-2)
+    else:
+      print
+      print 'will use storage path like:',storagePath
 
     if not os.path.isfile(options.cmsswCfg):
       # try relative path
