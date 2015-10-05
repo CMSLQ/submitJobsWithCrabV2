@@ -1,1 +1,2 @@
 /SingleMuon/Run2015C-PromptReco-v1/MINIAOD       -1   1
+/SingleMuon/Run2015D-PromptReco-v1/MINIAOD       -1   1
