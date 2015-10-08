@@ -1,0 +1,3 @@
+/SinglePhoton/Run2015C-PromptReco-v1/MINIAOD   -1   1
+/SinglePhoton/Run2015D-PromptReco-v3/MINIAOD   -1   50
+/SinglePhoton/Run2015D-PromptReco-v4/MINIAOD   -1   50
