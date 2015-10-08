@@ -8,6 +8,7 @@ from optparse import OptionParser
 import re
 from datetime import datetime
 import shutil
+import math
 from multiprocessing import Process,Queue
 try:
   from CRABClient.UserUtilities import config, getUsernameFromSiteDB
@@ -237,20 +238,17 @@ with open(localInputListFile, 'r') as f:
     dataset = split[0]
     nUnits = int(split[1]) #also used for total lumis for data
     nUnitsPerJob = int(split[2])
-    #print 'dataset=',dataset
     datasetName = dataset[1:len(dataset)].replace('/','__')
-    datasetName = datasetName[1:datasetName.find('__MINI')] # get rid of miniaodsim
-    #print 'datasetName:',datasetName
+    datasetName = datasetName[0:datasetName.find('__MINI')] # get rid of miniaodsim
     thisWorkDir = workDir+'/'+datasetName
     #print 'make dir:',thisWorkDir
     makeDirAndCheck(thisWorkDir)
-    outputFileTune = dataset[1:dataset.find('_Tune')]
-    outputFile13 = dataset[1:dataset.find('_13TeV')]
-    if len(outputFileTune) < len(outputFile13):
-      outputFile = outputFileTune
-    else:
-      outputFile = outputFile13
-    #print 'outputFile:',outputFile
+    outputFileNames = []
+    outputFileNames.append(dataset[1:dataset.find('_Tune')])
+    outputFileNames.append(dataset[1:dataset.find('_13TeV')])
+    outputFileNames.append(dataset.split('/')[1])
+    # get the one with the shortest filename
+    outputFile = sorted(outputFileNames, key=len)[0]
     #TODO FIXME: handle the DiLept ext1 vs non ext case specially?
     storagePath=config.Data.outLFNDirBase+datasetName+'/'+config.Data.publishDataName+'/'+'YYMMDD_hhmmss/0000/'+outputFile+'_999.root'
     #print 'will store (example):',storagePath
@@ -288,10 +286,14 @@ with open(localInputListFile, 'r') as f:
       cfgNew_file.write(config_txt)
    
     # now make the crab3 config
+    if 'Run201' in datasetName:
+      config.Data.splitting = 'LumiBased' #LumiBased for data
+      if math.fabs(nUnitsPerJob)==1:
+        print 'Your specified +/-1 lumis per job; using default lumis per job of 50 instead'
+        config.Data.unitsPerJob = 50
     config.General.requestName = datasetName
     config.JobType.psetName = newCmsswConfig
     config.Data.inputDataset = dataset 
-    config.Data.unitsPerJob = nUnitsPerJob
     config.Data.totalUnits = nUnits
     if options.jsonFile is not None:
       config.Data.lumiMask = options.jsonFile
