@@ -40,7 +40,12 @@ from httplib import HTTPException
 #  proc.communicate()
 #  newSysPath = sys.path
 
-
+# Define valid global tags by dataset as noted here:
+#    https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMiniAOD
+globalTagsByDataset = {}
+globalTagsByDataset['Run2015C-PromptReco-v*'] = '74X_dataRun2_v2'
+globalTagsByDataset['Run2015D-PromptReco-v3'] = '74X_dataRun2_reMiniAOD_v0'
+globalTagsByDataset['Run2015D-PromptReco-v4'] = '74X_dataRun2_Prompt_v4'
 
 def crabSubmit(config):
     try:
@@ -280,8 +285,34 @@ with open(localInputListFile, 'r') as f:
     newCmsswConfig = cfgFilesDir+'/'+datasetName+'_cmssw_cfg.py'
     print 'creating',newCmsswConfig,'...'
     
+    ## check cmssw version
+    #miniAODV2Support = False
+    #cmsswVersion = os.getenv('CMSSW_VERSION').split('CMSSW_')[-1] # 7_4_14
+    #cmsswVersionSplit = cmsswVersion.split('_')
+    #if cmsswVersionSplit[0]=='7' and cmsswVersionSplit[1]=='4':
+    #  # running 74X
+    #  if int(cmsswVersionSplit[2]) > 12:
+    #    # running 7_4_12 or higher
+    #    miniAODV2Support = True
+
+    globalTag = ''
+    # datasetName looks like SinglePhoton__Run2015D-PromptReco-v3
+    # so split to just get Run2015D-PromptReco-v3
+    for datasetKey,tag in globalTagsByDataset.iteritems():
+      print 'try to match:',datasetKey,'and',datasetName.split('__')[1]
+      if re.match(re.compile(datasetKey),datasetName.split('__')[1]):
+        globalTag = tag
+    if globalTag=='':
+      print 'INFO: Using default global tag as specified in template cfg'
+    else:
+      print 'INFO: Using global tag:',globalTag,'for dataset:',datasetName
+
     # substitute the output filename at the end
     config_txt += '\nprocess.TFileService.fileName = "'+outputFile+'.root"\n'
+    # substitute the global tag name at the end if needed, and feed it into rootTupleEvent
+    if globalTag != '':
+      config_txt += '\nprocess.GlobalTag.globaltag = "'+globalTag+'"\n'
+      config_txt += '\nprocess.rootTupleEvent.globalTag = "'+globalTag+'"\n'
     with open(newCmsswConfig,'w') as cfgNew_file:
       cfgNew_file.write(config_txt)
    
