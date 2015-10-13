@@ -46,6 +46,7 @@ globalTagsByDataset = {}
 globalTagsByDataset['Run2015C-PromptReco-v*'] = '74X_dataRun2_v2'
 globalTagsByDataset['Run2015D-PromptReco-v3'] = '74X_dataRun2_reMiniAOD_v0'
 globalTagsByDataset['Run2015D-PromptReco-v4'] = '74X_dataRun2_Prompt_v4'
+globalTagsByDataset['RunIISpring15MiniAODv2*'] = '74X_mcRun2_asymptotic_v2'
 
 def crabSubmit(config):
     try:
@@ -298,6 +299,8 @@ with open(localInputListFile, 'r') as f:
     globalTag = ''
     # datasetName looks like SinglePhoton__Run2015D-PromptReco-v3
     # so split to just get Run2015D-PromptReco-v3
+    # for MC it will look like DYJetsToLL_M-100to200_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8__RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1
+    # so split to just get RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1
     for datasetKey,tag in globalTagsByDataset.iteritems():
       print 'try to match:',datasetKey,'and',datasetName.split('__')[1]
       if re.match(re.compile(datasetKey),datasetName.split('__')[1]):
@@ -305,7 +308,7 @@ with open(localInputListFile, 'r') as f:
     if globalTag=='':
       print 'INFO: Using default global tag as specified in template cfg'
     else:
-      print 'INFO: Using global tag:',globalTag,'for dataset:',datasetName
+      print 'INFO: Overriding global tag to:',globalTag,'for dataset:',datasetName
 
     # substitute the output filename at the end
     config_txt += '\nprocess.TFileService.fileName = "'+outputFile+'.root"\n'
@@ -315,7 +318,7 @@ with open(localInputListFile, 'r') as f:
       config_txt += '\nprocess.rootTupleEvent.globalTag = "'+globalTag+'"\n'
     with open(newCmsswConfig,'w') as cfgNew_file:
       cfgNew_file.write(config_txt)
-   
+
     # now make the crab3 config
     if 'Run201' in datasetName:
       config.Data.splitting = 'LumiBased' #LumiBased for data
