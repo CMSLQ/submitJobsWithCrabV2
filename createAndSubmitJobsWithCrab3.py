@@ -45,6 +45,8 @@ from httplib import HTTPException
 globalTagsByDataset = {}
 globalTagsByDataset['Run2015C-PromptReco-v*'] = '74X_dataRun2_v2'
 globalTagsByDataset['Run2015D-PromptReco-v3'] = '74X_dataRun2_reMiniAOD_v0'
+# latest miniaod v2
+globalTagsByDataset['Run2015D-05Oct2015-v*'] = '74X_dataRun2_reMiniAOD_v0'
 globalTagsByDataset['Run2015D-PromptReco-v4'] = '74X_dataRun2_Prompt_v4'
 globalTagsByDataset['RunIISpring15MiniAODv2*'] = '74X_mcRun2_asymptotic_v2'
 
@@ -137,17 +139,18 @@ dateString = date.strftime("%Y%b%d_%H%M%S")
 
 # find tag name if not given
 if options.tagName==None:
-  print 'no tagname given; will ask git for the Leptoquarks/RootTupleMakerV2 tag'
+  print 'no tagname given; will ask git for the Leptoquarks/RootTupleMakerV2 tag...',
   rootTupleMakerDir = os.getenv('CMSSW_BASE')+'/src/Leptoquarks/RootTupleMakerV2'
   proc = subprocess.Popen('revparse=`git rev-parse HEAD` && git name-rev --tags --name-only $revparse',stderr=subprocess.PIPE,stdout=subprocess.PIPE,shell=True,cwd=rootTupleMakerDir,env=dict())
   out,err = proc.communicate()
   if len(err) > 0:
+    print
     print 'something went wrong trying to get the git tag:',err
     print 'please specify tagname manually with -v'
     exit(-1)
   else:
     options.tagName=out.strip()
-    print 'using tagname "'+options.tagName+'"'
+    print 'Found tagname "'+options.tagName+'"'
 
 topDirName = options.tagName+'_'+dateString
 productionDir = options.localStorageDir+'/'+topDirName
@@ -302,11 +305,11 @@ with open(localInputListFile, 'r') as f:
     # for MC it will look like DYJetsToLL_M-100to200_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8__RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1
     # so split to just get RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1
     for datasetKey,tag in globalTagsByDataset.iteritems():
-      print 'try to match:',datasetKey,'and',datasetName.split('__')[1]
+      #print 'try to match:',datasetKey,'and',datasetName.split('__')[1]
       if re.match(re.compile(datasetKey),datasetName.split('__')[1]):
         globalTag = tag
     if globalTag=='':
-      print 'INFO: Using default global tag as specified in template cfg'
+      print 'WARNING: Using default global tag as specified in template cfg (are you sure it\'s the right one?)'
     else:
       print 'INFO: Overriding global tag to:',globalTag,'for dataset:',datasetName
 
