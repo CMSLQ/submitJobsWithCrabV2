@@ -326,8 +326,10 @@ with open(localInputListFile, 'r') as f:
     if 'Run201' in datasetName:
       config.Data.splitting = 'LumiBased' #LumiBased for data
       if math.fabs(nUnitsPerJob)==1:
-        print 'Your specified +/-1 lumis per job; using default lumis per job of 50 instead'
-        config.Data.unitsPerJob = 50
+        print 'You specified +/-1 lumis per job; using default lumis per job of 100 instead'
+        config.Data.unitsPerJob = 100
+    config.Data.unitsPerJob = nUnitsPerJob
+    print 'INFO: using',nUnitsPerJob,'units (files/lumis) per job'
     config.General.requestName = datasetName
     config.JobType.psetName = newCmsswConfig
     config.Data.inputDataset = dataset 
