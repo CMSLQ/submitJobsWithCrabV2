@@ -1,3 +1,5 @@
-/SingleMuon/Run2015C-PromptReco-v1/MINIAOD       -1   50
-/SingleMuon/Run2015D-PromptReco-v3/MINIAOD       -1   1
+# MiniAOD V2
+# see: https://hypernews.cern.ch/HyperNews/CMS/get/physics-announcements/3561.html
+#/SingleMuon/Run2015C-PromptReco-v1/MINIAOD       -1   50
+/SingleMuon/Run2015D-05Oct2015-v1/MINIAOD        -1   50
 /SingleMuon/Run2015D-PromptReco-v4/MINIAOD       -1   50
