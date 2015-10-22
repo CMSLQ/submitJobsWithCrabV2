@@ -49,6 +49,8 @@ globalTagsByDataset['Run2015D-PromptReco-v3'] = '74X_dataRun2_reMiniAOD_v0'
 globalTagsByDataset['Run2015D-05Oct2015-v*'] = '74X_dataRun2_reMiniAOD_v0'
 globalTagsByDataset['Run2015D-PromptReco-v4'] = '74X_dataRun2_Prompt_v4'
 globalTagsByDataset['RunIISpring15MiniAODv2*'] = '74X_mcRun2_asymptotic_v2'
+# old Spring15
+globalTagsByDataset['RunIISpring15DR74-*'] = 'MCRUN2_74_V9'
 
 def crabSubmit(config):
     try:
@@ -247,9 +249,13 @@ with open(localInputListFile, 'r') as f:
     dataset = split[0]
     nUnits = int(split[1]) #also used for total lumis for data
     nUnitsPerJob = int(split[2])
-    datasetName = dataset[1:len(dataset)].replace('/','__')
-    datasetName = datasetName[0:datasetName.find('__MINI')] # get rid of miniaodsim
+    datasetNoSlashes = dataset[1:len(dataset)].replace('/','__')
+    datasetName = datasetNoSlashes
+    datasetName = datasetName.split('__')[0]+'__'+datasetName.split('__')[1] # get rid of part after last slash
     thisWorkDir = workDir+'/'+datasetName
+    isData = 'Run201' in datasetName
+    if not isData:
+      datasetName=datasetName.split('__')[0]
     #print 'make dir:',thisWorkDir
     makeDirAndCheck(thisWorkDir)
     outputFileNames = []
@@ -287,7 +293,7 @@ with open(localInputListFile, 'r') as f:
     with open(options.cmsswCfg,'r') as config_file:
       config_txt = config_file.read()
     newCmsswConfig = cfgFilesDir+'/'+datasetName+'_cmssw_cfg.py'
-    print 'creating',newCmsswConfig,'...'
+    print 'INFO: Creating',newCmsswConfig,'...'
     
     ## check cmssw version
     #miniAODV2Support = False
@@ -305,8 +311,8 @@ with open(localInputListFile, 'r') as f:
     # for MC it will look like DYJetsToLL_M-100to200_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8__RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1
     # so split to just get RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1
     for datasetKey,tag in globalTagsByDataset.iteritems():
-      #print 'try to match:',datasetKey,'and',datasetName.split('__')[1]
-      if re.match(re.compile(datasetKey),datasetName.split('__')[1]):
+      #print 'try to match:',datasetKey,'and',datasetNoSlashes.split('__')[1]
+      if re.match(re.compile(datasetKey),datasetNoSlashes.split('__')[1]):
         globalTag = tag
     if globalTag=='':
       print 'WARNING: Using default global tag as specified in template cfg (are you sure it\'s the right one?)'
@@ -323,7 +329,7 @@ with open(localInputListFile, 'r') as f:
       cfgNew_file.write(config_txt)
 
     # now make the crab3 config
-    if 'Run201' in datasetName:
+    if isData:
       config.Data.splitting = 'LumiBased' #LumiBased for data
       if math.fabs(nUnitsPerJob)==1:
         print 'You specified +/-1 lumis per job; using default lumis per job of 100 instead'
@@ -332,7 +338,7 @@ with open(localInputListFile, 'r') as f:
     print 'INFO: using',nUnitsPerJob,'units (files/lumis) per job'
     config.General.requestName = datasetName
     config.JobType.psetName = newCmsswConfig
-    config.Data.inputDataset = dataset 
+    config.Data.inputDataset = datasetName
     config.Data.totalUnits = nUnits
     if options.jsonFile is not None:
       config.Data.lumiMask = options.jsonFile
