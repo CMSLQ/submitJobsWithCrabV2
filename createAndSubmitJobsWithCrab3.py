@@ -338,7 +338,7 @@ with open(localInputListFile, 'r') as f:
     print 'INFO: using',nUnitsPerJob,'units (files/lumis) per job'
     config.General.requestName = datasetName
     config.JobType.psetName = newCmsswConfig
-    config.Data.inputDataset = datasetName
+    config.Data.inputDataset = dataset
     config.Data.totalUnits = nUnits
     if options.jsonFile is not None:
       config.Data.lumiMask = options.jsonFile
