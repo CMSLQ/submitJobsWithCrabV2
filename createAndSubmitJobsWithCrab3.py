@@ -256,6 +256,10 @@ with open(localInputListFile, 'r') as f:
     isData = 'Run201' in datasetName
     if not isData:
       datasetName=datasetName.split('__')[0]
+    #Handle the DiLept ext1 vs non ext case specially
+    if 'ext' in dataset:
+      extN = dataset[dataset.find('_ext')+4]
+      datasetName=datasetName+'_ext'+extN
     #print 'make dir:',thisWorkDir
     makeDirAndCheck(thisWorkDir)
     outputFileNames = []
@@ -264,7 +268,9 @@ with open(localInputListFile, 'r') as f:
     outputFileNames.append(dataset.split('/')[1])
     # get the one with the shortest filename
     outputFile = sorted(outputFileNames, key=len)[0]
-    #TODO FIXME: handle the DiLept ext1 vs non ext case specially?
+    if 'ext' in dataset:
+      extN = dataset[dataset.find('_ext')+4]
+      outputFile = outputFile+'_ext'+extN
     storagePath=config.Data.outLFNDirBase+datasetName+'/'+config.Data.publishDataName+'/'+'YYMMDD_hhmmss/0000/'+outputFile+'_999.root'
     #print 'will store (example):',storagePath
     #print '\twhich has length:',len(storagePath)
