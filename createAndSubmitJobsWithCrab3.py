@@ -206,7 +206,7 @@ config.Data.unitsPerJob = 1 # overridden per dataset
 config.Data.totalUnits = -1 # overridden per dataset
 # no publishing
 config.Data.publication = False
-config.Data.publishDataName = 'LQ'
+config.Data.publishDataName = 'LQ' #overridden for data
 config.Data.outLFNDirBase = '/store/group/phys_exotica/leptonsPlusJets/RootNtuple/RunII/%s/' % (getUsernameFromSiteDB()) + options.tagName + '/'
 #config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
 if options.eosDir is not None:
@@ -250,16 +250,25 @@ with open(localInputListFile, 'r') as f:
     nUnits = int(split[1]) #also used for total lumis for data
     nUnitsPerJob = int(split[2])
     datasetNoSlashes = dataset[1:len(dataset)].replace('/','__')
+    # datasetNameNoSlashes looks like SinglePhoton__Run2015D-PromptReco-v3
+    # so split to just get Run2015D-PromptReco-v3
+    # and use that as the publishDataName to get it into the EOS path
+    primaryDatasetName = datasetNoSlashes.split('__')[0]
+    secondaryDatasetName = datasetNoSlashes.split('__')[1]
     datasetName = datasetNoSlashes
     datasetName = datasetName.split('__')[0]+'__'+datasetName.split('__')[1] # get rid of part after last slash
     thisWorkDir = workDir+'/'+datasetName
     isData = 'Run201' in datasetName
     if not isData:
       datasetName=datasetName.split('__')[0]
+    else:
+      config.Data.publishDataName=secondaryDatasetName
     #Handle the DiLept ext1 vs non ext case specially
     if 'ext' in dataset:
       extN = dataset[dataset.find('_ext')+4]
       datasetName=datasetName+'_ext'+extN
+      config.Data.publishDataName='LQ_ext'+extN
+    config.Data.inputDataset = dataset
     #print 'make dir:',thisWorkDir
     makeDirAndCheck(thisWorkDir)
     outputFileNames = []
@@ -271,7 +280,7 @@ with open(localInputListFile, 'r') as f:
     if 'ext' in dataset:
       extN = dataset[dataset.find('_ext')+4]
       outputFile = outputFile+'_ext'+extN
-    storagePath=config.Data.outLFNDirBase+datasetName+'/'+config.Data.publishDataName+'/'+'YYMMDD_hhmmss/0000/'+outputFile+'_999.root'
+    storagePath=config.Data.outLFNDirBase+primaryDatasetName+'/'+config.Data.publishDataName+'/'+'YYMMDD_hhmmss/0000/'+outputFile+'_999.root'
     #print 'will store (example):',storagePath
     #print '\twhich has length:',len(storagePath)
     if len(storagePath) > 255:
@@ -312,13 +321,11 @@ with open(localInputListFile, 'r') as f:
     #    miniAODV2Support = True
 
     globalTag = ''
-    # datasetName looks like SinglePhoton__Run2015D-PromptReco-v3
-    # so split to just get Run2015D-PromptReco-v3
     # for MC it will look like DYJetsToLL_M-100to200_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8__RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1
     # so split to just get RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1
     for datasetKey,tag in globalTagsByDataset.iteritems():
       #print 'try to match:',datasetKey,'and',datasetNoSlashes.split('__')[1]
-      if re.match(re.compile(datasetKey),datasetNoSlashes.split('__')[1]):
+      if re.match(re.compile(datasetKey),secondaryDatasetName):
         globalTag = tag
     if globalTag=='':
       print 'WARNING: Using default global tag as specified in template cfg (are you sure it\'s the right one?)'
@@ -334,7 +341,7 @@ with open(localInputListFile, 'r') as f:
     with open(newCmsswConfig,'w') as cfgNew_file:
       cfgNew_file.write(config_txt)
 
-    # now make the crab3 config
+    # now make the rest of the crab3 config
     if isData:
       config.Data.splitting = 'LumiBased' #LumiBased for data
       if math.fabs(nUnitsPerJob)==1:
@@ -344,7 +351,6 @@ with open(localInputListFile, 'r') as f:
     print 'INFO: using',nUnitsPerJob,'units (files/lumis) per job'
     config.General.requestName = datasetName
     config.JobType.psetName = newCmsswConfig
-    config.Data.inputDataset = dataset
     config.Data.totalUnits = nUnits
     if options.jsonFile is not None:
       config.Data.lumiMask = options.jsonFile
