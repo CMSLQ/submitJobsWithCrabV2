@@ -81,7 +81,7 @@ def main():
       print 'Tasks failed:',len(tasksFailed),'/',totalTasks
     if len(tasksOther) > 0:
       print 'Tasks with other status:',len(tasksOther),'/',totalTasks
-      for tasks in tasksOther:
+      for task in tasksOther:
         print '\tTask:',task,'\tStatus:',tasksStatusDict[task]
     if len(tasksFailed) > 0:
       print 'commands to resubmit failed tasks (or tasks with failed jobs):'
