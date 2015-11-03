@@ -70,10 +70,12 @@ def validateOptions(options):
     error = True
   elif options.cmsswCfg is None:
     error = True
-
   if error:
     print 'You are missing one or more required options: d, i, c'
     parser.print_help()
+    exit(-1)
+  if options.prevJsonFile is not None and options.jsonFile is None:
+    print 'It does not make sense to specify a previously used/analyzed JSON file without specifying a new JSON file, since with this option specified, the difference between the new and old JSON is taken as the lumi mask.'
     exit(-1)
 
 
@@ -94,9 +96,10 @@ def makeDirAndCheck(dir):
 usage = "Usage: %prog [options] "
 #XXX TODO FIX/UPDATE THIS MESSAGE
 usage+="\nSee https://twiki.cern.ch/twiki/bin/view/CMS/ExoticaLeptoquarkShiftMakeRootTuplesV22012 for more details "
-usage+="\nExample1 (NORMAL MODE): %prog -d `pwd`/RootNtuple -v V00-03-07-DATA-xxxxxx-yyyyyy -i inputList.txt -c rootTupleMaker_CRAB_DATA_2012_53X_cfg.py "
-usage+="\nExample2 (NORMAL MODE + RUN SELECTION): %prog -d `pwd`/RootNtuple -v V00-03-07-DATA-xxxxxx-yyyyyy -i inputList.txt -c rootTupleMaker_CRAB_DATA_2012_53X_cfg.py -r 132440-200000 "
-usage+="\nExample3 (JSON MODE): %prog -d `pwd`/RootNtuple -v V00-03-07-DATA-xxxxxx-yyyyyy -i inputList.txt -c rootTupleMaker_CRAB_DATA_2012_53X_cfg.py -j [JSON.txt or URL, https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions12/8TeV/Prompt/Cert_190456-208686_8TeV_PromptReco_Collisions12_JSON.txt]"
+usage+="\nExample1 (NORMAL MODE): %prog -d `pwd`/RootNtuple -i inputList.txt -c rootTupleMaker_CRAB_DATA_2012_53X_cfg.py "
+usage+="\nExample2 (NORMAL MODE + RUN SELECTION): %prog -d `pwd`/RootNtuple -i inputList.txt -c rootTupleMaker_CRAB_DATA_2012_53X_cfg.py -r 132440-200000 "
+usage+="\nExample3 (JSON MODE): %prog -d `pwd`/RootNtuple -i inputList.txt -c rootTupleMaker_CRAB_DATA_2012_53X_cfg.py -j [JSON.txt or URL, https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions12/8TeV/Prompt/Cert_190456-208686_8TeV_PromptReco_Collisions12_JSON.txt]"
+usage+="\nExample4 (PREV JSON MODE): %prog -d `pwd`/RootNtuple -i inputList.txt -c rootTupleMaker_CRAB_DATA_2012_53X_cfg.py -j [JSON.txt or URL, https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions12/8TeV/Prompt/Cert_190456-208686_8TeV_PromptReco_Collisions12_JSON.txt] -p [lumiSummary.json from crab report from previous processing of same dataset]"
 
 parser = OptionParser(usage=usage)
 
@@ -127,6 +130,10 @@ parser.add_option("-j", "--json", dest="jsonFile",
 parser.add_option("-r", "--run range", dest="runRange",
                   help="selected run range",
                   metavar="RUNRANGE")
+
+parser.add_option("-p", "--previousJSON json", dest="prevJsonFile",
+                  help="previous lumiSummary.json from crab",
+                  metavar="PREVJSON")
 
 (options, args) = parser.parse_args()
 
@@ -345,7 +352,7 @@ with open(localInputListFile, 'r') as f:
     if isData:
       config.Data.splitting = 'LumiBased' #LumiBased for data
       if math.fabs(nUnitsPerJob)==1:
-        print 'You specified +/-1 lumis per job; using default lumis per job of 100 instead'
+        print 'WARNING: You specified +/-1 lumis per job; using default lumis per job of 100 instead'
         config.Data.unitsPerJob = 100
     config.Data.unitsPerJob = nUnitsPerJob
     print 'INFO: using',nUnitsPerJob,'units (files/lumis) per job'
@@ -353,7 +360,16 @@ with open(localInputListFile, 'r') as f:
     config.JobType.psetName = newCmsswConfig
     config.Data.totalUnits = nUnits
     if options.jsonFile is not None:
-      config.Data.lumiMask = options.jsonFile
+      if options.prevJsonFile is not None:
+        print 'Using the subtraction between previous json and new json; WARNING: if lumis changed from good in previous to bad in new json, this will not remove them'
+        from WMCore.DataStructs.LumiList import LumiList
+        prevJsonLumiList = LumiList(url=options.prevJsonFile) if 'http:' in options.prevJsonFile else LumiList(filename=options.prevJsonFile)
+        currentJsonLumiList = LumiList(url=options.jsonFile) if 'http:' in options.jsonFile else LumiList(filename=options.jsonFile)
+        newLumiList = currentJsonLumiList - prevJsonLumiList
+        newLumiList.writeJSON('newJSON_minus_oldJSON.json')
+        config.Data.lumiMask = 'newJSON_minus_oldJSON.json'
+      else:
+        config.Data.lumiMask = options.jsonFile
     if options.runRange is not None:
       config.Data.runRange = runRange
     # and submit
