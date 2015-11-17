@@ -194,7 +194,7 @@ if 'Proxy not found' in err or 'timeleft  : 00:00:00' in out:
 #TODO: this will work for MC. Need to update to run over data.
 # notes on how the output will be stored: see https://twiki.cern.ch/twiki/bin/view/CMSPublic/Crab3DataHandling
 #  <lfn-prefix>/<primary-dataset>/<publication-name>/<time-stamp>/<counter>[/log]/<file-name> 
-#   LFNDirBase /                 / publishDataName  / stuff automatically done   / from outputFile defined below
+#   LFNDirBase /                 / datasetTagName   / stuff automatically done   / from outputFile defined below
 config = config()
 config.General.requestName   = topDirName # overridden per dataset (= tagName_dateString)
 config.General.transferOutputs = True
@@ -213,7 +213,7 @@ config.Data.unitsPerJob = 1 # overridden per dataset
 config.Data.totalUnits = -1 # overridden per dataset
 # no publishing
 config.Data.publication = False
-config.Data.publishDataName = 'LQ' #overridden for data
+config.Data.outputDatasetTag = 'LQ' #overridden for data
 config.Data.outLFNDirBase = '/store/group/phys_exotica/leptonsPlusJets/RootNtuple/RunII/%s/' % (getUsernameFromSiteDB()) + options.tagName + '/'
 #config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
 if options.eosDir is not None:
@@ -259,7 +259,7 @@ with open(localInputListFile, 'r') as f:
     datasetNoSlashes = dataset[1:len(dataset)].replace('/','__')
     # datasetNameNoSlashes looks like SinglePhoton__Run2015D-PromptReco-v3
     # so split to just get Run2015D-PromptReco-v3
-    # and use that as the publishDataName to get it into the EOS path
+    # and use that as the outputDatasetTag to get it into the EOS path
     primaryDatasetName = datasetNoSlashes.split('__')[0]
     secondaryDatasetName = datasetNoSlashes.split('__')[1]
     datasetName = datasetNoSlashes
@@ -269,12 +269,12 @@ with open(localInputListFile, 'r') as f:
     if not isData:
       datasetName=datasetName.split('__')[0]
     else:
-      config.Data.publishDataName=secondaryDatasetName
+      config.Data.outputDatasetTag=secondaryDatasetName
     #Handle the DiLept ext1 vs non ext case specially
     if 'ext' in dataset:
       extN = dataset[dataset.find('_ext')+4]
       datasetName=datasetName+'_ext'+extN
-      config.Data.publishDataName='LQ_ext'+extN
+      config.Data.outputDatasetTag='LQ_ext'+extN
     config.Data.inputDataset = dataset
     #print 'make dir:',thisWorkDir
     makeDirAndCheck(thisWorkDir)
@@ -287,7 +287,7 @@ with open(localInputListFile, 'r') as f:
     if 'ext' in dataset:
       extN = dataset[dataset.find('_ext')+4]
       outputFile = outputFile+'_ext'+extN
-    storagePath=config.Data.outLFNDirBase+primaryDatasetName+'/'+config.Data.publishDataName+'/'+'YYMMDD_hhmmss/0000/'+outputFile+'_999.root'
+    storagePath=config.Data.outLFNDirBase+primaryDatasetName+'/'+config.Data.outputDatasetTag+'/'+'YYMMDD_hhmmss/0000/'+outputFile+'_999.root'
     #print 'will store (example):',storagePath
     #print '\twhich has length:',len(storagePath)
     if len(storagePath) > 255:
@@ -353,7 +353,7 @@ with open(localInputListFile, 'r') as f:
       config.Data.splitting = 'LumiBased' #LumiBased for data
       if math.fabs(nUnitsPerJob)==1:
         print 'WARNING: You specified +/-1 lumis per job; using default lumis per job of 100 instead'
-        config.Data.unitsPerJob = 100
+        config.Data.unitsPerJob = 40
     config.Data.unitsPerJob = nUnitsPerJob
     print 'INFO: using',nUnitsPerJob,'units (files/lumis) per job'
     config.General.requestName = datasetName
