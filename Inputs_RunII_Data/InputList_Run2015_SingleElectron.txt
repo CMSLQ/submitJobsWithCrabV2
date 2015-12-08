@@ -1,5 +1,5 @@
 # MiniAOD V2
 # see https://hypernews.cern.ch/HyperNews/CMS/get/physics-announcements/3561.html
-#/SingleElectron/Run2015C_25ns-05Oct2015-v1/MINIAOD    -1   100
-/SingleElectron/Run2015D-05Oct2015-v1/MINIAOD    -1   100
-/SingleElectron/Run2015D-PromptReco-v4/MINIAOD   -1   100
+/SingleElectron/Run2015C_25ns-05Oct2015-v1/MINIAOD    -1   40
+/SingleElectron/Run2015D-05Oct2015-v1/MINIAOD    -1   40
+/SingleElectron/Run2015D-PromptReco-v4/MINIAOD   -1   40
