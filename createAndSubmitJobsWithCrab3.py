@@ -48,7 +48,7 @@ globalTagsByDataset = {}
 #globalTagsByDataset['Run2015D-PromptReco-v3'] = '74X_dataRun2_reMiniAOD_v0'
 #globalTagsByDataset['RunIISpring15DR74-*'] = 'MCRUN2_74_V9'
 # latest miniaod v2
-globalTagsBydataset['Run2015C_25ns-05Oct2015-v*'] = '74X_dataRun2_reMiniAOD_v1'
+globalTagsByDataset['Run2015C_25ns-05Oct2015-v*'] = '74X_dataRun2_reMiniAOD_v1'
 globalTagsByDataset['Run2015D-05Oct2015-v*'] = '74X_dataRun2_reMiniAOD_v1'
 globalTagsByDataset['Run2015D-PromptReco-v4'] = '74X_dataRun2_reMiniAOD_v1'
 globalTagsByDataset['RunIISpring15MiniAODv2*'] = '74X_mcRun2_asymptotic_v4'
