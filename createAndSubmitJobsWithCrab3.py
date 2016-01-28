@@ -206,7 +206,11 @@ config.General.workArea = productionDir
 #
 config.JobType.pluginName  = 'Analysis'
 config.JobType.psetName    = '' # overridden per dataset
-#
+# need to pass in JEC/JER text files
+config.JobType.inputFiles = ['Summer15_25nsV6_DATAMCSF_AK4PFchs.txt','Summer15_25nsV6_DATA_UncertaintySources_AK4PFchs.txt',
+    'Summer15_25nsV6_MC_PtResolution_AK4PFchs.txt','Summer15_25nsV6_MC_UncertaintySources_AK4PFchs.txt']
+# need to execute the user_script
+config.JobType.scriptExe = 'user_script.sh'
 config.Data.inputDataset = '' # overridden per dataset
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased' #LumiBased for data

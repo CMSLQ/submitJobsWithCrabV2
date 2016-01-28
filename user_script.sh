@@ -1,3 +1,3 @@
-scram setup lhapdffull
+scram setup lhapdf
 scram b
-cmsRun -j $RUNTIME_AREA/crab_fjr_$NJob.xml -p pset.py
+cmsRun -j FrameworkJobReport.xml -p pset.py
