@@ -206,24 +206,8 @@ config.General.workArea = productionDir
 #
 config.JobType.pluginName  = 'Analysis'
 config.JobType.psetName    = '' # overridden per dataset
-# need to pass in JEC/JER text files
-inputFiles = ['Summer15_25nsV6_DATAMCSF_AK4PFchs.txt','Summer15_25nsV6_DATA_UncertaintySources_AK4PFchs.txt',
-    'Summer15_25nsV6_MC_PtResolution_AK4PFchs.txt','Summer15_25nsV6_MC_UncertaintySources_AK4PFchs.txt']
-config.JobType.inputFiles = []
-for txtfile in inputFiles:
-  if os.path.isfile(txtfile):
-    config.JobType.inputFiles.append(txtfile)
-  else:
-    # try looking in rootTupleMakerV2/test
-    relPath = os.getenv('CMSSW_BASE')+'/src/Leptoquarks/RootTupleMakerV2/test/'+txtfile
-    if os.path.isfile(relPath):
-      config.JobType.inputFiles.append(relPath)
-    else:
-      print 'cannot find input file:',txtfile,'; also looked for:',relPath
-      print 'quit'
-      exit(-1)
 # need to execute the user_script
-config.JobType.scriptExe = 'user_script.sh'
+#config.JobType.scriptExe = 'user_script.sh'
 config.Data.inputDataset = '' # overridden per dataset
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased' #LumiBased for data
