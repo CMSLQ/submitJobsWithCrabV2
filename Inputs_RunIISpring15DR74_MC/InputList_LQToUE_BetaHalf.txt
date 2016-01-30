@@ -19,8 +19,10 @@
 /LQToUE_ENuJJFilter_M-900_BetaHalf_TuneCUETP8M1_13TeV-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM    -1  1
 /LQToUE_ENuJJFilter_M-950_BetaHalf_TuneCUETP8M1_13TeV-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM    -1  1
 /LQToUE_ENuJJFilter_M-1000_BetaHalf_TuneCUETP8M1_13TeV-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM   -1  1
+/LQToUE_ENuJJFilter_M-1050_BetaHalf_TuneCUETP8M1_13TeV-pythia8/RunIISpring15MiniAODv2-Asympt25ns_74X_mcRun2_asymptotic_v2-v1/MINIAODSIM  -1  1
 /LQToUE_ENuJJFilter_M-1100_BetaHalf_TuneCUETP8M1_13TeV-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM   -1  1
 /LQToUE_ENuJJFilter_M-1150_BetaHalf_TuneCUETP8M1_13TeV-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM   -1  1
+/LQToUE_ENuJJFilter_M-1200_BetaHalf_TuneCUETP8M1_13TeV-pythia8/RunIISpring15MiniAODv2-Asympt25ns_74X_mcRun2_asymptotic_v2-v1/MINIAODSIM  -1  1
 /LQToUE_ENuJJFilter_M-1250_BetaHalf_TuneCUETP8M1_13TeV-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM   -1  1
 /LQToUE_ENuJJFilter_M-1300_BetaHalf_TuneCUETP8M1_13TeV-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM   -1  1
 /LQToUE_ENuJJFilter_M-1350_BetaHalf_TuneCUETP8M1_13TeV-pythia8/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM   -1  1
