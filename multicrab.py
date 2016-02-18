@@ -60,6 +60,9 @@ def main():
         print ("Executing (the equivalent of): crab %s %s %s" %
               (options.crabCmd, task, options.crabCmdOptions))
         res = crabCommand(options.crabCmd, task, *options.crabCmdOptions.split())
+        # stop here if we're not checking the status
+        if options.crabCmd != 'status':
+          continue
         if 'failed' in res['jobsPerStatus'].keys():
           tasksStatusDict[task] = 'FAILED' # if there's at least one failed job, count task as FAILED so we resubmit
         else:
