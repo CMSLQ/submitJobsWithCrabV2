@@ -43,15 +43,11 @@ from httplib import HTTPException
 # Define valid global tags by dataset as noted here:
 #    https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMiniAOD
 globalTagsByDataset = {}
-# now outdated
-#globalTagsByDataset['Run2015C-PromptReco-v*'] = '74X_dataRun2_v2'
-#globalTagsByDataset['Run2015D-PromptReco-v3'] = '74X_dataRun2_reMiniAOD_v0'
-#globalTagsByDataset['RunIISpring15DR74-*'] = 'MCRUN2_74_V9'
 # latest miniaod v2
-globalTagsByDataset['Run2015C_25ns-05Oct2015-v*'] = '74X_dataRun2_reMiniAOD_v1'
-globalTagsByDataset['Run2015D-05Oct2015-v*'] = '74X_dataRun2_reMiniAOD_v1'
-globalTagsByDataset['Run2015D-PromptReco-v4'] = '74X_dataRun2_reMiniAOD_v1'
-globalTagsByDataset['RunIISpring15MiniAODv2*'] = '74X_mcRun2_asymptotic_v4'
+globalTagsByDataset['Run2015C_25ns-05Oct2015-v*'] = '74X_dataRun2_reMiniAOD_v2'
+globalTagsByDataset['Run2015D-05Oct2015-v*'] = '74X_dataRun2_reMiniAOD_v2'
+globalTagsByDataset['Run2015D-PromptReco-v4'] = '74X_dataRun2_reMiniAOD_v2'
+globalTagsByDataset['RunIISpring15MiniAODv2*'] = '74X_mcRun2_asymptotic_v5'
 
 def crabSubmit(config):
     try:
