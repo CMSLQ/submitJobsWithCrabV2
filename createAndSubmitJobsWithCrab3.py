@@ -291,7 +291,7 @@ with open(localInputListFile, 'r') as f:
     # get the one with the shortest filename
     outputFile = sorted(outputFileNames, key=len)[0]
     if isData:
-      outputFile = outputFile + '_" + config.Data.outputDatasetTag 
+      outputFile = outputFile + '_' + config.Data.outputDatasetTag 
     if 'ext' in dataset:
       extN = dataset[dataset.find('_ext')+4]
       outputFile = outputFile+'_ext'+extN
