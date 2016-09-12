@@ -48,6 +48,11 @@ globalTagsByDataset['Run2015C_25ns-05Oct2015-v*'] = '74X_dataRun2_reMiniAOD_v2'
 globalTagsByDataset['Run2015D-05Oct2015-v*'] = '74X_dataRun2_reMiniAOD_v2'
 globalTagsByDataset['Run2015D-PromptReco-v4'] = '74X_dataRun2_reMiniAOD_v2'
 globalTagsByDataset['RunIISpring15MiniAODv2*'] = '74X_mcRun2_asymptotic_v5'
+globalTagsByDataset['RunIISpring16MiniAODv2*'] = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
+#globalTagsByDataset['RunIISpring16MiniAODv2*withHLT*'] = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
+globalTagsByDataset['Run2016*'] = '80X_dataRun2_Prompt_ICHEP16JEC_v0'
+
+
 
 def crabSubmit(config):
     try:
@@ -271,7 +276,7 @@ with open(localInputListFile, 'r') as f:
     # must pass isMC=false flag to cmsRun now (defaults to true)
     if isData:
       config.JobType.pyCfgParams = ['isMC=false']
-    #Handle the DiLept ext1 vs non ext case specially
+    #Handle the ext1 vs non ext case specially
     if 'ext' in dataset:
       extN = dataset[dataset.find('_ext')+4]
       datasetName=datasetName+'_ext'+extN
@@ -285,6 +290,8 @@ with open(localInputListFile, 'r') as f:
     outputFileNames.append(dataset.split('/')[1])
     # get the one with the shortest filename
     outputFile = sorted(outputFileNames, key=len)[0]
+    if isData:
+      outputFile = outputFile + config.Data.outputDatasetTag 
     if 'ext' in dataset:
       extN = dataset[dataset.find('_ext')+4]
       outputFile = outputFile+'_ext'+extN
