@@ -5,3 +5,5 @@
 /SingleElectron/Run2016E-PromptReco-v2/MINIAOD   -1   40
 /SingleElectron/Run2016F-PromptReco-v1/MINIAOD   -1   40
 /SingleElectron/Run2016G-PromptReco-v1/MINIAOD   -1   40
+/SingleElectron/Run2016H-PromptReco-v1/MINIAOD   -1   40
+/SingleElectron/Run2016H-PromptReco-v2/MINIAOD   -1   40
