@@ -89,7 +89,7 @@ def main():
     if len(tasksFailed) > 0:
       print 'commands to resubmit failed tasks (or tasks with failed jobs):'
       for task in tasksFailed:
-        print '\tcrab resubmit',task
+        print '\tcrab resubmit --maxmemory=2500 ',task
 
 
 
