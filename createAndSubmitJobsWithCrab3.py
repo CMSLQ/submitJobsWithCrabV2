@@ -50,7 +50,7 @@ globalTagsByDataset['Run2015D-PromptReco-v4'] = '74X_dataRun2_reMiniAOD_v2'
 globalTagsByDataset['RunIISpring15MiniAODv2*'] = '74X_mcRun2_asymptotic_v5'
 globalTagsByDataset['RunIISpring16MiniAODv2*'] = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
 #globalTagsByDataset['RunIISpring16MiniAODv2*withHLT*'] = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
-globalTagsByDataset['Run2016*Prompt*'] = '80X_dataRun2_Prompt_ICHEP16JEC_v0'
+globalTagsByDataset['Run2016*Prompt*'] = '80X_dataRun2_Prompt_v14'
 globalTagsByDataset['Run2016*23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
 
 def crabSubmit(config):
