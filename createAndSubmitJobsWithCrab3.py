@@ -50,8 +50,13 @@ globalTagsByDataset['Run2015D-PromptReco-v4'] = '74X_dataRun2_reMiniAOD_v2'
 globalTagsByDataset['RunIISpring15MiniAODv2*'] = '74X_mcRun2_asymptotic_v5'
 globalTagsByDataset['RunIISpring16MiniAODv2*'] = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
 #globalTagsByDataset['RunIISpring16MiniAODv2*withHLT*'] = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
-globalTagsByDataset['Run2016*Prompt*'] = '80X_dataRun2_Prompt_v14'
-globalTagsByDataset['Run2016*23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
+globalTagsByDataset['Run2016H-Prompt*'] = '80X_dataRun2_Prompt_v14'
+globalTagsByDataset['Run2016B-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
+globalTagsByDataset['Run2016C-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
+globalTagsByDataset['Run2016D-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
+globalTagsByDataset['Run2016E-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
+globalTagsByDataset['Run2016F-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
+globalTagsByDataset['Run2016G-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
 
 def crabSubmit(config):
     try:
@@ -339,6 +344,7 @@ with open(localInputListFile, 'r') as f:
     # so split to just get RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1
     for datasetKey,tag in globalTagsByDataset.iteritems():
       #print 'try to match:',datasetKey,'and',datasetNoSlashes.split('__')[1]
+      print 'try to match:',datasetKey,'and',secondaryDatasetName
       if re.match(re.compile(datasetKey),secondaryDatasetName):
         globalTag = tag
     if globalTag=='':
