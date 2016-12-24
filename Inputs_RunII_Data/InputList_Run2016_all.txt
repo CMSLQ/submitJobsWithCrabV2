@@ -14,8 +14,8 @@
 /SingleMuon/Run2016E-23Sep2016-v1/MINIAOD   -1   40
 /SingleMuon/Run2016F-23Sep2016-v1/MINIAOD   -1   40
 /SingleMuon/Run2016G-23Sep2016-v1/MINIAOD   -1   40
+/SingleElectron/Run2016H-PromptReco-v2/MINIAOD   -1   40
 /SingleElectron/Run2016H-PromptReco-v3/MINIAOD   -1   40
-/SingleElectron/Run2016H-PromptReco-v4/MINIAOD   -1   40
 /SingleElectron/Run2016B-23Sep2016-v3/MINIAOD   -1   40
 /SingleElectron/Run2016C-23Sep2016-v1/MINIAOD   -1   40
 /SingleElectron/Run2016D-23Sep2016-v1/MINIAOD   -1   40
