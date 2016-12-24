@@ -344,7 +344,7 @@ with open(localInputListFile, 'r') as f:
     # so split to just get RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1
     for datasetKey,tag in globalTagsByDataset.iteritems():
       #print 'try to match:',datasetKey,'and',datasetNoSlashes.split('__')[1]
-      print 'try to match:',datasetKey,'and',secondaryDatasetName
+      #print 'try to match:',datasetKey,'and',secondaryDatasetName
       if re.match(re.compile(datasetKey),secondaryDatasetName):
         globalTag = tag
     if globalTag=='':
