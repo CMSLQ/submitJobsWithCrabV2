@@ -58,6 +58,13 @@ globalTagsByDataset['Run2016E-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
 globalTagsByDataset['Run2016F-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
 globalTagsByDataset['Run2016G-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
 
+# to feed additional files into the crab sandbox
+additionalInputFiles = []
+rootTupleTestDir = os.getenv('CMSSW_BASE')+'/src/Leptoquarks/RootTupleMakerV2/test/'
+# just feed both in, even though we only need one at a time
+additionalInputFiles.append(rootTupleTestDir+'Spring16_23Sep2016V2_MC.db')
+additionalInputFiles.append(rootTupleTestDir+'Spring16_23Sep2016AllV2_DATA.db')
+
 def crabSubmit(config):
     try:
         crabCommand('submit', config = config)
@@ -204,12 +211,15 @@ if 'Proxy not found' in err or 'timeleft  : 00:00:00' in out:
 config = config()
 config.General.requestName   = topDirName # overridden per dataset (= tagName_dateString)
 config.General.transferOutputs = True
-config.General.transferLogs = False
+config.General.transferLogs = True
 # We want to put all the CRAB project directories from the tasks we submit here into one common directory.
 # That's why we need to set this parameter (here or above in the configuration file, it does not matter, we will not overwrite it).
 config.General.workArea = productionDir
 #
 config.JobType.pluginName  = 'Analysis'
+# feed in any additional input files
+config.JobType.inputFiles = []
+config.JobType.inputFiles.extend(additionalInputFiles)
 config.JobType.psetName    = '' # overridden per dataset
 # need to execute the user_script
 #config.JobType.scriptExe = 'user_script.sh'
