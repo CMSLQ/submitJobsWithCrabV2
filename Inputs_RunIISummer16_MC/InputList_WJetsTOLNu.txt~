@@ -1,7 +1,0 @@
-# extracted from:
-# das_client.py --query="dataset=/WJets*ToL*/RunIISpring16MiniAODv2*80*/MINIAODSIM" --limit=0
-#
-# format:
-# dataset    totalUnits(files)    unitsPerJob
-#
-#
