@@ -62,8 +62,8 @@ globalTagsByDataset['Run2016G-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
 additionalInputFiles = []
 rootTupleTestDir = os.getenv('CMSSW_BASE')+'/src/Leptoquarks/RootTupleMakerV2/test/'
 # just feed both in, even though we only need one at a time
-additionalInputFiles.append(rootTupleTestDir+'Spring16_23Sep2016V2_MC.db')
-additionalInputFiles.append(rootTupleTestDir+'Spring16_23Sep2016AllV2_DATA.db')
+additionalInputFiles.append(rootTupleTestDir+'Summer16_23Sep2016V3_MC.db')
+additionalInputFiles.append(rootTupleTestDir+'Summer16_23Sep2016AllV3_DATA.db')
 
 def crabSubmit(config):
     try:
