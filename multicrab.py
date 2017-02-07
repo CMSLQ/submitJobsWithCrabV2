@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import subprocess
 from optparse import OptionParser
 
 #
@@ -26,6 +27,9 @@ def getOptions():
     parser.add_option("-o", "--crabCmdOptions", dest="crabCmdOptions",
          help=("The options you want to pass to the crab command CMD"
                "tasklistFile"), metavar="OPT", default="")
+    parser.add_option("-r", "--noAutoResubmit", dest="noAutoResubmit",
+         help=("don't automatically run the resub commands"),
+         metavar="noAutoResub",default=False,action="store_true")
 
     (options, args) = parser.parse_args()
 
@@ -80,8 +84,6 @@ def main():
       print 'Tasks completed:',len(tasksCompleted),'/',totalTasks
     if len(tasksSubmitted) > 0:
       print 'Tasks submitted:',len(tasksSubmitted),'/',totalTasks
-    if len(tasksFailed) > 0:
-      print 'Tasks failed:',len(tasksFailed),'/',totalTasks
     if len(tasksOther) > 0:
       print 'Tasks with other status:',len(tasksOther),'/',totalTasks
       for task in tasksOther:
@@ -89,7 +91,12 @@ def main():
     if len(tasksFailed) > 0:
       print 'commands to resubmit failed tasks (or tasks with failed jobs):'
       for task in tasksFailed:
-        print '\tcrab resubmit --maxmemory=2500 ',task
+        resubmitCmd = 'crab resubmit '+task  
+        print
+        print '\t'+resubmitCmd
+        if not options.noAutoResubmit:
+          print 'Automatically resubmitting...'
+          subprocess.call(resubmitCmd.split())
 
 
 
