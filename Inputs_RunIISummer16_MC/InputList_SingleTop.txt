@@ -1,5 +1,5 @@
 # extracted from:
-# das_client.py --query="dataset=/ST_*/RunIISummer16MiniAOD*80*/MINIAODSIM" --limit=0
+# das_client.py --query="dataset status=valid dataset=/ST_*/RunIISummer16MiniAOD*80*/MINIAODSIM" --limit=0
 #
 # format:
 # dataset    totalUnits(files)    unitsPerJob
