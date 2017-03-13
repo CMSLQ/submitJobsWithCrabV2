@@ -50,21 +50,37 @@ globalTagsByDataset['Run2015D-PromptReco-v4'] = '74X_dataRun2_reMiniAOD_v2'
 globalTagsByDataset['RunIISpring15MiniAODv2*'] = '74X_mcRun2_asymptotic_v5'
 globalTagsByDataset['RunIISpring16MiniAODv2*'] = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
 #globalTagsByDataset['RunIISpring16MiniAODv2*withHLT*'] = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
-globalTagsByDataset['RunIISummer16MiniAODv2*'] = '80X_mcRun2_asymptotic_2016_TrancheIV_v6'
-globalTagsByDataset['Run2016H-Prompt*'] = '80X_dataRun2_Prompt_v14'
+globalTagsByDataset['RunIISummer16MiniAODv2*'] = '80X_mcRun2_asymptotic_2016_TrancheIV_v8'
+globalTagsByDataset['Run2016H-Prompt*'] = '80X_dataRun2_Prompt_v16'
 globalTagsByDataset['Run2016B-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
 globalTagsByDataset['Run2016C-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
 globalTagsByDataset['Run2016D-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
 globalTagsByDataset['Run2016E-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
 globalTagsByDataset['Run2016F-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
 globalTagsByDataset['Run2016G-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
+globalTagsByDataset['Run2016B-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
+globalTagsByDataset['Run2016C-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
+globalTagsByDataset['Run2016D-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
+globalTagsByDataset['Run2016E-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
+globalTagsByDataset['Run2016F-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
+globalTagsByDataset['Run2016G-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
+
+xyCorrsByDataset = {}
+xyCorrsByDataset['RunIISummer16MiniAODv2*'] = 'multPhiCorr_MC_DY_sumPT_80X'
+xyCorrsByDataset['Run2016B-03Feb2017*'] = 'multPhiCorr_Data_BCDEF_80X'
+xyCorrsByDataset['Run2016C-03Feb2017*'] = 'multPhiCorr_Data_BCDEF_80X'
+xyCorrsByDataset['Run2016D-03Feb2017*'] = 'multPhiCorr_Data_BCDEF_80X'
+xyCorrsByDataset['Run2016E-03Feb2017*'] = 'multPhiCorr_Data_BCDEF_80X'
+xyCorrsByDataset['Run2016F-03Feb2017*'] = 'multPhiCorr_Data_BCDEF_80X'
+xyCorrsByDataset['Run2016G-03Feb2017*'] = 'multPhiCorr_Data_GH_80X'
+xyCorrsByDataset['Run2016H-Prompt*'] =    'multPhiCorr_Data_GH_80X'
 
 # to feed additional files into the crab sandbox
 additionalInputFiles = []
 rootTupleTestDir = os.getenv('CMSSW_BASE')+'/src/Leptoquarks/RootTupleMakerV2/test/'
 # just feed both in, even though we only need one at a time
-additionalInputFiles.append(rootTupleTestDir+'Summer16_23Sep2016V3_MC.db')
-additionalInputFiles.append(rootTupleTestDir+'Summer16_23Sep2016AllV3_DATA.db')
+additionalInputFiles.append(rootTupleTestDir+'Summer16_23Sep2016V4_MC.db')
+additionalInputFiles.append(rootTupleTestDir+'Summer16_23Sep2016AllV4_DATA.db')
 
 def crabSubmit(config):
     try:
@@ -362,6 +378,15 @@ with open(localInputListFile, 'r') as f:
       print 'WARNING: Using default global tag as specified in template cfg (are you sure it\'s the right one?)'
     else:
       print 'INFO: Overriding global tag to:',globalTag,'for dataset:',datasetName
+
+    #Get MET phi correction by dataset
+    xyCorr , xyCorrFile = '' , ''
+    for datasetKey,tag in xyCorrsByDataset.iteritems():
+      if re.match(re.compile(datasetKey),secondaryDatasetName):
+        xyCorr = tag
+        xyCOrrFile = 'multPhiCorr_ReMiniAOD_Data_'+xyCorr.split('_')[2]+'_80X_sumPt_cfi'
+    #Put xy correction into config
+    config_txt.replace('#MetPhiCorrectionsInsertHere','from MetTools.MetPhiCorrections.tools.'+xyCorrFile+' import '+xyCorr+' as multPhiCorrParams_Txy_25ns')
 
     # substitute the output filename at the end
     config_txt += '\nprocess.TFileService.fileName = "'+outputFile+'.root"\n'
