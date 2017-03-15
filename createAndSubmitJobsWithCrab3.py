@@ -73,7 +73,7 @@ xyCorrsByDataset['Run2016D-03Feb2017*'] = 'multPhiCorr_Data_BCDEF_80X'
 xyCorrsByDataset['Run2016E-03Feb2017*'] = 'multPhiCorr_Data_BCDEF_80X'
 xyCorrsByDataset['Run2016F-03Feb2017*'] = 'multPhiCorr_Data_BCDEF_80X'
 xyCorrsByDataset['Run2016G-03Feb2017*'] = 'multPhiCorr_Data_GH_80X'
-xyCorrsByDataset['Run2016H-03Feb2017**'] =    'multPhiCorr_Data_GH_80X'
+xyCorrsByDataset['Run2016H-03Feb2017*'] =    'multPhiCorr_Data_GH_80X'
 
 # to feed additional files into the crab sandbox
 additionalInputFiles = []
