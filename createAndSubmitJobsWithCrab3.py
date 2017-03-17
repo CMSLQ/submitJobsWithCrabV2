@@ -58,12 +58,14 @@ globalTagsByDataset['Run2016D-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
 globalTagsByDataset['Run2016E-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
 globalTagsByDataset['Run2016F-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
 globalTagsByDataset['Run2016G-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
+# reMiniAOD
 globalTagsByDataset['Run2016B-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
 globalTagsByDataset['Run2016C-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
 globalTagsByDataset['Run2016D-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
 globalTagsByDataset['Run2016E-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
 globalTagsByDataset['Run2016F-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
 globalTagsByDataset['Run2016G-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
+globalTagsByDataset['Run2016H-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
 
 xyCorrsByDataset = {}
 xyCorrsByDataset['RunIISummer16MiniAODv2*'] = 'multPhiCorr_MC_DY_sumPT_80X'
@@ -79,8 +81,8 @@ xyCorrsByDataset['Run2016H-03Feb2017*'] =    'multPhiCorr_Data_GH_80X'
 additionalInputFiles = []
 rootTupleTestDir = os.getenv('CMSSW_BASE')+'/src/Leptoquarks/RootTupleMakerV2/test/'
 # just feed both in, even though we only need one at a time
-additionalInputFiles.append(rootTupleTestDir+'Summer16_23Sep2016V4_MC.db')
-additionalInputFiles.append(rootTupleTestDir+'Summer16_23Sep2016AllV4_DATA.db')
+#additionalInputFiles.append(rootTupleTestDir+'Summer16_23Sep2016V4_MC.db')
+#additionalInputFiles.append(rootTupleTestDir+'Summer16_23Sep2016AllV4_DATA.db')
 
 def crabSubmit(config):
     try:
