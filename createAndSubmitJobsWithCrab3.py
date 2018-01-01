@@ -314,6 +314,9 @@ with open(localInputListFile, 'r') as f:
       extN = dataset[dataset.find('_ext')+4]
       datasetName=datasetName+'_ext'+extN
       config.Data.outputDatasetTag='LQ_ext'+extN
+    if 'backup' in dataset:
+      datasetName=datasetName+'_backup'
+      config.Data.outputDatasetTag='LQ_backup'
     config.Data.inputDataset = dataset
     #print 'make dir:',thisWorkDir
     makeDirAndCheck(thisWorkDir)
@@ -328,6 +331,8 @@ with open(localInputListFile, 'r') as f:
     if 'ext' in dataset:
       extN = dataset[dataset.find('_ext')+4]
       outputFile = outputFile+'_ext'+extN
+    if 'backup' in dataset:
+      outputFile = outputFile+'_backup'
     storagePath=config.Data.outLFNDirBase+primaryDatasetName+'/'+config.Data.outputDatasetTag+'/'+'YYMMDD_hhmmss/0000/'+outputFile+'_999.root'
     #print 'will store (example):',storagePath
     #print '\twhich has length:',len(storagePath)

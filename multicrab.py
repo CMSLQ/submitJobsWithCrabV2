@@ -91,7 +91,7 @@ def main():
     if len(tasksFailed) > 0:
       print 'commands to resubmit failed tasks (or tasks with failed jobs):'
       for task in tasksFailed:
-        resubmitCmd = 'crab resubmit '+task  
+        resubmitCmd = 'crab resubmit --maxmemory=3000 '+task  
         print
         print '\t'+resubmitCmd
         if not options.noAutoResubmit:
