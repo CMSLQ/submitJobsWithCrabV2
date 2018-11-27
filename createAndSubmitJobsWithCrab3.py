@@ -250,7 +250,11 @@ config.Data.totalUnits = -1 # overridden per dataset
 # no publishing
 config.Data.publication = False
 config.Data.outputDatasetTag = 'LQ' #overridden for data
+#This is for EXO group space
 config.Data.outLFNDirBase = '/store/group/phys_exotica/leptonsPlusJets/RootNtuple/RunII/%s/' % (getUsernameFromSiteDB()) + options.tagName + '/'
+#This is for Higgs group space
+#config.Data.outLFNDirBase = '/store/group/phys_higgs/HiggsExo/HH_bbZZ_bbllqq/%s/' % (getUsernameFromSiteDB()) + options.tagName + '/'
+#This is for personal user space (beware quotas)
 #config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
 if options.eosDir is not None:
   # split of /eos/cms if it is there
@@ -317,6 +321,10 @@ with open(localInputListFile, 'r') as f:
     if 'backup' in dataset:
       datasetName=datasetName+'_backup'
       config.Data.outputDatasetTag='LQ_backup'
+    #This is for DY 10-50 which has a v1 and v2, and an ext1
+    #if '-v2' in dataset:
+    #  datasetName=datasetName+'-v2'
+    #  config.Data.outputDatasetTag='LQ-v2'
     config.Data.inputDataset = dataset
     #print 'make dir:',thisWorkDir
     makeDirAndCheck(thisWorkDir)
