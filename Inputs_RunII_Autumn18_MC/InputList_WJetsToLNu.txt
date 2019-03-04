@@ -1,0 +1,11 @@
+# dataset dataset=/WJetsToLNu*/RunIIAutumn18MiniAOD*/MINIAODSIM
+
+# extracted from:
+## das_client.py --query="dataset status=valid dataset=/WJetsToLNu*/RunIIAutumn18MiniAOD*/MINIAODSIM" --limit=0
+##
+## format:
+## dataset    totalUnits(files)    unitsPerJob
+##
+# Missing /WJetsToLNu_Wpt
+# Missing /WJetsToLNu_Pt*
+# Missing /WToLNu_*J

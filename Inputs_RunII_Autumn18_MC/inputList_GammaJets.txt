@@ -1,0 +1,13 @@
+# dataset dataset=/GJets*/RunIIAutumn18MiniAOD*/MINIAODSIM
+
+# extracted from:
+## das_client.py --query="dataset status=valid dataset=/GJets*/RunIIAutumn18MiniAOD*/MINIAODSIM" --limit=0
+##
+## format:
+## dataset    totalUnits(files)    unitsPerJob
+##
+/GJets_HT-40To100_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM  -1  1
+# Missing /GJets_HT 100 to 200
+/GJets_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM  -1  1
+/GJets_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM  -1  1
+/GJets_HT-600ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_ext1-v2/MINIAODSIM  -1  1

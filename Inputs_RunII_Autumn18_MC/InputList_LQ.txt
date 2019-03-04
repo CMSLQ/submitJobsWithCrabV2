@@ -1,0 +1,7 @@
+# extracted from:
+## das_client.py --query="dataset status=valid dataset=/LQ*/RunIIAutumn18MiniAOD*/MINIAODSIM" --limit=0
+##
+## format:
+## dataset    totalUnits(files)    unitsPerJob
+##
+# Missing all

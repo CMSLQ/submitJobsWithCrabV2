@@ -1,0 +1,20 @@
+# dataset dataset=/WW_*/RunIIAutumn18MiniAOD*/MINIAODSIM
+
+# extracted from:
+## das_client.py --query="dataset status=valid dataset=/WW_*/RunIIAutumn18MiniAOD*/MINIAODSIM" --limit=0
+##
+## format:
+## dataset    totalUnits(files)    unitsPerJob
+##
+# Missing /WWTo1L1Nu2Q
+# Missing /WWTo4Q_4f
+# Missing /WZTo1L1Nu2Q
+# Missing /WZTo1L3Nu
+# Missing /WZTo2L2Q
+/WZTo3LNu_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_ext1-v2/MINIAODSIM  -1  1
+# Missing /WZTo2Q2Nu
+# Missing /ZZTo2Q2Nu
+/ZZTo4L_TuneCP5_13TeV_powheg_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_ext1-v2/MINIAODSIM  -1  1
+# Missing /ZZTo4Q
+/VVTo2L2Nu_13TeV_amcatnloFXFX_madspin_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM  -1  1
+/ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM  -1  1
