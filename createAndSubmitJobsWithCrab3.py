@@ -22,64 +22,23 @@ from CRABAPI.RawCommand import crabCommand
 from httplib import HTTPException
 
 
-# this prints a bunch of ugly stuff. just check to make sure user has sourced the crab setup first, as above
-# first setup the crab stuff by "sourcing" the crab3 setup script if needed
-# NB: env only prints exported variables.
-# use 'set -a && source [script] && env' to export all vars
-#if not 'crab3' in sys.path:
-#  command = ['bash', '-c', 'set -a && source /cvmfs/cms.cern.ch/crab3/crab.sh && env']
-#  proc = subprocess.Popen(command, stdout = subprocess.PIPE)
-#  for line in proc.stdout:
-#    (key, _, value) = line.partition("=")
-#    os.environ[key] = value.strip('\n') # without this, things get messed up
-#    # if it's the python path, update the sys.path
-#    if key=='PYTHONPATH':
-#      valueSplit = value.split(':')
-#      for v in valueSplit:
-#        sys.path.append(v)
-#  proc.communicate()
-#  newSysPath = sys.path
-
 # Define valid global tags by dataset as noted here:
-#    https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMiniAOD
+#    https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookNanoAOD
 globalTagsByDataset = {}
 # latest miniaod v2
-globalTagsByDataset['Run2015C_25ns-05Oct2015-v*'] = '74X_dataRun2_reMiniAOD_v2'
-globalTagsByDataset['Run2015D-05Oct2015-v*'] = '74X_dataRun2_reMiniAOD_v2'
-globalTagsByDataset['Run2015D-PromptReco-v4'] = '74X_dataRun2_reMiniAOD_v2'
-globalTagsByDataset['RunIISpring15MiniAODv2*'] = '74X_mcRun2_asymptotic_v5'
-globalTagsByDataset['RunIISpring16MiniAODv2*'] = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
-#globalTagsByDataset['RunIISpring16MiniAODv2*withHLT*'] = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
-globalTagsByDataset['RunIISummer16MiniAODv2*'] = '80X_mcRun2_asymptotic_2016_TrancheIV_v8'
-globalTagsByDataset['Run2016H-Prompt*'] = '80X_dataRun2_Prompt_v16'
-globalTagsByDataset['Run2016B-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
-globalTagsByDataset['Run2016C-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
-globalTagsByDataset['Run2016D-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
-globalTagsByDataset['Run2016E-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
-globalTagsByDataset['Run2016F-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
-globalTagsByDataset['Run2016G-23Sep2016*'] = '80X_dataRun2_2016SeptRepro_v4'
-# reMiniAOD
-globalTagsByDataset['Run2016B-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
-globalTagsByDataset['Run2016C-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
-globalTagsByDataset['Run2016D-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
-globalTagsByDataset['Run2016E-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
-globalTagsByDataset['Run2016F-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
-globalTagsByDataset['Run2016G-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
-globalTagsByDataset['Run2016H-03Feb2017*'] = '80X_dataRun2_2016SeptRepro_v7'
+globalTagsByDataset['RunIISummer16*'] = '102X_mcRun2_asymptotic_v6'
+globalTagsByDataset['Run2016*']       = '102X_dataRun2_nanoAOD_2016_v1'
+globalTagsByDataset['RunIIFall17*']   = '102X_mc2017_realistic_v6'
+globalTagsByDataset['Run2017*']       = '102X_dataRun2_v8'
+globalTagsByDataset['RunIIAutumn18*'] = '102X_upgrade2018_realistic_v16'
+globalTagsByDataset['Run2018D*']      = '102X_dataRun2_Prompt_v12'
+globalTagsByDataset['Run2018A*']      = '102X_dataRun2_v8' #FIXME to be checked
+globalTagsByDataset['Run2018B*']      = '102X_dataRun2_v8' #FIXME to be checked
+globalTagsByDataset['Run2018C*']      = '102X_dataRun2_v8' #FIXME to be checked
 
-xyCorrsByDataset = {}
-xyCorrsByDataset['RunIISummer16MiniAODv2*'] = 'multPhiCorr_MC_DY_sumPT_80X'
-xyCorrsByDataset['Run2016B-03Feb2017*'] = 'multPhiCorr_Data_BCDEF_80X'
-xyCorrsByDataset['Run2016C-03Feb2017*'] = 'multPhiCorr_Data_BCDEF_80X'
-xyCorrsByDataset['Run2016D-03Feb2017*'] = 'multPhiCorr_Data_BCDEF_80X'
-xyCorrsByDataset['Run2016E-03Feb2017*'] = 'multPhiCorr_Data_BCDEF_80X'
-xyCorrsByDataset['Run2016F-03Feb2017*'] = 'multPhiCorr_Data_BCDEF_80X'
-xyCorrsByDataset['Run2016G-03Feb2017*'] = 'multPhiCorr_Data_GH_80X'
-xyCorrsByDataset['Run2016H-03Feb2017*'] =    'multPhiCorr_Data_GH_80X'
-
-# to feed additional files into the crab sandbox
+# to feed additional files into the crab sandbox if needed
 additionalInputFiles = []
-rootTupleTestDir = os.getenv('CMSSW_BASE')+'/src/Leptoquarks/RootTupleMakerV2/test/'
+#rootTupleTestDir = os.getenv('CMSSW_BASE')+'/src/Leptoquarks/RootTupleMakerV2/test/'
 # just feed both in, even though we only need one at a time
 #additionalInputFiles.append(rootTupleTestDir+'Summer16_23Sep2016V4_MC.db')
 #additionalInputFiles.append(rootTupleTestDir+'Summer16_23Sep2016AllV4_DATA.db')
@@ -100,10 +59,8 @@ def validateOptions(options):
     error = True
   elif options.inputList is None:
     error = True
-  elif options.cmsswCfg is None:
-    error = True
   if error:
-    print 'You are missing one or more required options: d, i, c'
+    print 'You are missing one or more required options: d, i'
     parser.print_help()
     exit(-1)
   if options.prevJsonFile is not None and options.jsonFile is None:
@@ -128,10 +85,10 @@ def makeDirAndCheck(dir):
 usage = "Usage: %prog [options] "
 #XXX TODO FIX/UPDATE THIS MESSAGE
 usage+="\nSee https://twiki.cern.ch/twiki/bin/view/CMS/ExoticaLeptoquarkShiftMakeRootTuplesV22012 for more details "
-usage+="\nExample1 (NORMAL MODE): %prog -d `pwd`/RootNtuple -i inputList.txt -c rootTupleMaker_CRAB_DATA_2012_53X_cfg.py "
-usage+="\nExample2 (NORMAL MODE + RUN SELECTION): %prog -d `pwd`/RootNtuple -i inputList.txt -c rootTupleMaker_CRAB_DATA_2012_53X_cfg.py -r 132440-200000 "
-usage+="\nExample3 (JSON MODE): %prog -d `pwd`/RootNtuple -i inputList.txt -c rootTupleMaker_CRAB_DATA_2012_53X_cfg.py -j [JSON.txt or URL, https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions12/8TeV/Prompt/Cert_190456-208686_8TeV_PromptReco_Collisions12_JSON.txt]"
-usage+="\nExample4 (PREV JSON MODE): %prog -d `pwd`/RootNtuple -i inputList.txt -c rootTupleMaker_CRAB_DATA_2012_53X_cfg.py -j [JSON.txt or URL, https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions12/8TeV/Prompt/Cert_190456-208686_8TeV_PromptReco_Collisions12_JSON.txt] -p [lumiSummary.json from crab report from previous processing of same dataset]"
+usage+="\nExample1 (NORMAL MODE): %prog -d `pwd`/RootNtuple -i inputList.txt"
+usage+="\nExample2 (NORMAL MODE + RUN SELECTION): %prog -d `pwd`/RootNtuple -i inputList.txt -r 132440-200000 "
+usage+="\nExample3 (JSON MODE): %prog -d `pwd`/RootNtuple -i inputList.txt -j [JSON.txt or URL, https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions12/8TeV/Prompt/Cert_190456-208686_8TeV_PromptReco_Collisions12_JSON.txt]"
+usage+="\nExample4 (PREV JSON MODE): %prog -d `pwd`/RootNtuple -i inputList.txt -j [JSON.txt or URL, https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions12/8TeV/Prompt/Cert_190456-208686_8TeV_PromptReco_Collisions12_JSON.txt] -p [lumiSummary.json from crab report from previous processing of same dataset]"
 
 parser = OptionParser(usage=usage)
 
@@ -141,15 +98,12 @@ parser.add_option("-d", "--localStorageDir", dest="localStorageDir",
 
 parser.add_option("-v", "--tagName", dest="tagName",
                   help="tagName of RootNTupleMakerV2",
-                  metavar="TAGNAME")
+                  metavar="TAGNAME",
+                  default="")
 
 parser.add_option("-i", "--inputList", dest="inputList",
                   help="list of all datasets to be used (full path required)",
                   metavar="LIST")
-
-parser.add_option("-c", "--cfg", dest="cmsswCfg",
-                  help="CMSSW template cfg",
-                  metavar="CMSSWCFG")
 
 parser.add_option("-e", "--eosDir", dest="eosDir",
                   help="EOS directory (start with /store...) to store files (used for Data.outLFNDirBase); otherwise EXO LJ group dir used with userName",
@@ -178,22 +132,23 @@ date = datetime.now()
 # I like this better, but does it break anything?
 dateString = date.strftime("%Y%b%d_%H%M%S")
 
-# find tag name if not given
-if options.tagName==None:
-  print 'no tagname given; will ask git for the Leptoquarks/RootTupleMakerV2 tag...',
-  rootTupleMakerDir = os.getenv('CMSSW_BASE')+'/src/Leptoquarks/RootTupleMakerV2'
-  proc = subprocess.Popen('revparse=`git rev-parse HEAD` && git name-rev --tags --name-only $revparse',stderr=subprocess.PIPE,stdout=subprocess.PIPE,shell=True,cwd=rootTupleMakerDir,env=dict())
-  out,err = proc.communicate()
-  if len(err) > 0:
-    print
-    print 'something went wrong trying to get the git tag:',err
-    print 'please specify tagname manually with -v'
-    exit(-1)
-  else:
-    options.tagName=out.strip()
-    print 'Found tagname "'+options.tagName+'"'
+## find tag name if not given
+#if options.tagName==None:
+#  print 'no tagname given; will ask git for the Leptoquarks/RootTupleMakerV2 tag...',
+#  rootTupleMakerDir = os.getenv('CMSSW_BASE')+'/src/Leptoquarks/RootTupleMakerV2'
+#  proc = subprocess.Popen('revparse=`git rev-parse HEAD` && git name-rev --tags --name-only $revparse',stderr=subprocess.PIPE,stdout=subprocess.PIPE,shell=True,cwd=rootTupleMakerDir,env=dict())
+#  out,err = proc.communicate()
+#  if len(err) > 0:
+#    print
+#    print 'something went wrong trying to get the git tag:',err
+#    print 'please specify tagname manually with -v'
+#    exit(-1)
+#  else:
+#    options.tagName=out.strip()
+#    print 'Found tagname "'+options.tagName+'"'
 
-topDirName = options.tagName+'_'+dateString
+#topDirName = options.tagName+'_'+dateString
+topDirName = 'lqCustomNanoAOD_'+options.tagName+'_'+dateString
 productionDir = options.localStorageDir+'/'+topDirName
 cfgFilesDir = productionDir+'/cfgfiles'
 outputDir = productionDir+'/output'
@@ -228,7 +183,7 @@ if 'Proxy not found' in err or 'timeleft  : 00:00:00' in out:
 #  <lfn-prefix>/<primary-dataset>/<publication-name>/<time-stamp>/<counter>[/log]/<file-name> 
 #   LFNDirBase /                 / datasetTagName   / stuff automatically done   / from outputFile defined below
 config = config()
-config.General.requestName   = topDirName # overridden per dataset (= tagName_dateString)
+config.General.requestName   = topDirName # overridden per dataset
 config.General.transferOutputs = True
 config.General.transferLogs = False
 # We want to put all the CRAB project directories from the tasks we submit here into one common directory.
@@ -237,11 +192,10 @@ config.General.workArea = productionDir
 #
 config.JobType.pluginName  = 'Analysis'
 # feed in any additional input files
-config.JobType.inputFiles = []
-config.JobType.inputFiles.extend(additionalInputFiles)
+if len(additionalInputFiles) > 0:
+    config.JobType.inputFiles = []
+    config.JobType.inputFiles.extend(additionalInputFiles)
 config.JobType.psetName    = '' # overridden per dataset
-# need to execute the user_script
-#config.JobType.scriptExe = 'user_script.sh'
 config.Data.inputDataset = '' # overridden per dataset
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased' #LumiBased for data
@@ -305,14 +259,21 @@ with open(localInputListFile, 'r') as f:
     datasetName = datasetNoSlashes
     datasetName = datasetName.split('__')[0]+'__'+datasetName.split('__')[1] # get rid of part after last slash
     thisWorkDir = workDir+'/'+datasetName
-    isData = 'Run201' in datasetName
+    isData = 'Run20' in datasetName
     if not isData:
       datasetName=datasetName.split('__')[0]
     else:
       config.Data.outputDatasetTag=secondaryDatasetName
-    # must pass isMC=false flag to cmsRun now (defaults to true)
-    if isData:
-      config.JobType.pyCfgParams = ['isMC=false']
+    # get era
+    if 'Summer16' in secondaryDatasetName or 'Run2016' in secondaryDatasetName:
+      year=2016
+    elif 'Fall17' in secondaryDatasetName or 'Run2017' in secondaryDatasetName:
+      year=2017
+    elif 'Autumn18' in secondaryDatasetName or 'Run2018' in secondaryDatasetName:
+      year=2018
+    else:
+      print 'ERROR: could not determine year from secondaryDatasetName "{0}" from datasetName "{1}"'.format(secondaryDatasetName,datasetName)
+      exit(-4)
     #Handle the ext1 vs non ext case specially
     if 'ext' in dataset:
       extN = dataset[dataset.find('_ext')+4]
@@ -355,32 +316,7 @@ with open(localInputListFile, 'r') as f:
     else:
       print
       print 'will use storage path like:',storagePath
-
-    if not os.path.isfile(options.cmsswCfg):
-      # try relative path
-      relPath = os.getenv('CMSSW_BASE')+'/src/'+options.cmsswCfg
-      if os.path.isfile(relPath):
-        options.cmsswCfg = relPath
-      else:
-        print 'cannot find CMSSW cfg:',options.cmsswCfg,'; also looked for:',relPath
-        print 'quit'
-        exit(-1)
-
-    with open(options.cmsswCfg,'r') as config_file:
-      config_txt = config_file.read()
-    newCmsswConfig = cfgFilesDir+'/'+datasetName+'_cmssw_cfg.py'
-    print 'INFO: Creating',newCmsswConfig,'...'
     
-    ## check cmssw version
-    #miniAODV2Support = False
-    #cmsswVersion = os.getenv('CMSSW_VERSION').split('CMSSW_')[-1] # 7_4_14
-    #cmsswVersionSplit = cmsswVersion.split('_')
-    #if cmsswVersionSplit[0]=='7' and cmsswVersionSplit[1]=='4':
-    #  # running 74X
-    #  if int(cmsswVersionSplit[2]) > 12:
-    #    # running 7_4_12 or higher
-    #    miniAODV2Support = True
-
     globalTag = ''
     # for MC it will look like DYJetsToLL_M-100to200_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8__RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1
     # so split to just get RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1
@@ -390,25 +326,29 @@ with open(localInputListFile, 'r') as f:
       if re.match(re.compile(datasetKey),secondaryDatasetName):
         globalTag = tag
     if globalTag=='':
-      print 'WARNING: Using default global tag as specified in template cfg (are you sure it\'s the right one?)'
+      print 'ERROR: need global tag to proceed.'
+      exit(-5)
     else:
       print 'INFO: Overriding global tag to:',globalTag,'for dataset:',datasetName
 
-    #Get MET phi correction by dataset
-    xyCorr , xyCorrFile = '' , ''
-    for datasetKey,tag in xyCorrsByDataset.iteritems():
-      if re.match(re.compile(datasetKey),secondaryDatasetName):
-        xyCorr = tag
-        xyCOrrFile = 'multPhiCorr_ReMiniAOD_Data_'+xyCorr.split('_')[2]+'_80X_sumPt_cfi'
-    #Put xy correction into config
-    config_txt.replace('#MetPhiCorrectionsInsertHere','from MetTools.MetPhiCorrections.tools.'+xyCorrFile+' import '+xyCorr+' as multPhiCorrParams_Txy_25ns')
+    # make cmssw cfg
+    nanoScriptPath=os.getenv('CMSSW_BASE')+'/src/PhysicsTools/NanoAOD/test/doCmsDriver.py'
+    dataTypeArg='--datatype='+('data' if isData else 'mc')
+    gtArg='--gt='+globalTag
+    yearArg='--year='+str(year)
+    print 'Creating CMSSW config file with cmsDriver: "{0} {1} {2} {3}"'.format(nanoScriptPath,dataTypeArg,gtArg,yearArg)
+    subprocess.check_call([nanoScriptPath,dataTypeArg,gtArg,yearArg])
+    cmsswCfg='lqCustomNano_{0}_{1}_NANO.py'.format(('data' if isData else 'mc'),str(year))
+    os.rename(cmsswCfg,cfgFilesDir+'/'+cmsswCfg)
+    cmsswCfg=cfgFilesDir+'/'+cmsswCfg
+
+    with open(cmsswCfg,'r') as config_file:
+      config_txt = config_file.read()
+    newCmsswConfig = cfgFilesDir+'/'+datasetName+'_cmssw_cfg.py'
+    print 'INFO: Creating',newCmsswConfig,'...'
 
     # substitute the output filename at the end
     config_txt += '\nprocess.TFileService.fileName = "'+outputFile+'.root"\n'
-    # substitute the global tag name at the end if needed, and feed it into rootTupleEvent
-    if globalTag != '':
-      config_txt += '\nprocess.GlobalTag.globaltag = "'+globalTag+'"\n'
-      config_txt += '\nprocess.rootTupleEvent.globalTag = "'+globalTag+'"\n'
     with open(newCmsswConfig,'w') as cfgNew_file:
       cfgNew_file.write(config_txt)
 
