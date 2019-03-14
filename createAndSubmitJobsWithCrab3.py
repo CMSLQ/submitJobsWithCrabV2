@@ -332,17 +332,22 @@ with open(localInputListFile, 'r') as f:
       print 'INFO: Overriding global tag to:',globalTag,'for dataset:',datasetName
 
     # make cmssw cfg
-    nanoScriptPath=os.getenv('CMSSW_BASE')+'/src/PhysicsTools/NanoAOD/test/doCmsDriver.py'
-    dataTypeArg='--datatype='+('data' if isData else 'mc')
-    gtArg='--gt='+globalTag
-    yearArg='--year='+str(year)
-    print 'Creating CMSSW config file with cmsDriver: "{0} {1} {2} {3}"'.format(nanoScriptPath,dataTypeArg,gtArg,yearArg)
-    subprocess.check_call([nanoScriptPath,dataTypeArg,gtArg,yearArg])
-    cmsswCfg='lqCustomNano_{0}_{1}_NANO.py'.format(('data' if isData else 'mc'),str(year))
-    os.rename(cmsswCfg,cfgFilesDir+'/'+cmsswCfg)
-    cmsswCfg=cfgFilesDir+'/'+cmsswCfg
+    cmsswCfgFile='lqCustomNano_{0}_{1}_{2}_NANO.py'.format(('data' if isData else 'mc'),year,globalTag)
+    cmsswCfgFullPath=cfgFilesDir+'/'+cmsswCfgFile
+    # if we already generated the cfg, don't do it again
+    if not os.path.isfile(cmsswCfgFullPath):
+        nanoScriptPath=os.getenv('CMSSW_BASE')+'/src/PhysicsTools/NanoAOD/test/doCmsDriver.py'
+        dataTypeArg='--datatype='+('data' if isData else 'mc')
+        gtArg='--gt='+globalTag
+        yearArg='--year='+str(year)
+        print 'Creating CMSSW config file with cmsDriver: "{0} {1} {2} {3}"'.format(nanoScriptPath,dataTypeArg,gtArg,yearArg)
+        subprocess.check_call([nanoScriptPath,dataTypeArg,gtArg,yearArg])
+        print 'rename {0} --> {1}'.format(cmsswCfgFile,cmsswCfgFullPath)
+        os.rename(cmsswCfgFile,cmsswCfgFullPath)
+    else:
+        print 'Using already-generated cfg: {0}'.format(cmsswCfgFullPath)
 
-    with open(cmsswCfg,'r') as config_file:
+    with open(cmsswCfgFullPath,'r') as config_file:
       config_txt = config_file.read()
     newCmsswConfig = cfgFilesDir+'/'+datasetName+'_cmssw_cfg.py'
     print 'INFO: Creating',newCmsswConfig,'...'
