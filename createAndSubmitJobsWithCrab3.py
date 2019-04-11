@@ -191,7 +191,6 @@ config.JobType.psetName    = '' # overridden per dataset
 config.Data.inputDataset = '' # overridden per dataset
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'Automatic'
-config.Data.unitsPerJob = 1 # overridden per dataset
 config.Data.totalUnits = -1 # overridden per dataset, but doesn't matter for Automatic splitting
 # no publishing
 config.Data.publication = False
@@ -249,7 +248,6 @@ with open(localInputListFile, 'r') as f:
       exit(-3)
     dataset = split[0]
     nUnits = int(split[1]) #also used for total lumis for data
-    nUnitsPerJob = int(split[2])
     datasetNoSlashes = dataset[1:len(dataset)].replace('/','__')
     # datasetNameNoSlashes looks like SinglePhoton__Run2015D-PromptReco-v3
     # so split to just get Run2015D-PromptReco-v3
@@ -283,9 +281,9 @@ with open(localInputListFile, 'r') as f:
       datasetName=datasetName+'_backup'
       config.Data.outputDatasetTag='LQ_backup'
     #This is for DY 10-50 which has a v1 and v2, and an ext1
-    #if '-v2' in dataset:
-    #  datasetName=datasetName+'-v2'
-    #  config.Data.outputDatasetTag='LQ-v2'
+    if '-v2' in dataset:
+      datasetName=datasetName+'-v2'
+      config.Data.outputDatasetTag='LQ-v2'
     config.Data.inputDataset = dataset
     #print 'make dir:',thisWorkDir
     makeDirAndCheck(thisWorkDir)
@@ -340,7 +338,7 @@ with open(localInputListFile, 'r') as f:
         dataTypeArg='--datatype='+('data' if isData else 'mc')
         gtArg='--gt='+globalTag
         yearArg='--year='+str(year)
-        print 'Creating CMSSW config file with cmsDriver: "{0} {1} {2} {3}"'.format(nanoScriptPath,dataTypeArg,gtArg,yearArg)
+        #print 'Creating CMSSW config file with cmsDriver: "{0} {1} {2} {3}"'.format(nanoScriptPath,dataTypeArg,gtArg,yearArg)
         subprocess.check_call([nanoScriptPath,dataTypeArg,gtArg,yearArg])
         print 'rename {0} --> {1}'.format(cmsswCfgFile,cmsswCfgFullPath)
         os.rename(cmsswCfgFile,cmsswCfgFullPath)
