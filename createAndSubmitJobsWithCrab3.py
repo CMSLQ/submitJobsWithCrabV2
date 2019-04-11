@@ -121,6 +121,11 @@ parser.add_option("-p", "--previousJSON json", dest="prevJsonFile",
                   help="previous lumiSummary.json from crab",
                   metavar="PREVJSON")
 
+parser.add_option("-s", "--site siteName", dest="storageSite",
+                  help="storage site",
+                  metavar="STORAGESITE",
+                  default="T2_CH_CERN")
+
 (options, args) = parser.parse_args()
 
 # validate options
@@ -198,9 +203,9 @@ if len(additionalInputFiles) > 0:
 config.JobType.psetName    = '' # overridden per dataset
 config.Data.inputDataset = '' # overridden per dataset
 config.Data.inputDBS = 'global'
-config.Data.splitting = 'FileBased' #LumiBased for data
+config.Data.splitting = 'Automatic'
 config.Data.unitsPerJob = 1 # overridden per dataset
-config.Data.totalUnits = -1 # overridden per dataset
+config.Data.totalUnits = -1 # overridden per dataset, but doesn't matter for Automatic splitting
 # no publishing
 config.Data.publication = False
 config.Data.outputDatasetTag = 'LQ' #overridden for data
@@ -214,7 +219,8 @@ if options.eosDir is not None:
   # split of /eos/cms if it is there
   if options.eosDir.startswith('/eos/cms'):
     options.eosDir = options.eosDir.split('/eos/cms')[-1]
-  if not options.eosDir.startswith('/store'):
+  # require /store unless it's CERNBOX
+  if options.storageSite!='T2_CH_CERNBOX' and not options.eosDir.startswith('/store'):
     print 'eosDir must start with /eos/cms/store or /store and you specified:',options.eosDir
     print 'quit'
     exit(-1)
@@ -230,7 +236,7 @@ if options.eosDir is not None:
   else:
     config.Data.outLFNDirBase = outputLFN
 print 'Using outLFNDirBase:',config.Data.outLFNDirBase
-config.Site.storageSite = 'T2_CH_CERN'
+config.Site.storageSite = options.storageSite
 
 # look at the input list
 # use DAS to find the dataset names.
@@ -357,14 +363,6 @@ with open(localInputListFile, 'r') as f:
     with open(newCmsswConfig,'w') as cfgNew_file:
       cfgNew_file.write(config_txt)
 
-    # now make the rest of the crab3 config
-    if isData:
-      config.Data.splitting = 'LumiBased' #LumiBased for data
-      if math.fabs(nUnitsPerJob)==1:
-        print 'WARNING: You specified +/-1 lumis per job; using default lumis per job of 100 instead'
-        config.Data.unitsPerJob = 40
-    config.Data.unitsPerJob = nUnitsPerJob
-    print 'INFO: using',nUnitsPerJob,'units (files/lumis) per job'
     config.General.requestName = datasetName
     config.JobType.psetName = newCmsswConfig
     config.Data.totalUnits = nUnits
