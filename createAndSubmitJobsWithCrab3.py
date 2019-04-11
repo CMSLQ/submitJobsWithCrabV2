@@ -137,23 +137,10 @@ date = datetime.now()
 # I like this better, but does it break anything?
 dateString = date.strftime("%Y%b%d_%H%M%S")
 
-## find tag name if not given
-#if options.tagName==None:
-#  print 'no tagname given; will ask git for the Leptoquarks/RootTupleMakerV2 tag...',
-#  rootTupleMakerDir = os.getenv('CMSSW_BASE')+'/src/Leptoquarks/RootTupleMakerV2'
-#  proc = subprocess.Popen('revparse=`git rev-parse HEAD` && git name-rev --tags --name-only $revparse',stderr=subprocess.PIPE,stdout=subprocess.PIPE,shell=True,cwd=rootTupleMakerDir,env=dict())
-#  out,err = proc.communicate()
-#  if len(err) > 0:
-#    print
-#    print 'something went wrong trying to get the git tag:',err
-#    print 'please specify tagname manually with -v'
-#    exit(-1)
-#  else:
-#    options.tagName=out.strip()
-#    print 'Found tagname "'+options.tagName+'"'
-
-#topDirName = options.tagName+'_'+dateString
-topDirName = 'lqCustomNanoAOD_'+options.tagName+'_'+dateString
+if options.tagName:
+    topDirName = 'lqCustomNanoAOD_'+options.tagName+'_'+dateString
+else:
+    topDirName = 'lqCustomNanoAOD_'+dateString
 productionDir = options.localStorageDir+'/'+topDirName
 cfgFilesDir = productionDir+'/cfgfiles'
 outputDir = productionDir+'/output'
@@ -210,7 +197,10 @@ config.Data.totalUnits = -1 # overridden per dataset, but doesn't matter for Aut
 config.Data.publication = False
 config.Data.outputDatasetTag = 'LQ' #overridden for data
 #This is for EXO group space
-config.Data.outLFNDirBase = '/store/group/phys_exotica/leptonsPlusJets/RootNtuple/RunII/%s/' % (getUsernameFromSiteDB()) + options.tagName + '/'
+if options.tagName:
+    config.Data.outLFNDirBase = '/store/group/phys_exotica/leptonsPlusJets/RootNtuple/RunII/%s/' % (getUsernameFromSiteDB()) + options.tagName + '/'
+else:
+    config.Data.outLFNDirBase = '/store/group/phys_exotica/leptonsPlusJets/RootNtuple/RunII/%s/' % (getUsernameFromSiteDB()) + '/'
 #This is for Higgs group space
 #config.Data.outLFNDirBase = '/store/group/phys_higgs/HiggsExo/HH_bbZZ_bbllqq/%s/' % (getUsernameFromSiteDB()) + options.tagName + '/'
 #This is for personal user space (beware quotas)
@@ -227,12 +217,16 @@ if options.eosDir is not None:
   outputLFN=options.eosDir
   if not outputLFN[-1]=='/':
     outputLFN+='/'
-  outputLFN+=options.tagName+'/'
+  if options.tagName:
+    outputLFN+=options.tagName+'/'
   if not getUsernameFromSiteDB() in outputLFN:
     outputLFN.rstrip('/')
     #config.Data.outLFNDirBase = outputLFN+'/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
     # make the LFN shorter, and in any case, the timestamp is put in by crab
-    config.Data.outLFNDirBase = outputLFN+'/%s/' % (getUsernameFromSiteDB()) + options.tagName + '/'
+    if options.tagName:
+      config.Data.outLFNDirBase = outputLFN+'/%s/' % (getUsernameFromSiteDB()) + options.tagName + '/'
+    else:
+      config.Data.outLFNDirBase = outputLFN+'/%s/' % (getUsernameFromSiteDB()) + '/'
   else:
     config.Data.outLFNDirBase = outputLFN
 print 'Using outLFNDirBase:',config.Data.outLFNDirBase
