@@ -351,7 +351,10 @@ with open(localInputListFile, 'r') as f:
     print 'INFO: Creating',newCmsswConfig,'...'
 
     # substitute the output filename at the end
-    config_txt += '\nprocess.NANOAODSIMoutput.fileName = "'+outputFile+'.root"\n'
+    if isData:
+        config_txt += '\nprocess.NANOAODoutput.fileName = "'+outputFile+'.root"\n'
+    else:
+        config_txt += '\nprocess.NANOAODSIMoutput.fileName = "'+outputFile+'.root"\n'
     with open(newCmsswConfig,'w') as cfgNew_file:
       cfgNew_file.write(config_txt)
 
