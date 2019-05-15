@@ -183,6 +183,7 @@ config.General.transferLogs = False
 config.General.workArea = productionDir
 #
 config.JobType.pluginName  = 'Analysis'
+config.JobType.maxMemoryMB = 3000
 # feed in any additional input files
 if len(additionalInputFiles) > 0:
     config.JobType.inputFiles = []
@@ -254,6 +255,8 @@ with open(localInputListFile, 'r') as f:
     # and use that as the outputDatasetTag to get it into the EOS path
     primaryDatasetName = datasetNoSlashes.split('__')[0]
     secondaryDatasetName = datasetNoSlashes.split('__')[1]
+    print 'primaryDatasetName={}'.format(primaryDatasetName)
+    print 'secondaryDatasetName={}'.format(secondaryDatasetName)
     datasetName = datasetNoSlashes
     datasetName = datasetName.split('__')[0]+'__'+datasetName.split('__')[1] # get rid of part after last slash
     thisWorkDir = workDir+'/'+datasetName
@@ -273,17 +276,22 @@ with open(localInputListFile, 'r') as f:
       print 'ERROR: could not determine year from secondaryDatasetName "{0}" from datasetName "{1}"'.format(secondaryDatasetName,datasetName)
       exit(-4)
     #Handle the ext1 vs non ext case specially
-    if 'ext' in dataset:
-      extN = dataset[dataset.find('_ext')+4]
-      datasetName=datasetName+'_ext'+extN
-      config.Data.outputDatasetTag='LQ_ext'+extN
-    if 'backup' in dataset:
-      datasetName=datasetName+'_backup'
-      config.Data.outputDatasetTag='LQ_backup'
-    #This is for DY 10-50 which has a v1 and v2, and an ext1
-    if '-v2' in dataset:
-      datasetName=datasetName+'-v2'
-      config.Data.outputDatasetTag='LQ-v2'
+    print 'datasetName={}'.format(datasetName)
+    if not isData:
+      if 'ext' in dataset:
+        extN = dataset[dataset.find('_ext')+4]
+        datasetName=datasetName+'_ext'+extN
+        config.Data.outputDatasetTag='LQ_ext'+extN
+      if 'backup' in dataset:
+        datasetName=datasetName+'_backup'
+        config.Data.outputDatasetTag='LQ_backup'
+      #This is for DY 10-50 which has a v1 and v2, and an ext1
+      if '-v2' in dataset:
+        datasetName=datasetName+'-v2'
+        config.Data.outputDatasetTag='LQ-v2'
+      elif '-v1' in dataset:
+        datasetName=datasetName+'-v1'
+        config.Data.outputDatasetTag='LQ-v1'
     config.Data.inputDataset = dataset
     #print 'make dir:',thisWorkDir
     makeDirAndCheck(thisWorkDir)
@@ -301,7 +309,7 @@ with open(localInputListFile, 'r') as f:
     if 'backup' in dataset:
       outputFile = outputFile+'_backup'
     storagePath=config.Data.outLFNDirBase+primaryDatasetName+'/'+config.Data.outputDatasetTag+'/'+'YYMMDD_hhmmss/0000/'+outputFile+'_999.root'
-    #print 'will store (example):',storagePath
+    print 'will store (example):',storagePath
     #print '\twhich has length:',len(storagePath)
     if len(storagePath) > 255:
       print
