@@ -30,6 +30,9 @@ def getOptions():
     parser.add_option("-r", "--noAutoResubmit", dest="noAutoResubmit",
          help=("don't automatically run the resub commands"),
          metavar="noAutoResub",default=False,action="store_true")
+    parser.add_option("-i", "--ignoreCache", dest="ignoreMulticrabCache",
+         help=("don't use cache file to skip checking status of jobs already done"),
+         metavar="ignoreCache",default=False,action="store_true")
 
     (options, args) = parser.parse_args()
 
@@ -51,6 +54,17 @@ def main():
     """
     options = getOptions()
 
+    completedTasksFromCache = []
+    if not options.ignoreMulticrabCache:
+      # read our cache file (don't check status for completed tasks each time)
+      cacheFile = os.path.abspath(options.projDir+'/multicrab.cache')
+      if os.path.isfile(cacheFile):
+        ourCacheFile = open(cacheFile,'r')
+        for line in ourCacheFile:
+          completedTasksFromCache.append(line.strip())
+        ourCacheFile.close()
+
+    ourCacheFile = open(cacheFile,'a')
     tasksStatusDict = {}
     # Execute the command with its arguments for each task.
     for task in os.listdir(options.projDir):
@@ -60,6 +74,10 @@ def main():
         # ignore non-crab dirs
         if 'workdir' in task or 'cfgfiles' in task or 'output' in task:
           continue
+        if options.crabCmd=='status' and task in completedTasksFromCache:
+          print "Don't check status of task, was already completed:",task
+          tasksStatusDict[task] = 'COMPLETED'
+          continue
         print
         print ("Executing (the equivalent of): crab %s %s %s" %
               (options.crabCmd, task, options.crabCmdOptions))
@@ -68,9 +86,15 @@ def main():
         if options.crabCmd != 'status':
           continue
         if 'failed' in res['jobsPerStatus'].keys():
-          tasksStatusDict[task] = 'FAILED' # if there's at least one failed job, count task as FAILED so we resubmit
+            tasksStatusDict[task] = 'FAILED' # if there's at least one failed job, count task as FAILED so we resubmit
         else:
-          tasksStatusDict[task] = res['status']
+            tasksStatusDict[task] = res['status']
+        #print "res['jobsPerStatus'].keys()={}".format(res['jobsPerStatus'].keys())
+        #print res
+        tasksStatusDict[task] = res['status']
+        if tasksStatusDict[task]=='COMPLETED':
+            ourCacheFile.write(task+'\n')
+    ourCacheFile.close()
 
     totalTasks = len(tasksStatusDict)
     tasksCompleted = [task for task in tasksStatusDict if tasksStatusDict[task]=='COMPLETED']
@@ -84,6 +108,8 @@ def main():
       print 'Tasks completed:',len(tasksCompleted),'/',totalTasks
     if len(tasksSubmitted) > 0:
       print 'Tasks submitted:',len(tasksSubmitted),'/',totalTasks
+    if len(tasksFailed) > 0:
+      print 'Tasks failed:',len(tasksFailed),'/',totalTasks
     if len(tasksOther) > 0:
       print 'Tasks with other status:',len(tasksOther),'/',totalTasks
       for task in tasksOther:
@@ -91,7 +117,7 @@ def main():
     if len(tasksFailed) > 0:
       print 'commands to resubmit failed tasks (or tasks with failed jobs):'
       for task in tasksFailed:
-        resubmitCmd = 'crab resubmit --maxmemory=3000 --siteblacklist=T2_UK_London_IC '+task  
+        resubmitCmd = 'crab resubmit --maxmemory=3000 '+task  
         print
         print '\t'+resubmitCmd
         if not options.noAutoResubmit:
