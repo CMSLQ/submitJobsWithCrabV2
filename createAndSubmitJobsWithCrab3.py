@@ -23,18 +23,18 @@ from httplib import HTTPException
 
 
 # Define valid global tags by dataset as noted here:
-#    https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookNanoAOD
+#    https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmVAnalysisSummaryTable
 globalTagsByDataset = {}
 # latest miniaod v2
 globalTagsByDataset['RunIISummer16*'] = '102X_mcRun2_asymptotic_v6'
 globalTagsByDataset['Run2016*']       = '102X_dataRun2_nanoAOD_2016_v1'
 globalTagsByDataset['RunIIFall17*']   = '102X_mc2017_realistic_v6'
 globalTagsByDataset['Run2017*']       = '102X_dataRun2_v8'
-globalTagsByDataset['RunIIAutumn18*'] = '102X_upgrade2018_realistic_v16'
-globalTagsByDataset['Run2018D*']      = '102X_dataRun2_Prompt_v12'
-globalTagsByDataset['Run2018A*']      = '102X_dataRun2_v8' #FIXME to be checked
-globalTagsByDataset['Run2018B*']      = '102X_dataRun2_v8' #FIXME to be checked
-globalTagsByDataset['Run2018C*']      = '102X_dataRun2_v8' #FIXME to be checked
+globalTagsByDataset['RunIIAutumn18*'] = '102X_upgrade2018_realistic_v18'
+globalTagsByDataset['Run2018D*']      = '102X_dataRun2_Prompt_v13'
+globalTagsByDataset['Run2018A*']      = '102X_dataRun2_Sep2018ABC_v2'
+globalTagsByDataset['Run2018B*']      = '102X_dataRun2_Sep2018ABC_v2'
+globalTagsByDataset['Run2018C*']      = '102X_dataRun2_Sep2018ABC_v2'
 
 # to feed additional files into the crab sandbox if needed
 additionalInputFiles = []
