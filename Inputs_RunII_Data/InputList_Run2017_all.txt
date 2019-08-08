@@ -1,0 +1,28 @@
+## format:
+## dataset    totalUnits(files)    unitsPerJob
+##
+/SinglePhoton/Run2017B-31Mar2018-v1/MINIAOD  -1  40
+/SinglePhoton/Run2017C-31Mar2018-v1/MINIAOD  -1  40
+/SinglePhoton/Run2017D-31Mar2018-v1/MINIAOD  -1  40
+/SinglePhoton/Run2017E-31Mar2018-v1/MINIAOD  -1  40
+/SinglePhoton/Run2017F-31Mar2018-v1/MINIAOD  -1  40
+/SingleElectron/Run2017B-31Mar2018-v1/MINIAOD  -1  40
+/SingleElectron/Run2017C-31Mar2018-v1/MINIAOD  -1  40
+/SingleElectron/Run2017D-31Mar2018-v1/MINIAOD  -1  40
+/SingleElectron/Run2017E-31Mar2018-v1/MINIAOD  -1  40
+/SingleElectron/Run2017F-31Mar2018-v1/MINIAOD  -1  40
+/SingleMuon/Run2017B-31Mar2018-v1/MINIAOD  -1  40
+/SingleMuon/Run2017C-31Mar2018-v1/MINIAOD  -1  40
+/SingleMuon/Run2017D-31Mar2018-v1/MINIAOD  -1  40
+/SingleMuon/Run2017E-31Mar2018-v1/MINIAOD  -1  40
+/SingleMuon/Run2017F-31Mar2018-v1/MINIAOD  -1  40
+/DoubleEG/Run2017B-31Mar2018-v1/MINIAOD  -1  40
+/DoubleEG/Run2017C-31Mar2018-v1/MINIAOD  -1  40
+/DoubleEG/Run2017D-31Mar2018-v1/MINIAOD  -1  40
+/DoubleEG/Run2017E-31Mar2018-v1/MINIAOD  -1  40
+/DoubleEG/Run2017F-31Mar2018-v1/MINIAOD  -1  40
+/DoubleMuon/Run2017B-31Mar2018-v1/MINIAOD  -1  40
+/DoubleMuon/Run2017C-31Mar2018-v1/MINIAOD  -1  40
+/DoubleMuon/Run2017D-31Mar2018-v1/MINIAOD  -1  40
+/DoubleMuon/Run2017E-31Mar2018-v1/MINIAOD  -1  40
+/DoubleMuon/Run2017F-31Mar2018-v1/MINIAOD  -1  40
