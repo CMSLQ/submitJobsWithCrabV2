@@ -191,7 +191,7 @@ if len(additionalInputFiles) > 0:
 config.JobType.psetName    = '' # overridden per dataset
 config.Data.inputDataset = '' # overridden per dataset
 config.Data.inputDBS = 'global'
-config.Data.splitting = 'Automatic'
+config.Data.splitting = 'Automatic' # below this is set to Automatic for data, FileBased for MC
 config.Data.totalUnits = -1 # overridden per dataset, but doesn't matter for Automatic splitting
 # no publishing
 config.Data.publication = False
@@ -249,6 +249,7 @@ with open(localInputListFile, 'r') as f:
       exit(-3)
     dataset = split[0]
     nUnits = int(split[1]) #also used for total lumis for data
+    nUnitsPerJob = int(split[2]) # used for files/dataset for MC
     datasetNoSlashes = dataset[1:len(dataset)].replace('/','__')
     # datasetNameNoSlashes looks like SinglePhoton__Run2015D-PromptReco-v3
     # so split to just get Run2015D-PromptReco-v3
@@ -263,8 +264,11 @@ with open(localInputListFile, 'r') as f:
     isData = 'Run20' in datasetName
     if not isData:
       datasetName=datasetName.split('__')[0]
+      config.Data.splitting = 'FileBased'
+      config.Data.unitsPerJob = nUnitsPerJob
     else:
       config.Data.outputDatasetTag=secondaryDatasetName
+      config.Data.splitting = 'Automatic'
     # get era
     if 'Summer16' in secondaryDatasetName or 'Run2016' in secondaryDatasetName:
       year=2016
