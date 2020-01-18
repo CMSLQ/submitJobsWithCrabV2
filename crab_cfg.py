@@ -13,7 +13,7 @@ config = Configuration()
 
 config.section_("General")
 config.General.requestName = 'NanoPostDYJIncAMCNLO'
-config.General.transferLogs=True
+config.General.transferLogs=False
 
 config.section_("Data")
 config.Data.inputDataset = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISummer16NanoAODv6-PUMoriond17_Nano25Oct2019_102X_mcRun2_asymptotic_v7_ext2-v1/NANOAODSIM'
@@ -41,6 +41,12 @@ config.JobType.sendPythonFolder	 = True
 
 config.section_("Site")
 config.Site.storageSite = "T2_CH_CERN"
+
+# this will make sure jobs only run on sites which host the data.
+# See: https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ#What_is_glideinWms_Overflow_and
+config.section_("Debug")
+config.Debug.extraJDL = ['+CMS_ALLOW_OVERFLOW=False']
+
 #config.section_("User")
 #config.User.voGroup = 'dcms'
 

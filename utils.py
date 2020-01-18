@@ -16,8 +16,8 @@ def GetOutputDatasetTagAndModifiedDatasetName(dataset):
     # and use that as the outputDatasetTag to get it into the EOS path
     primaryDatasetName = datasetNoSlashes.split('__')[0]
     secondaryDatasetName = datasetNoSlashes.split('__')[1]
-    print 'primaryDatasetName={}'.format(primaryDatasetName)
-    print 'secondaryDatasetName={}'.format(secondaryDatasetName)
+    #print 'primaryDatasetName={}'.format(primaryDatasetName)
+    #print 'secondaryDatasetName={}'.format(secondaryDatasetName)
     datasetName = datasetNoSlashes
     datasetName = datasetName.split('__')[0]+'__'+datasetName.split('__')[1] # get rid of part after last slash
     #thisWorkDir = workDir+'/'+datasetName
@@ -30,7 +30,7 @@ def GetOutputDatasetTagAndModifiedDatasetName(dataset):
     #  config.Data.outputDatasetTag=secondaryDatasetName
     #  config.Data.splitting = 'Automatic'
     #Handle the ext1 vs non ext case specially
-    print 'datasetName={}'.format(datasetName)
+    #print 'datasetName={}'.format(datasetName)
     if not isData:
         if 'ext' in dataset:
             extN = dataset[dataset.find('_ext')+4]
@@ -46,7 +46,9 @@ def GetOutputDatasetTagAndModifiedDatasetName(dataset):
         elif '-v1' in dataset:
             datasetName=datasetName+'-v1'
             outputDatasetTag='LQ-v1'
-    return outputDatasetTag,datasetName
+    else:
+        outputDatasetTag=secondaryDatasetName
+    return outputDatasetTag,datasetName,primaryDatasetName,secondaryDatasetName,isData
 
 
 def GetOutputFilename(dataset,isMC):
@@ -76,7 +78,7 @@ def GetFileList(inputList):
         #fileList.append('/afs/cern.ch/user/s/scooper/work/private/cmssw/1100pre10/AddTrigObjMatchToNano/src/PhysicsTools/NanoAOD/test/myNanoProdMc2016_trigObj_NANO.root')
         #fileList.append('/afs/cern.ch/user/s/scooper/work/private/cmssw/1100pre9/MinimalStockNanoChanges2/src/PhysicsTools/NanoAOD/test/myNanoProdMc2016_NANO_2.root')
         #fileList.append('root://cms-xrd-global.cern.ch//store/mc/RunIISummer16NanoAODv6/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/PUMoriond17_Nano25Oct2019_102X_mcRun2_asymptotic_v7_ext2-v1/100000/E65D285B-B38F-F14A-AE07-87A7FDCF11E7.root')
-        fileList.append('/tmp/scooper/E65D285B-B38F-F14A-AE07-87A7FDCF11E7.root')
+        fileList.append('/tmp/scooper/FF746568-EC2F-8E41-8BF2-840FA8E95F9A.root')
     return fileList
 
 

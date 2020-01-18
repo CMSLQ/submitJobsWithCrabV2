@@ -184,6 +184,10 @@ config.General.workArea = productionDir
 #
 config.JobType.pluginName  = 'Analysis'
 #config.JobType.maxMemoryMB = 3000
+# this will make sure jobs only run on sites which host the data.
+# See: https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ#What_is_glideinWms_Overflow_and
+# postprocessing jobs take forever (and can exceed max wall clock time) otherwise
+config.Debug.extraJDL = ['+CMS_ALLOW_OVERFLOW=False']
 # feed in any additional input files
 if len(additionalInputFiles) > 0:
     config.JobType.inputFiles = []
@@ -193,7 +197,7 @@ config.JobType.scriptExe = 'crab_script.sh'
 config.JobType.sendPythonFolder	 = True
 config.Data.inputDataset = '' # overridden per dataset
 config.Data.inputDBS = 'global'
-config.Data.splitting = 'Automatic' # below this is set to Automatic for data, FileBased for MC
+config.Data.splitting = 'Automatic' # below this is set to LumiBased for data, FileBased for MC
 config.Data.totalUnits = -1 # overridden per dataset, but doesn't matter for Automatic splitting
 # no publishing
 config.Data.publication = False
@@ -251,21 +255,21 @@ with open(localInputListFile, 'r') as f:
       exit(-3)
     dataset = split[0]
     nUnits = int(split[1]) #also used for total lumis for data
-    nUnitsPerJob = int(split[2]) # used for files/dataset for MC
+    nUnitsPerJob = int(split[2]) # used for files/dataset for MC and LS per data
 
     datasetTag,datasetName,primaryDatasetName,secondaryDatasetName,isData = utils.GetOutputDatasetTagAndModifiedDatasetName(dataset)
     outputFile = utils.GetOutputFilename(dataset,not isData)
     config.Data.outputDatasetTag=datasetTag
     config.Data.inputDataset = dataset
-    config.JobType.scriptArgs = ['dataset='+config.Data.inputDataset]
+    # FIXME: will need to feed in run era and datarun
+    config.JobType.scriptArgs = ['dataset='+config.Data.inputDataset,'ismc='+str(not isData)]
     config.JobType.outputFiles = [outputFile]
+    config.Data.unitsPerJob = nUnitsPerJob
 
     if not isData:
       config.Data.splitting = 'FileBased'
-      config.Data.unitsPerJob = nUnitsPerJob
     else:
-      config.Data.splitting = 'Automatic'
-      config.Data.unitsPerJob = 180 # minutes per job; 180 is minimum [https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3ConfigurationFile]
+      config.Data.splitting = 'LumiBased'
     
     # get era
     if 'Summer16' in secondaryDatasetName or 'Run2016' in secondaryDatasetName:
@@ -281,7 +285,7 @@ with open(localInputListFile, 'r') as f:
     thisWorkDir = workDir+'/'+datasetName
     #print 'make dir:',thisWorkDir
     makeDirAndCheck(thisWorkDir)
-    storagePath=config.Data.outLFNDirBase+primaryDatasetName+'/'+config.Data.outputDatasetTag+'/'+'YYMMDD_hhmmss/0000/'+outputFile+'_999.root'
+    storagePath=config.Data.outLFNDirBase+primaryDatasetName+'/'+config.Data.outputDatasetTag+'/'+'YYMMDD_hhmmss/0000/'+outputFile.replace('.root','_9999.root')
     print 'will store (example):',storagePath
     #print '\twhich has length:',len(storagePath)
     if len(storagePath) > 255:

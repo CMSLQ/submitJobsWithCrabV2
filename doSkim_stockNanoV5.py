@@ -19,9 +19,10 @@ from PhysicsTools.NanoAODTools.postprocessing.analysis.LQ.eventCounterHistogramM
 import utils
 
 parser = argparse.ArgumentParser("")
-parser.add_argument('-isMC','--mc', dest='isMC', action='store_true')
-parser.add_argument('-isData','--data', dest='isMC', action='store_false')
-parser.set_defaults(isMC=True)
+parser.add_argument('-isMC','--ismc', type=lambda x: (str(x).lower()=='true'), default=True, dest="isMC", help="")
+#parser.add_argument('-isMC','--mc', dest='isMC', action='store_true')
+#parser.add_argument('-isData','--data', dest='isMC', action='store_false')
+#parser.set_defaults(isMC=True)
 #parser.add_argument('-jobNum', '--jobNum', type=int, default=1, help="")
 parser.add_argument('-era', '--era', type=str, default="2016", help="")
 parser.add_argument('-dataRun', '--dataRun', type=str, default="X", help="")
@@ -43,7 +44,7 @@ modulesToRun = []
 #modulesToRun.append( pdfWeightProducer() ) 
 jsonFile=None
 
-#files=GetFileList(inputList)
+#files=utils.GetFileList(inputList)
 #print 'files=',files
 
 if isMC:
@@ -95,8 +96,8 @@ preselection="Electron_pt[0] > 35"
 keepAndDrop='keepAndDrop.txt'
 
 # for crab
-haddFileName='{}_tree.root'.format(utils.GetOutputFilename(dataset,isMC))
+haddFileName=utils.GetOutputFilename(dataset,isMC)
 p=PostProcessor(".",inputFiles(),cut=preselection,outputbranchsel=keepAndDrop,modules=modulesToRun,provenance=True,fwkJobReport=True,jsonInput=runsAndLumis(),haddFileName=haddFileName)
 # interactive testing
-#p=PostProcessor(".",GetFileList(''),cut=preselection,outputbranchsel=keepAndDrop,modules=modulesToRun,provenance=True,fwkJobReport=True,jsonInput=runsAndLumis(),haddFileName=haddFileName)
+#p=PostProcessor(".",utils.GetFileList(''),cut=preselection,outputbranchsel=keepAndDrop,modules=modulesToRun,provenance=True,fwkJobReport=True,jsonInput=runsAndLumis(),haddFileName=haddFileName)
 p.run()
