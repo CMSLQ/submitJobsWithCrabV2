@@ -5,11 +5,9 @@ import os
 import sys
 import string
 from optparse import OptionParser
-import re
 from datetime import datetime
 import shutil
-import math
-from multiprocessing import Process,Queue
+from multiprocessing import Process, Queue
 try:
     from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 except ImportError:
@@ -76,6 +74,22 @@ def CheckProxy():
         #  proc2 = subprocess.call(['voms-proxy-init','--voms','cms','--valid','168:00'],stderr=f)
         proc2 = subprocess.call(['voms-proxy-init','--voms','cms','--valid','168:00'])
  
+
+def checkStoragePath(storagePath):
+    print 'will store (example):',storagePath
+    #print '\twhich has length:',len(storagePath)
+    if len(storagePath) > 255:
+      print
+      print 'we might have a problem with output path lengths too long (if we want to run crab over these).'
+      print 'example output will look like:'
+      print storagePath
+      print 'which has length:',len(storagePath)
+      print 'cowardly refusing to submit the jobs; exiting'
+      exit(-3)
+    #else:
+    #  print
+    #  print 'will use storage path like:',storagePath
+
 
 # to feed additional files into the crab sandbox if needed
 additionalInputFiles = []
@@ -261,10 +275,8 @@ with open(localInputListFile, 'r') as f:
     outputFile = utils.GetOutputFilename(dataset,not isData)
     config.Data.outputDatasetTag=datasetTag
     config.Data.inputDataset = dataset
-    # FIXME: will need to feed in run era and datarun
-    config.JobType.scriptArgs = ['dataset='+config.Data.inputDataset,'ismc='+str(not isData)]
-    config.JobType.outputFiles = [outputFile]
-    config.Data.unitsPerJob = nUnitsPerJob
+    print
+    print 'Consider dataset {0}'.format(dataset)
 
     if not isData:
       config.Data.splitting = 'FileBased'
@@ -272,6 +284,8 @@ with open(localInputListFile, 'r') as f:
       config.Data.splitting = 'LumiBased'
     
     # get era
+    # see, for example: https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmVAnalysisSummaryTable
+    # secondaryDatasetName looks like 'Run2015D-PromptReco-v3'
     if 'Summer16' in secondaryDatasetName or 'Run2016' in secondaryDatasetName:
       year=2016
     elif 'Fall17' in secondaryDatasetName or 'Run2017' in secondaryDatasetName:
@@ -281,27 +295,24 @@ with open(localInputListFile, 'r') as f:
     else:
       print 'ERROR: could not determine year from secondaryDatasetName "{0}" from datasetName "{1}"'.format(secondaryDatasetName,datasetName)
       exit(-4)
+    # get dataRun
+    dataRun = 'X'
+    if isData:
+        dataRun = secondaryDatasetName[secondaryDatasetName.find('Run')+7:secondaryDatasetName.find('Run')+8]
+
+    config.JobType.scriptArgs = ['dataset='+config.Data.inputDataset,'ismc='+str(not isData),'era='+str(year),'dataRun='+dataRun]
+    config.JobType.outputFiles = [outputFile]
+    config.Data.unitsPerJob = nUnitsPerJob
 
     thisWorkDir = workDir+'/'+datasetName
+    storagePath=config.Data.outLFNDirBase+primaryDatasetName+'/'+config.Data.outputDatasetTag+'/'+'YYMMDD_hhmmss/0000/'+outputFile.replace('.root','_9999.root')
     #print 'make dir:',thisWorkDir
     makeDirAndCheck(thisWorkDir)
-    storagePath=config.Data.outLFNDirBase+primaryDatasetName+'/'+config.Data.outputDatasetTag+'/'+'YYMMDD_hhmmss/0000/'+outputFile.replace('.root','_9999.root')
-    print 'will store (example):',storagePath
-    #print '\twhich has length:',len(storagePath)
-    if len(storagePath) > 255:
-      print
-      print 'we might have a problem with output path lengths too long (if we want to run crab over these).'
-      print 'example output will look like:'
-      print storagePath
-      print 'which has length:',len(storagePath)
-      print 'cowardly refusing to submit the jobs; exiting'
-      exit(-2)
-    else:
-      print
-      print 'will use storage path like:',storagePath
+    checkStoragePath(storagePath)
     
     config.General.requestName = datasetName
     config.Data.totalUnits = nUnits
+    # computing JSON mask
     if options.jsonFile is not None:
       if options.prevJsonFile is not None:
         print 'Using the subtraction between previous json and new json; WARNING: if lumis changed from good in previous to bad in new json, this will not remove them'
@@ -313,10 +324,14 @@ with open(localInputListFile, 'r') as f:
         config.Data.lumiMask = 'newJSON_minus_oldJSON.json'
       else:
         config.Data.lumiMask = options.jsonFile
+
     if options.runRange is not None:
       config.Data.runRange = runRange
+
     # and submit
-    print 'submit!'
+    print config.JobType.scriptArgs
+    print 'submit to crab. output from crab submit follows:'
+    sys.stdout.write("\033[1;34m")
     #crabSubmit(config)
     # workaround for cmssw multiple-loading problem
     # submit in subprocess
@@ -326,6 +341,8 @@ with open(localInputListFile, 'r') as f:
     p.join()
     if q.get()==-1:
       exit(-1)
+    sys.stdout.write("\033[0;0m")
+    print 'Done with this dataset.'
     
 
 print 'Done!' 
