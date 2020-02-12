@@ -1,4 +1,0 @@
-/ZJetsToNuNu_50_HT_100_TuneZ2Star_8TeV_madgraph_ext/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM -1 450
-/ZJetsToNuNu_100_HT_200_TuneZ2Star_8TeV_madgraph_ext/Summer12_DR53X-PU_S10_START53_V7C-v1/AODSIM -1 450
-/ZJetsToNuNu_200_HT_400_TuneZ2Star_8TeV_madgraph_ext/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM -1 450
-/ZJetsToNuNu_400_HT_inf_TuneZ2Star_8TeV_madgraph_ext/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM -1 450

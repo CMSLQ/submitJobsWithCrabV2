@@ -1,8 +1,0 @@
-# extracted from:
-# das_client.py --query="dataset=/TTJets*/*25ns*MCRUN2*/MINIAODSIM" --limit=0
-#
-# format:
-# dataset    totalUnits(files)    unitsPerJob
-#
-/TTJets_TuneCUETP8M1_13TeV-amcatnloFXFX-scaledown-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/MINIAODSIM          -1   1 
-/TTJets_TuneCUETP8M1_13TeV-amcatnloFXFX-scaleup-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/MINIAODSIM            -1   1 
