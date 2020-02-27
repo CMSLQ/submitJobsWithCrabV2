@@ -28,8 +28,8 @@ import utils
 
 def crabSubmit(config):
     try:
-        #crabCommand('submit', config = config)
-        crabCommand('submit', 'dryrun', config = config)
+        crabCommand('submit', config = config)
+        #crabCommand('submit', 'dryrun', config = config)
     except HTTPException, hte:
         print '-----> there was a problem. see below.'
         print hte.headers
