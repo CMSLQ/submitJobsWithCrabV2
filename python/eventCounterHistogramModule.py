@@ -31,8 +31,9 @@ class eventCounterHistogramProducer(Module):
             self.h_count.SetBinContent(3,runsTree.GetBranch("genEventSumw").GetLeaf("genEventSumw").GetValue())
         elif runsTree.GetBranch("genEventSumw_"):
             self.h_count.SetBinContent(3,runsTree.GetBranch("genEventSumw_").GetLeaf("genEventSumw_").GetValue())
-        else:
-            raise RuntimeError("Count not find the genEventSumw branch; tried genEventSumw and genEventSumw_")
+        # Can't work with data, turning off error
+        #else:
+        #    raise RuntimeError("Count not find the genEventSumw branch; tried genEventSumw and genEventSumw_")
 
 
     def endFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
