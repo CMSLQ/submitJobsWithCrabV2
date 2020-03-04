@@ -23,7 +23,7 @@ from PhysicsTools.NanoAODTools.postprocessing.framework.postprocessor import (
 )
 from PhysicsTools.NanoAODTools.postprocessing.modules.common.PrefireCorr import PrefCorr
 
-from PhysicsTools.NanoAODTools.postprocessing.analysis.LQ.eventCounterHistogramModule import *
+from Leptoquarks.submitJobsWithCrabV2.eventCounterHistogramModule import *
 
 import utils
 
@@ -70,7 +70,7 @@ if isMC:
     if era == "2016":
         # modulesToRun.extend([puAutoWeight_2016(),jetmetUncertainties2016All(),btagSFProducer("2016","cmva")])
         # FIXME put back jetmetUncertainties once they aren't so bloated
-        modulesToRun.extend([puAutoWeight_2016(), btagSFProducer("2016", "cmva")])
+        modulesToRun.extend([puAutoWeight_2016(), btagSFProducer("Legacy2016", "deepcsv")])
     elif era == "2017":
         # modulesToRun.extend([puAutoWeight_2017(),jetmetUncertainties2017All(),btagSFProducer("2017","deepcsv")])
         modulesToRun.extend([puAutoWeight_2017(), btagSFProducer("2017", "deepcsv")])
