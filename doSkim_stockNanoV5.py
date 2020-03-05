@@ -47,6 +47,8 @@ parser.add_argument("-dataRun", "--dataRun", type=str, default="X", help="")
 parser.add_argument(
     "-dataset", "--dataset", type=str, default="/my/test/dataset", help=""
 )
+parser.add_argument("-a", "--analysis", type=str, default="", help="")
+
 args = parser.parse_args()
 print "args = ", args
 isMC = args.isMC
@@ -55,8 +57,9 @@ dataRun = args.dataRun
 # haddFileName = args.haddFileName
 # inputList = args.inputList
 dataset = args.dataset
+analysis = args.analysis
 
-print "isMC =", isMC, "era =", era, "dataRun =", dataRun, "dataset=", dataset
+print "isMC =", isMC, "era =", era, "dataRun =", dataRun, "dataset=", dataset, "analysis=", analysis,
 
 modulesToRun = []
 modulesToRun.append(PrefCorr())
@@ -103,15 +106,28 @@ else:
 
 modulesToRun.append(eventCounterHistogramModule())
 
-# Require lead electron SCEt > 35 GeV to keep the event
-# preselection="(Electron_caloEnergy[0]/cosh(Electron_scEta[0]))>35"
-# for stock, use regular Pt
-preselection = "Electron_pt[0] > 35"
-# preselection="Electron_pt[0] > 100"
-# preselection="Electron_pt[0] > 45"
-# preselection="Electron_pt[0]>45 || Muon_pt[0]>45 || (Muon_pt[0]>15 && Muon_pt[1]>8 && nJet>2 && Jet_pt[0]>23) || (Electron_pt[0]>17 && Electron_pt[1]>12 && nJet>2 && Jet_pt[0]>23)"
-# remove preselection, as preselection is done in the custom2016SkimModule
+preselection = ""
 keepAndDrop = "keepAndDrop.txt"
+
+## LQ1
+if analysis == "LQ1" :
+    # Require lead electron SCEt > 35 GeV to keep the event
+    # preselection="(Electron_caloEnergy[0]/cosh(Electron_scEta[0]))>35"
+    # for stock, use regular Pt
+    preselection = "Electron_pt[0] > 35"
+    keepAndDrop = "keepAndDrop.txt"
+## LQ2
+elif analysis == "LQ2" :
+    preselection = "Muon_pt[0] > 40"
+    keepAndDrop = "keepAndDrop.txt"
+## HH
+elif analysis == "HH" :
+    preselection="(Muon_pt[0]>16 && Muon_pt[1]>7 && nJet>2 && Jet_pt[0]>17 && Jet_pt[1]>17) || (Electron_pt[0]>22 && Electron_pt[1]>11 && nJet>2 && Jet_pt[0]>17 && Jet_pt[1]>17)"
+    keepAndDrop = "keepAndDrop_hh.txt"
+else :
+    print "ERROR: Did not understand the analysis to run!  Should be one of LQ1, LQ2, HH. Quitting."
+    exit(-1)
+
 
 # for crab
 haddFileName = utils.GetOutputFilename(dataset, isMC)
