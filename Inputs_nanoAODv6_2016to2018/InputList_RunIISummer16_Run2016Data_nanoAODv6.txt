@@ -10,6 +10,15 @@
 /SingleElectron/Run2016G-Nano25Oct2019-v1/NANOAOD  -1  40
 /SingleElectron/Run2016H-Nano25Oct2019-v1/NANOAOD  -1  40
 #
+/SinglePhoton/Run2016B_ver1-Nano25Oct2019_ver1-v1/NANOAOD  -1  40
+/SinglePhoton/Run2016B_ver2-Nano25Oct2019_ver2-v1/NANOAOD  -1  40
+/SinglePhoton/Run2016C-Nano25Oct2019-v1/NANOAOD  -1  40
+/SinglePhoton/Run2016D-Nano25Oct2019-v1/NANOAOD  -1  40
+/SinglePhoton/Run2016E-Nano25Oct2019-v1/NANOAOD  -1  40
+/SinglePhoton/Run2016F-Nano25Oct2019-v1/NANOAOD  -1  40
+/SinglePhoton/Run2016G-Nano25Oct2019-v1/NANOAOD  -1  40
+/SinglePhoton/Run2016H-Nano25Oct2019-v1/NANOAOD  -1  40
+#
 /SingleMuon/Run2016B_ver1-Nano25Oct2019_ver1-v1/NANOAOD  -1  40
 /SingleMuon/Run2016B_ver2-Nano25Oct2019_ver2-v1/NANOAOD  -1  40
 /SingleMuon/Run2016C-Nano25Oct2019-v1/NANOAOD  -1  40
