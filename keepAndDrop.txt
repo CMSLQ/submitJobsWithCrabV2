@@ -6,14 +6,15 @@ drop GenJetAK8*
 drop GenVisTau*
 drop HLT*
 drop HTXS*
+drop Jet_mass*
+drop L1_*
 drop Photon*
 drop Puppi*
 drop RawMET*
 drop Soft*
 drop SubJet*
+drop SV*
 drop Tau*
 drop TkMET*
-drop Jet_mass*
-drop SV*
 keep HLT_Ele*
 keep HLT*Photon*

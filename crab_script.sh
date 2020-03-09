@@ -28,6 +28,7 @@ else
   # see: https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3ConfigurationFile
   # $2 is the dataset name; we pass this in via the scriptArgs CRAB cfg parameter
   # $3 is a 0/1 flag for isMC
+  echo "command: python doSkim_stockNanoV5.py --$2 --$3"
   python doSkim_stockNanoV5.py --$2 --$3
 
 fi
