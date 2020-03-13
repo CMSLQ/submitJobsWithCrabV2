@@ -1,7 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 import os
+import sys
 import subprocess
 from optparse import OptionParser
+from httplib import HTTPException
 
 #
 # Use commands like ./multicrab.py -c status -d runBetaOneLQ1MC/testTag_2015Jul13_104935/
@@ -111,7 +113,15 @@ def main():
             "Executing (the equivalent of): crab %s %s %s"
             % (options.crabCmd, task, options.crabCmdOptions)
         )
-        res = crabCommand(options.crabCmd, task, *options.crabCmdOptions.split())
+        try:
+            res = crabCommand(options.crabCmd, task, *options.crabCmdOptions.split())
+        except HTTPException, hte:
+            sys.stdout.write("\033[1;31m")  # red
+            print("-----> there was a problem. see below.")
+            print(hte.headers)
+            sys.stdout.write("\033[0;0m")  # regular color
+            if options.crabCmd != "kill":
+                exit(-1)
         # stop here if we're not checking the status
         if options.crabCmd != "status":
             continue
