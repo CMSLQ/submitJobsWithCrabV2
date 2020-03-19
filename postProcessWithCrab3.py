@@ -10,7 +10,7 @@ import shutil
 from multiprocessing import Process, Queue
 
 try:
-    from CRABClient.UserUtilities import config, getUsernameFromSiteDB
+    from CRABClient.UserUtilities import config
 except ImportError:
     print
     print(
@@ -275,20 +275,20 @@ config.Data.outputDatasetTag = "LQ"  # overridden for data
 if options.tagName:
     config.Data.outLFNDirBase = (
         "/store/group/phys_exotica/leptonsPlusJets/LQ/%s/nanoPostProc"
-        % (getUsernameFromSiteDB())
+        % os.getlogin() 
         + options.tagName
         + "/"
     )
 else:
     config.Data.outLFNDirBase = (
         "/store/group/phys_exotica/leptonsPlusJets/LQ/%s/nanoPostProc"
-        % (getUsernameFromSiteDB())
+        % os.getlogin()
         + "/"
     )
 # This is for Higgs group space
-# config.Data.outLFNDirBase = '/store/group/phys_higgs/HiggsExo/HH_bbZZ_bbllqq/%s/' % (getUsernameFromSiteDB()) + options.tagName + '/'
+# config.Data.outLFNDirBase = '/store/group/phys_higgs/HiggsExo/HH_bbZZ_bbllqq/%s/' %  os.getlogin() + options.tagName + '/'
 # This is for personal user space (beware quotas)
-# config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
+# config.Data.outLFNDirBase = '/store/user/%s/' % os.getlogin() + topDirName + '/'
 if options.eosDir is not None:
     # split of /eos/cms if it is there
     if options.eosDir.startswith("/eos/cms"):
@@ -306,17 +306,17 @@ if options.eosDir is not None:
         outputLFN += "/"
     if options.tagName:
         outputLFN += options.tagName + "/"
-    if not getUsernameFromSiteDB() in outputLFN:
+    if not os.getlogin() in outputLFN:
         outputLFN.rstrip("/")
-        # config.Data.outLFNDirBase = outputLFN+'/%s/' % (getUsernameFromSiteDB()) + topDirName + '/'
+        # config.Data.outLFNDirBase = outputLFN+'/%s/' % os.getlogin() + topDirName + '/'
         # make the LFN shorter, and in any case, the timestamp is put in by crab
         if options.tagName:
             config.Data.outLFNDirBase = (
-                outputLFN + "/%s/" % (getUsernameFromSiteDB()) + options.tagName + "/"
+                outputLFN + "/%s/" % os.getlogin() + options.tagName + "/"
             )
         else:
             config.Data.outLFNDirBase = (
-                outputLFN + "/%s/" % (getUsernameFromSiteDB()) + "/"
+                outputLFN + "/%s/" % os.getlogin() + "/"
             )
     else:
         config.Data.outLFNDirBase = outputLFN
@@ -435,7 +435,7 @@ with open(localInputListFile, "r") as f:
                 config.Data.lumiMask = options.jsonFile
 
         if options.runRange is not None:
-            config.Data.runRange = runRange
+            config.Data.runRange = options.runRange
 
         # and submit
         print(config.JobType.scriptArgs)
