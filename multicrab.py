@@ -104,8 +104,8 @@ def main():
         # ignore non-crab dirs
         if "workdir" in task or "cfgfiles" in task or "output" in task:
             continue
-        if options.crabCmd == "status" and task in completedTasksFromCache:
-            print "Don't check status of task, was already completed:", task
+        if task in completedTasksFromCache:
+            print "Don't run command on task, was already completed:", task
             tasksStatusDict[task] = "COMPLETED"
             continue
         print
@@ -124,6 +124,7 @@ def main():
                 exit(-1)
         # stop here if we're not checking the status
         if options.crabCmd != "status":
+            tasksStatusDict[task] = 'unknown, not queried'
             continue
         if "failed" in res["jobsPerStatus"].keys():
             tasksStatusDict[
