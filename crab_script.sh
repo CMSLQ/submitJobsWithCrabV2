@@ -26,9 +26,13 @@ else
   echo Found Proxy in: $X509_USER_PROXY
   # $1 is always the job number
   # see: https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3ConfigurationFile
+  # the following are defined as scriptArgs
   # $2 is the dataset name; we pass this in via the scriptArgs CRAB cfg parameter
-  # $3 is a 0/1 flag for isMC
-  echo "command: python doSkim_stockNanoV5.py --$2 --$3"
-  python doSkim_stockNanoV5.py --$2 --$3
+  # $3 is a 0/1 flag for ismc
+  # $4 is era
+  # $5 is dataRun
+  echo $@
+  echo "command: python doSkim_stockNanoV5.py --$2 --$3 --$4 --$5"
+  python doSkim_stockNanoV5.py --$2 --$3 --$4 --$5
 
 fi
