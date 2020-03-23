@@ -134,7 +134,6 @@ def main():
             tasksStatusDict[task] = res["status"]
         # print "res['jobsPerStatus'].keys()={}".format(res['jobsPerStatus'].keys())
         # print res
-        tasksStatusDict[task] = res["status"]
         if tasksStatusDict[task] == "COMPLETED":
             ourCacheFile.write(task + "\n")
     ourCacheFile.close()
@@ -172,7 +171,7 @@ def main():
     if len(tasksFailed) > 0:
         print "commands to resubmit failed tasks (or tasks with failed jobs):"
         for task in tasksFailed:
-            # resubmitCmd = 'crab resubmit --maxmemory=3000 '+task
+            # resubmitCmd = 'crab resubmit --maxmemory=2500 '+task
             resubmitCmd = "crab resubmit " + task
             print
             print "\t" + resubmitCmd
