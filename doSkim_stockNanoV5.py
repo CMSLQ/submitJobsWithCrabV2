@@ -11,10 +11,7 @@ from PhysicsTools.NanoAODTools.postprocessing.framework.crabhelper import (
 )
 
 from PhysicsTools.NanoAODTools.postprocessing.modules.btv.btagSFProducer import *
-from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jecUncertainties import *
-from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetUncertainties import *
-from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetRecalib import *
-from PhysicsTools.NanoAODTools.postprocessing.modules.jme.mht import *
+from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetHelperRun2 import *
 from PhysicsTools.NanoAODTools.postprocessing.modules.common.puWeightProducer import *
 
 # from PhysicsTools.NanoAODTools.postprocessing.modules.common.pdfWeightProducer import *
@@ -58,7 +55,13 @@ dataset = args.dataset
 
 print "isMC =", isMC, "era =", era, "dataRun =", dataRun, "dataset=", dataset
 
+if isMC:
+    jetmetCorrector = createJMECorrector(isMC=True, dataYear=era, jesUncert="All", redojec=True)
+else:
+    jetmetCorrector = createJMECorrector(isMC=False, dataYear=era, runPeriod=dataRun)
+
 modulesToRun = []
+modulesToRun.append(jetmetCorrector())
 modulesToRun.append(PrefCorr())
 # modulesToRun.append( pdfWeightProducer() )
 jsonFile = None
@@ -68,14 +71,12 @@ jsonFile = None
 
 if isMC:
     if era == "2016":
-        # modulesToRun.extend([puAutoWeight_2016(),jetmetUncertainties2016All(),btagSFProducer("2016","cmva")])
-        # FIXME put back jetmetUncertainties once they aren't so bloated
-        modulesToRun.extend([puAutoWeight_2016(), btagSFProducer("Legacy2016", "deepcsv")])
+        modulesToRun.extend(
+            [puAutoWeight_2016(), btagSFProducer("Legacy2016", "deepcsv")]
+        )
     elif era == "2017":
-        # modulesToRun.extend([puAutoWeight_2017(),jetmetUncertainties2017All(),btagSFProducer("2017","deepcsv")])
         modulesToRun.extend([puAutoWeight_2017(), btagSFProducer("2017", "deepcsv")])
     elif era == "2018":
-        # modulesToRun.extend([puAutoWeight_2018(),jetmetUncertainties2017All(),btagSFProducer("2018","deepcsv")])
         modulesToRun.extend([puAutoWeight_2018(), btagSFProducer("2018", "deepcsv")])
 else:
     if era == "2016":
@@ -83,20 +84,10 @@ else:
         pass
     elif era == "2017":
         # jsonFile='/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions17/13TeV/ReReco/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt'
-        if dataRun == "B":
-            modulesToRun.extend([jetRecalib2017B()])
-        if dataRun == "C":
-            modulesToRun.extend([jetRecalib2017C()])
-        if dataRun == "D":
-            modulesToRun.extend([jetRecalib2017D()])
-        if dataRun == "E":
-            modulesToRun.extend([jetRecalib2017E()])
-        if dataRun == "F":
-            modulesToRun.extend([jetRecalib2017F()])
+        pass
     elif era == "2018":
         # jsonFile='/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions18/13TeV/ReReco/Cert_314472-325175_13TeV_17SeptEarlyReReco2018ABC_PromptEraD_Collisions18_JSON.txt'
         pass
-        # FIXME TODO
     else:
         print "ERROR: Did not understand the given era!  Should be one of 2016,2017,2018. Quitting."
         exit(-1)
@@ -116,16 +107,27 @@ keepAndDrop = "keepAndDrop.txt"
 # for crab
 haddFileName = utils.GetOutputFilename(dataset, isMC)
 p = PostProcessor(
-    ".",
-    inputFiles(),
-    cut=preselection,
-    outputbranchsel=keepAndDrop,
-    modules=modulesToRun,
-    provenance=True,
-    fwkJobReport=True,
-    jsonInput=runsAndLumis(),
-    haddFileName=haddFileName,
+   ".",
+   inputFiles(),
+   cut=preselection,
+   outputbranchsel=keepAndDrop,
+   modules=modulesToRun,
+   provenance=True,
+   fwkJobReport=True,
+   jsonInput=runsAndLumis(),
+   haddFileName=haddFileName,
 )
 # interactive testing
-# p=PostProcessor(".",utils.GetFileList(''),cut=preselection,outputbranchsel=keepAndDrop,modules=modulesToRun,provenance=True,fwkJobReport=True,jsonInput=runsAndLumis(),haddFileName=haddFileName)
+#inputList = 'test2017B_singlePhoton_list.txt'
+#p = PostProcessor(
+#    ".",
+#    utils.GetFileList(inputList),
+#    cut=preselection,
+#    outputbranchsel=keepAndDrop,
+#    modules=modulesToRun,
+#    provenance=True,
+#    fwkJobReport=True,
+#    jsonInput=runsAndLumis(),
+#    haddFileName=haddFileName,
+#)
 p.run()
