@@ -86,7 +86,7 @@ def CheckProxy():
         # this will suppress the stderr; maybe that's not so good, but I get some error messages at the moment
         # with open(os.devnull, "w") as f:
         #  proc2 = subprocess.call(['voms-proxy-init','--voms','cms','--valid','168:00'],stderr=f)
-        proc2 = subprocess.call(
+        subprocess.call(
             ["voms-proxy-init", "--voms", "cms", "--valid", "168:00"]
         )
 
@@ -109,6 +109,106 @@ def checkStoragePath(storagePath):
     #  print 'will use storage path like:',storagePath
 
 
+def SetupStorage(config):
+    # This is for EXO group space
+    if options.tagName:
+        config.Data.outLFNDirBase = (
+            "/store/group/phys_exotica/leptonsPlusJets/LQ/%s/nanoPostProc"
+            % os.getlogin()
+            + options.tagName
+            + "/"
+        )
+    else:
+        config.Data.outLFNDirBase = (
+            "/store/group/phys_exotica/leptonsPlusJets/LQ/%s/nanoPostProc"
+            % os.getlogin()
+            + "/"
+        )
+    # This is for Higgs group space
+    # config.Data.outLFNDirBase = '/store/group/phys_higgs/HiggsExo/HH_bbZZ_bbllqq/%s/' %  os.getlogin() + options.tagName + '/'
+    # This is for personal user space (beware quotas)
+    # config.Data.outLFNDirBase = '/store/user/%s/' % os.getlogin() + topDirName + '/'
+    if options.eosDir is not None:
+        # split of /eos/cms if it is there
+        if options.eosDir.startswith("/eos/cms"):
+            options.eosDir = options.eosDir.split("/eos/cms")[-1]
+        # require /store unless it's CERNBOX
+        if not options.eosDir.startswith("/store"):
+            print(
+                "eosDir must start with /eos/cms/store or /store and you specified:",
+                options.eosDir,
+            )
+            print("quit")
+            exit(-1)
+        outputLFN = options.eosDir
+        if not outputLFN[-1] == "/":
+            outputLFN += "/"
+        if options.tagName:
+            outputLFN += options.tagName + "/"
+        if not os.getlogin() in outputLFN:
+            outputLFN.rstrip("/")
+            # config.Data.outLFNDirBase = outputLFN+'/%s/' % os.getlogin() + topDirName + '/'
+            # make the LFN shorter, and in any case, the timestamp is put in by crab
+            if options.tagName:
+                config.Data.outLFNDirBase = (
+                    outputLFN + "/%s/" % os.getlogin() + options.tagName + "/"
+                )
+            else:
+                config.Data.outLFNDirBase = (
+                    outputLFN + "/%s/" % os.getlogin() + "/"
+                )
+        else:
+            config.Data.outLFNDirBase = outputLFN
+    print("Using outLFNDirBase:", config.Data.outLFNDirBase)
+    config.Site.storageSite = options.storageSite
+    return config
+
+
+def GetInitializedCrabConfig():
+    # setup general crab settings
+    # from https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRABClientLibraryAPI
+    # notes on how the output will be stored: see https://twiki.cern.ch/twiki/bin/view/CMSPublic/Crab3DataHandling
+    #  <lfn-prefix>/<primary-dataset>/<publication-name>/<time-stamp>/<counter>[/log]/<file-name>
+    #   LFNDirBase /                 / datasetTagName   / stuff automatically done   / from outputFile defined below
+    myConfig = config()
+    myConfig.General.requestName = topDirName  # overridden per dataset
+    myConfig.General.transferOutputs = True
+    myConfig.General.transferLogs = False
+    # We want to put all the CRAB project directories from the tasks we submit here into one common directory.
+    # That's why we need to set this parameter (here or above in the configuration file, it does not matter, we will not overwrite it).
+    myConfig.General.workArea = productionDir
+    #
+    myConfig.JobType.pluginName = "Analysis"
+    myConfig.JobType.maxMemoryMB = 2500
+    # this will make sure jobs only run on sites which host the data.
+    # See: https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ#What_is_glideinWms_Overflow_and
+    # postprocessing jobs take forever (and can exceed max wall clock time) otherwise
+    myConfig.Debug.extraJDL = ["+CMS_ALLOW_OVERFLOW=False"]
+    # feed in any additional input files
+    if len(additionalInputFiles) > 0:
+        myConfig.JobType.inputFiles = []
+        myConfig.JobType.inputFiles.extend(additionalInputFiles)
+    myConfig.JobType.psetName = "PSet.py"
+    myConfig.JobType.scriptExe = "crab_script.sh"
+    myConfig.JobType.sendPythonFolder = True
+    myConfig.Data.inputDataset = ""  # overridden per dataset
+    myConfig.Data.inputDBS = "global"
+    myConfig.Data.splitting = (
+        "Automatic"  # below this is set to LumiBased for data, FileBased for MC
+    )
+    myConfig.Data.totalUnits = (
+        -1
+    )  # overridden per dataset, but doesn't matter for Automatic splitting
+    # no publishing
+    myConfig.Data.publication = False
+    myConfig.Data.outputDatasetTag = "LQ"  # overridden for data
+    SetupStorage(myConfig)
+    return myConfig
+
+
+##############################################################
+# CONFIG
+##############################################################
 # to feed additional files into the crab sandbox if needed
 additionalInputFiles = []
 # rootTupleTestDir = os.getenv('CMSSW_BASE')+'/src/Leptoquarks/RootTupleMakerV2/test/'
@@ -233,96 +333,6 @@ shutil.copy2(options.inputList, localInputListFile)
 # check if we have a proxy
 CheckProxy()
 
-# setup general crab settings
-# from https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRABClientLibraryAPI
-# TODO: this will work for MC. Need to update to run over data.
-# notes on how the output will be stored: see https://twiki.cern.ch/twiki/bin/view/CMSPublic/Crab3DataHandling
-#  <lfn-prefix>/<primary-dataset>/<publication-name>/<time-stamp>/<counter>[/log]/<file-name>
-#   LFNDirBase /                 / datasetTagName   / stuff automatically done   / from outputFile defined below
-config = config()
-config.General.requestName = topDirName  # overridden per dataset
-config.General.transferOutputs = True
-config.General.transferLogs = False
-# We want to put all the CRAB project directories from the tasks we submit here into one common directory.
-# That's why we need to set this parameter (here or above in the configuration file, it does not matter, we will not overwrite it).
-config.General.workArea = productionDir
-#
-config.JobType.pluginName = "Analysis"
-# config.JobType.maxMemoryMB = 3000
-# this will make sure jobs only run on sites which host the data.
-# See: https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ#What_is_glideinWms_Overflow_and
-# postprocessing jobs take forever (and can exceed max wall clock time) otherwise
-config.Debug.extraJDL = ["+CMS_ALLOW_OVERFLOW=False"]
-# feed in any additional input files
-if len(additionalInputFiles) > 0:
-    config.JobType.inputFiles = []
-    config.JobType.inputFiles.extend(additionalInputFiles)
-config.JobType.psetName = "PSet.py"
-config.JobType.scriptExe = "crab_script.sh"
-config.JobType.sendPythonFolder = True
-config.Data.inputDataset = ""  # overridden per dataset
-config.Data.inputDBS = "global"
-config.Data.splitting = (
-    "Automatic"  # below this is set to LumiBased for data, FileBased for MC
-)
-config.Data.totalUnits = (
-    -1
-)  # overridden per dataset, but doesn't matter for Automatic splitting
-# no publishing
-config.Data.publication = False
-config.Data.outputDatasetTag = "LQ"  # overridden for data
-# This is for EXO group space
-if options.tagName:
-    config.Data.outLFNDirBase = (
-        "/store/group/phys_exotica/leptonsPlusJets/LQ/%s/nanoPostProc"
-        % os.getlogin() 
-        + options.tagName
-        + "/"
-    )
-else:
-    config.Data.outLFNDirBase = (
-        "/store/group/phys_exotica/leptonsPlusJets/LQ/%s/nanoPostProc"
-        % os.getlogin()
-        + "/"
-    )
-# This is for Higgs group space
-# config.Data.outLFNDirBase = '/store/group/phys_higgs/HiggsExo/HH_bbZZ_bbllqq/%s/' %  os.getlogin() + options.tagName + '/'
-# This is for personal user space (beware quotas)
-# config.Data.outLFNDirBase = '/store/user/%s/' % os.getlogin() + topDirName + '/'
-if options.eosDir is not None:
-    # split of /eos/cms if it is there
-    if options.eosDir.startswith("/eos/cms"):
-        options.eosDir = options.eosDir.split("/eos/cms")[-1]
-    # require /store unless it's CERNBOX
-    if not options.eosDir.startswith("/store"):
-        print(
-            "eosDir must start with /eos/cms/store or /store and you specified:",
-            options.eosDir,
-        )
-        print("quit")
-        exit(-1)
-    outputLFN = options.eosDir
-    if not outputLFN[-1] == "/":
-        outputLFN += "/"
-    if options.tagName:
-        outputLFN += options.tagName + "/"
-    if not os.getlogin() in outputLFN:
-        outputLFN.rstrip("/")
-        # config.Data.outLFNDirBase = outputLFN+'/%s/' % os.getlogin() + topDirName + '/'
-        # make the LFN shorter, and in any case, the timestamp is put in by crab
-        if options.tagName:
-            config.Data.outLFNDirBase = (
-                outputLFN + "/%s/" % os.getlogin() + options.tagName + "/"
-            )
-        else:
-            config.Data.outLFNDirBase = (
-                outputLFN + "/%s/" % os.getlogin() + "/"
-            )
-    else:
-        config.Data.outLFNDirBase = outputLFN
-print("Using outLFNDirBase:", config.Data.outLFNDirBase)
-config.Site.storageSite = options.storageSite
-
 # look at the input list
 # use DAS to find the dataset names.
 # Example:
@@ -338,6 +348,7 @@ with open(localInputListFile, "r") as f:
         if len(split) < 3:
             print("inputList line is not properly formatted:", line)
             exit(-3)
+        conf = GetInitializedCrabConfig()  # create fresh crab config
         dataset = split[0]
         nUnits = int(split[1])  # also used for total lumis for data
         nUnitsPerJob = int(split[2])  # used for files/dataset for MC and LS per data
@@ -350,15 +361,15 @@ with open(localInputListFile, "r") as f:
             isData,
         ) = utils.GetOutputDatasetTagAndModifiedDatasetName(dataset)
         outputFile = utils.GetOutputFilename(dataset, not isData)
-        config.Data.outputDatasetTag = datasetTag
-        config.Data.inputDataset = dataset
+        conf.Data.outputDatasetTag = datasetTag
+        conf.Data.inputDataset = dataset
         print
         print("Consider dataset {0}".format(dataset))
 
         if not isData:
-            config.Data.splitting = "FileBased"
+            conf.Data.splitting = "FileBased"
         else:
-            config.Data.splitting = "LumiBased"
+            conf.Data.splitting = "LumiBased"
 
         # get era
         # see, for example: https://twiki.cern.ch/twiki/bin/viewauth/CMS/PdmVAnalysisSummaryTable
@@ -381,25 +392,25 @@ with open(localInputListFile, "r") as f:
         if isData:
             dataRun = secondaryDatasetName[
                 secondaryDatasetName.find("Run")
-                + 7 : secondaryDatasetName.find("Run")
+                + 7: secondaryDatasetName.find("Run")
                 + 8
             ]
 
-        config.JobType.scriptArgs = [
-            "dataset=" + config.Data.inputDataset,
+        conf.JobType.scriptArgs = [
+            "dataset=" + conf.Data.inputDataset,
             "ismc=" + str(not isData),
             "era=" + str(year),
             "dataRun=" + dataRun,
         ]
-        config.JobType.outputFiles = [outputFile]
-        config.Data.unitsPerJob = nUnitsPerJob
+        conf.JobType.outputFiles = [outputFile]
+        conf.Data.unitsPerJob = nUnitsPerJob
 
         thisWorkDir = workDir + "/" + datasetName
         storagePath = (
-            config.Data.outLFNDirBase
+            conf.Data.outLFNDirBase
             + primaryDatasetName
             + "/"
-            + config.Data.outputDatasetTag
+            + conf.Data.outputDatasetTag
             + "/"
             + "YYMMDD_hhmmss/0000/"
             + outputFile.replace(".root", "_9999.root")
@@ -408,8 +419,8 @@ with open(localInputListFile, "r") as f:
         makeDirAndCheck(thisWorkDir)
         checkStoragePath(storagePath)
 
-        config.General.requestName = datasetName
-        config.Data.totalUnits = nUnits
+        conf.General.requestName = datasetName
+        conf.Data.totalUnits = nUnits
         # computing JSON mask
         if options.jsonFile is not None and isData:
             if options.prevJsonFile is not None:
@@ -430,22 +441,22 @@ with open(localInputListFile, "r") as f:
                 )
                 newLumiList = currentJsonLumiList - prevJsonLumiList
                 newLumiList.writeJSON("newJSON_minus_oldJSON.json")
-                config.Data.lumiMask = "newJSON_minus_oldJSON.json"
+                conf.Data.lumiMask = "newJSON_minus_oldJSON.json"
             else:
-                config.Data.lumiMask = options.jsonFile
+                conf.Data.lumiMask = options.jsonFile
 
         if options.runRange is not None:
-            config.Data.runRange = options.runRange
+            conf.Data.runRange = options.runRange
 
         # and submit
-        print(config.JobType.scriptArgs)
+        print(conf.JobType.scriptArgs)
         print("submit to crab. output from crab submit follows:")
         sys.stdout.write("\033[1;34m")  # blue
-        # crabSubmit(config)
+        # crabSubmit(conf)
         # workaround for cmssw multiple-loading problem
         # submit in subprocess
         q = Queue()
-        p = Process(target=crabSubmit, args=(config,))
+        p = Process(target=crabSubmit, args=(conf,))
         p.start()
         p.join()
         if q.get() == -1:
