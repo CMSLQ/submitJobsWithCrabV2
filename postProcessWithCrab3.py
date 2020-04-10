@@ -179,7 +179,7 @@ def GetInitializedCrabConfig():
     myConfig.General.workArea = productionDir
     #
     myConfig.JobType.pluginName = "Analysis"
-    myConfig.JobType.maxMemoryMB = 2500
+    #myConfig.JobType.maxMemoryMB = 2500
     # this will make sure jobs only run on sites which host the data.
     # See: https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ#What_is_glideinWms_Overflow_and
     # postprocessing jobs take forever (and can exceed max wall clock time) otherwise
