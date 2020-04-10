@@ -42,7 +42,7 @@ parser.add_argument("-dataRun", "--dataRun", type=str, default="X", help="")
 # parser.add_argument('-haddFileName', '--haddFileName', type=str, default="tree.root", help="")
 # parser.add_argument('-inputList', '--inputList', type=str, default="", help="")
 parser.add_argument(
-    "-dataset", "--dataset", type=str, default="/my/test/dataset", help=""
+    "-dataset", "--dataset", type=str, default="/myTestDataset/testSecondary/NANOAODSIM", help=""
 )
 args = parser.parse_args()
 print "args = ", args
@@ -97,9 +97,9 @@ modulesToRun.append(eventCounterHistogramModule())
 # Require lead electron SCEt > 35 GeV to keep the event
 # preselection="(Electron_caloEnergy[0]/cosh(Electron_scEta[0]))>35"
 # for stock, use regular Pt
-preselection = "Electron_pt[0] > 35"
+#preselection = "Electron_pt[0] > 35"
 # preselection="Electron_pt[0] > 100"
-# preselection="Electron_pt[0] > 45"
+preselection="Electron_pt[0] > 45"
 # preselection="Electron_pt[0]>45 || Muon_pt[0]>45 || (Muon_pt[0]>15 && Muon_pt[1]>8 && nJet>2 && Jet_pt[0]>23) || (Electron_pt[0]>17 && Electron_pt[1]>12 && nJet>2 && Jet_pt[0]>23)"
 # remove preselection, as preselection is done in the custom2016SkimModule
 keepAndDrop = "keepAndDrop.txt"
@@ -118,16 +118,18 @@ p = PostProcessor(
    haddFileName=haddFileName,
 )
 # interactive testing
-#inputList = 'test2017B_singlePhoton_list.txt'
-#p = PostProcessor(
-#    ".",
-#    utils.GetFileList(inputList),
-#    cut=preselection,
-#    outputbranchsel=keepAndDrop,
-#    modules=modulesToRun,
-#    provenance=True,
-#    fwkJobReport=True,
-#    jsonInput=runsAndLumis(),
-#    haddFileName=haddFileName,
-#)
+# inputList = 'inputList_test2017MC.txt'
+# p = PostProcessor(
+#     ".",
+#     utils.GetFileList(inputList),
+#     cut=preselection,
+#     outputbranchsel=keepAndDrop,
+#     branchsel=keepAndDrop,
+#     modules=modulesToRun,
+#     provenance=True,
+#     fwkJobReport=True,
+#     jsonInput=runsAndLumis(),
+#     haddFileName=haddFileName,
+# )
+
 p.run()

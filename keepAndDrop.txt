@@ -2,12 +2,17 @@ drop CaloMET*
 drop ChsMET*
 drop Electron_mva*
 drop FatJet*
+drop FsrPhoton*
 drop GenJetAK8*
 drop GenVisTau*
 drop HLT*
 drop HTXS*
+drop IsoTrack*
 drop Jet_mass*
+drop Jet_pt_jes*
 drop L1_*
+drop MET_phi_jes*
+drop MET_pt_jes*
 drop Photon*
 drop Puppi*
 drop RawMET*
@@ -18,3 +23,7 @@ drop Tau*
 drop TkMET*
 keep HLT_Ele*
 keep HLT*Photon*
+keep Jet_pt_jesTotal*
+keep Jet_pt_jesSubTotal*
+keep MET_phi_jesTotal*
+keep MET_phi_jesSubTotal*
