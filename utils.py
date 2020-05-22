@@ -67,6 +67,9 @@ def GetOutputFilename(dataset, isMC):
     outputFileNames.append(dataset.split("/")[1])
     # get the one with the shortest filename
     outputFile = sorted(outputFileNames, key=len)[0]
+    # special case for ZToEE samples
+    if 'ZToEE' in dataset:
+        outputFile = dataset.split("/")[1].replace('TuneCP5_','').replace('13TeV-','')
     if not isMC:
         outputFile = outputFile + "_" + GetOutputDatasetTag(dataset)
     if "ext" in dataset:
