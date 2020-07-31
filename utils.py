@@ -39,6 +39,9 @@ def GetOutputDatasetTagAndModifiedDatasetName(dataset):
             extN = dataset[dataset.find("_ext") + 4]
             datasetName = datasetName + "_ext" + extN
             outputDatasetTag = "LQ_ext" + extN
+        if "new_pmx" in dataset:
+            datasetName = datasetName + "_newPMX"
+            outputDatasetTag = "LQ-newPMX"
         if "backup" in dataset:
             datasetName = datasetName + "_backup"
             outputDatasetTag = "LQ_backup"
@@ -75,6 +78,8 @@ def GetOutputFilename(dataset, isMC):
     if "ext" in dataset:
         extN = dataset[dataset.find("_ext") + 4]
         outputFile = outputFile + "_ext" + extN
+    if "new_pmx" in dataset:
+        outputFile = outputFile + "_newPMX"
     if "backup" in dataset:
         outputFile = outputFile + "_backup"
     return outputFile + ".root"
