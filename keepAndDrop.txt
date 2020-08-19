@@ -18,6 +18,7 @@ drop Puppi*
 drop RawMET*
 drop Soft*
 drop SubJet*
+drop SubGenJet*
 drop SV*
 drop Tau*
 drop TkMET*
