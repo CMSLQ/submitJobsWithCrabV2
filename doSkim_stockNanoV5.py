@@ -72,12 +72,12 @@ jsonFile = None
 if isMC:
     if era == "2016":
         modulesToRun.extend(
-            [puAutoWeight_2016(), btagSFProducer("Legacy2016", "deepcsv")]
+            [puAutoWeight_2016(), btagSFProducer(era="Legacy2016", algo="deepcsv", selectedWPs=['L', 'M']), btagSFProducer(era="Legacy2016", algo="deepjet", selectedWPs=['L', 'M'])]
         )
     elif era == "2017":
-        modulesToRun.extend([puAutoWeight_2017(), btagSFProducer("2017", "deepcsv")])
+        modulesToRun.extend([puAutoWeight_2017(), btagSFProducer(era="2017", algo="deepcsv", selectedWPs=['L', 'M']), btagSFProducer(era="2017", algo="deepjet", selectedWPs=['L', 'M'])])
     elif era == "2018":
-        modulesToRun.extend([puAutoWeight_2018(), btagSFProducer("2018", "deepcsv")])
+        modulesToRun.extend([puAutoWeight_2018(), btagSFProducer(era="2018", algo="deepcsv", selectedWPs=['L', 'M']), btagSFProducer(era="2018", algo="deepjet", selectedWPs=['L', 'M'])])
 else:
     if era == "2016":
         # jsonFile='/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_ReReco_07Aug2017_Collisions16_JSON.txt'
@@ -104,8 +104,8 @@ preselection="Electron_pt[0] > 45"
 # remove preselection, as preselection is done in the custom2016SkimModule
 keepAndDrop = "keepAndDrop.txt"
 
-# for crab
 haddFileName = utils.GetOutputFilename(dataset, isMC)
+# for crab
 p = PostProcessor(
    ".",
    inputFiles(),
@@ -118,18 +118,18 @@ p = PostProcessor(
    haddFileName=haddFileName,
 )
 # interactive testing
-# inputList = 'inputList_test2017MC.txt'
-# p = PostProcessor(
-#     ".",
-#     utils.GetFileList(inputList),
-#     cut=preselection,
-#     outputbranchsel=keepAndDrop,
-#     branchsel=keepAndDrop,
-#     modules=modulesToRun,
-#     provenance=True,
-#     fwkJobReport=True,
-#     jsonInput=runsAndLumis(),
-#     haddFileName=haddFileName,
-# )
+#inputList = 'inputList_test.txt'
+#p = PostProcessor(
+#    ".",
+#    utils.GetFileList(inputList),
+#    cut=preselection,
+#    outputbranchsel=keepAndDrop,
+#    branchsel=keepAndDrop,
+#    modules=modulesToRun,
+#    provenance=True,
+#    fwkJobReport=True,
+#    jsonInput=runsAndLumis(),
+#    haddFileName=haddFileName,
+#)
 
 p.run()
