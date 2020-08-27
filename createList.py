@@ -216,19 +216,13 @@ def write_inputlists(filelist, outputDir):
 
 def cleanName(datasetName):
     if "ext" in datasetName:
-        datasetNameMod = (
+        datasetName = (
             datasetName[0: datasetName.find("ext")]
             + datasetName[datasetName.find("ext") + len("ext") + 2:]
         )
-    elif "backup" in datasetName:
-        datasetNameMod = (
-            datasetName[0: datasetName.find("backup")]
-            + datasetName[datasetName.find("backup") + len("backup") + 1:]
-        )
-    else:
-        datasetNameMod = datasetName
-    datasetNameMod = datasetNameMod.rstrip("_")
-    return datasetNameMod
+    datasetName = datasetName.replace("EXT_", "").replace("backup_", "").replace("newPMX_", "")
+    datasetName = datasetName.rstrip("_")
+    return datasetName
 
 
 # combine datasets that are the same except for 'extN' (where N is a single digit) or 'backup' in the name
