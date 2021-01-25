@@ -20,7 +20,7 @@ class eventCounterHistogramProducer(Module):
         self.h_count.GetXaxis().SetBinLabel(2,"passed")
         self.h_count.GetXaxis().SetBinLabel(3,"sum of amc@NLO weights")
         self.h_count.GetXaxis().SetBinLabel(4,"sum of TopPt weights")
-        maxInt = 1e7 # for TH1F (max exact float representation of int)
+        maxInt = 16777216 # for TH1F (max exact float representation of int = 2^[mantissaBits+1] = 2^24)
         entries = inputTree.GetEntriesFast()
         if entries >= maxInt:
             raise RuntimeError("Had more entries in the tree ["+str(entries)+"] than we can store in the eventCounter histogram bin ["+str(maxInt)+"]!")

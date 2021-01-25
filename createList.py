@@ -161,7 +161,10 @@ def process_input_dir(inputDir, match, filelist, useCERNEOS, eosHost):
             # print 'filename={}'.format(filename)
             # m = re.search('_*.root', filename)
             m = re.search("_[0-9-]+.root", filename)
-            dataset = filename[0: m.start()]
+            if m is not None:
+                dataset = filename[0: m.start()]
+            else:
+                dataset = filename.replace(".root", "")
             # print 'dataset={}'.format(dataset)
         # handle root files with same name, but actually different datasets
         # get the dataset info from the full path
