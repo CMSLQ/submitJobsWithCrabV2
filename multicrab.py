@@ -9,7 +9,15 @@ from httplib import HTTPException
 # Use commands like ./multicrab.py -c status -d runBetaOneLQ1MC/testTag_2015Jul13_104935/
 #   This will check the status of the submitted crab jobs over multiple datasets.
 
-from CRABAPI.RawCommand import crabCommand
+try:
+    from CRABAPI.RawCommand import crabCommand
+except ImportError:
+    print
+    print(
+        "ERROR: Could not load CRABAPI.RawCommand module.  Please source the crab3 setup:"
+    )
+    print("source /cvmfs/cms.cern.ch/common/crab-setup.sh")
+    exit(-1)
 
 
 def getOptions():

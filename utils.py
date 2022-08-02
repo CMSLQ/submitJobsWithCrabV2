@@ -39,6 +39,12 @@ def GetOutputDatasetTagAndModifiedDatasetName(dataset):
             extN = dataset[dataset.find("_ext") + 4]
             datasetName = datasetName + "_ext" + extN
             outputDatasetTag = "LQ_ext" + extN
+        if "EXT" in dataset:
+            datasetName = datasetName + "_EXT"
+            outputDatasetTag = "LQ_EXT"
+        if "new_pmx" in dataset:
+            datasetName = datasetName + "_newPMX"
+            outputDatasetTag = "LQ-newPMX"
         if "backup" in dataset:
             datasetName = datasetName + "_backup"
             outputDatasetTag = "LQ_backup"
@@ -67,11 +73,18 @@ def GetOutputFilename(dataset, isMC):
     outputFileNames.append(dataset.split("/")[1])
     # get the one with the shortest filename
     outputFile = sorted(outputFileNames, key=len)[0]
+    # special case for ZToEE samples
+    if 'ZToEE' in dataset:
+        outputFile = dataset.split("/")[1].replace('TuneCP5_', '').replace('13TeV-', '')
     if not isMC:
         outputFile = outputFile + "_" + GetOutputDatasetTag(dataset)
     if "ext" in dataset:
         extN = dataset[dataset.find("_ext") + 4]
         outputFile = outputFile + "_ext" + extN
+    if "EXT" in dataset:
+        outputFile = outputFile + "_EXT"
+    if "new_pmx" in dataset:
+        outputFile = outputFile + "_newPMX"
     if "backup" in dataset:
         outputFile = outputFile + "_backup"
     return outputFile + ".root"

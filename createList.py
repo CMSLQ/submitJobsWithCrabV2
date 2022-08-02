@@ -6,6 +6,7 @@ import optparse
 import subprocess
 import re
 
+
 # needed for having multiple arguments per option flag
 def cb(option, opt_str, value, parser):
     args = []
@@ -160,7 +161,10 @@ def process_input_dir(inputDir, match, filelist, useCERNEOS, eosHost):
             # print 'filename={}'.format(filename)
             # m = re.search('_*.root', filename)
             m = re.search("_[0-9-]+.root", filename)
-            dataset = filename[0: m.start()]
+            if m is not None:
+                dataset = filename[0: m.start()]
+            else:
+                dataset = filename.replace(".root", "")
             # print 'dataset={}'.format(dataset)
         # handle root files with same name, but actually different datasets
         # get the dataset info from the full path
@@ -213,43 +217,36 @@ def write_inputlists(filelist, outputDir):
     return
 
 
+def cleanName(datasetName):
+    if "ext" in datasetName:
+        datasetName = (
+            datasetName[0: datasetName.find("ext")]
+            + datasetName[datasetName.find("ext") + len("ext") + 2:]
+        )
+    datasetName = datasetName.replace("EXT_", "").replace("backup_", "").replace("newPMX_", "")
+    datasetName = datasetName.rstrip("_")
+    return datasetName
+
+
 # combine datasets that are the same except for 'extN' (where N is a single digit) or 'backup' in the name
 def combineExtDatasets(filelist):
+    verbose = False
     datasetsToRemove = []
     wasCombined = {}
     for index, dataset1 in enumerate(sorted(filelist.iterkeys())):
         wasCombined[dataset1] = False
         if dataset1 in datasetsToRemove:
             continue
-        if "ext" in dataset1:
-            dataset1mod = (
-                dataset1[0: dataset1.find("ext")]
-                + dataset1[dataset1.find("ext") + len("ext") + 2:]
-            )
-        elif "backup" in dataset1:
-            dataset1mod = (
-                dataset1[0: dataset1.find("backup")]
-                + dataset1[dataset1.find("backup") + len("backup") + 1:]
-            )
-        else:
-            dataset1mod = dataset1
-        # print 'Considering dataset:',dataset1,'; renamed to:',dataset1mod
+        dataset1mod = cleanName(dataset1)
+        if verbose:
+            print 'Considering dataset:', dataset1, '; renamed to:', dataset1mod
         for i in range(index + 1, len(filelist.keys())):
-            # print 'consider index:',i,'out of total entries:',len(filelist.keys())
+            # if verbose:
+            #     print 'consider index:', i, 'out of total entries:', len(filelist.keys())
             dataset2 = sorted(filelist.iterkeys())[i]
-            if "ext" in dataset2:
-                dataset2mod = (
-                    dataset2[0: dataset2.find("ext")]
-                    + dataset2[dataset2.find("ext") + len("ext") + 2:]
-                )
-            elif "backup" in dataset2:
-                dataset2mod = (
-                    dataset2[0: dataset2.find("backup")]
-                    + dataset2[dataset2.find("backup") + len("backup") + 1:]
-                )
-            else:
-                dataset2mod = dataset2
-            # print '\tcompare to dataset:',dataset2,'; renamed to:',dataset2mod
+            dataset2mod = cleanName(dataset2)
+            if verbose:
+                print '\tcompare to dataset:', dataset2, '; renamed to:', dataset2mod
             if dataset2mod == dataset1mod:
                 # print '\033[92m'+'Found 2 datasets that look alike:'+'\033[0m',dataset1,'and',dataset2,'; will combine'
                 print "\033[92m" + "Found a similar dataset \033[0m " + dataset2 + " to combine with:", dataset1
@@ -270,18 +267,7 @@ def combineExtDatasets(filelist):
             print "could not find dataset:", e, " in wasCombined dict"
             exit(-1)
         if itWasCombined:
-            if "ext" in dataset:
-                datasetmod = (
-                    dataset[0: dataset.find("ext")]
-                    + dataset[dataset.find("ext") + len("ext") + 2:]
-                )
-            elif "backup" in dataset:
-                datasetmod = (
-                    dataset[0: dataset.find("backup")]
-                    + dataset[dataset.find("backup") + len("backup") + 1:]
-                )
-            else:
-                datasetmod = dataset
+            datasetmod = cleanName(dataset)
             # print 'rename this dataset from:',dataset,'to:',datasetmod
             filelistFinal[datasetmod] = filelist[dataset]
         else:

@@ -16,7 +16,7 @@ except ImportError:
     print(
         "ERROR: Could not load CRABClient.UserUtilities.  Please source the crab3 setup:"
     )
-    print("source /cvmfs/cms.cern.ch/crab3/crab.sh")
+    print("source /cvmfs/cms.cern.ch/common/crab-setup.sh")
     exit(-1)
 try:
     cmsswBaseDir = os.environ["CMSSW_BASE"]
